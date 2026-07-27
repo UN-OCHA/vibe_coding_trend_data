@@ -79,6 +79,31 @@ Given this, treat the Google Trends numbers on the dashboard as the most
 likely of the three sources to have gaps or need future maintenance -
 GitHub and Hacker News are meaningfully more dependable.
 
+## Adding or changing what's tracked
+
+**Adding a search term/keyword to an existing source** - just add a string
+to the relevant list at the top of `fetch_trends.py` (`GITHUB_TOPICS`,
+`HN_TERMS`, or `TRENDS_TERMS`), commit, push. No other changes needed.
+Two things to check first:
+- GitHub topics must be real, exact topic slugs - verify at
+  `github.com/topics/<name>` first. A made-up one just silently returns 0.
+- Trends MCP is rate-capped (20/day, 100/month) - each added term is one
+  more request per run. Don't expand that list without checking the math.
+
+**Adding an entirely new source (a different site/API)** - more involved,
+follow the pattern of the existing fetch functions:
+1. Write a new `fetch_<source>_something()` function that calls the API and
+   calls `append_row(path, source_name, metric_name, value)` per result
+2. Decide which CSV it belongs in - `counts_trends.csv` for raw counts,
+   `interest_trends.csv` for an index/percentage, or a new third file if
+   it's a genuinely different unit from both
+3. Add the function call into `main()`
+4. If it needs credentials: read them via `os.environ.get(...)`, add the
+   env var to `.github/workflows/update-data.yml`, and add the actual
+   secret value under the repo's Settings -> Secrets and variables -> Actions
+5. Update the "What each source actually measures" section so the next
+   person knows what the new numbers mean
+
 ## Step-by-step setup
 
 ### 1. Push the project into your repo
