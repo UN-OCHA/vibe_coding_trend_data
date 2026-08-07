@@ -272,7 +272,7 @@ Edit the top of `scripts/fetch_trends.py`:
   rotation ever needed. Hacker News needs no credentials at all either.
 - **Trends MCP API key**: tied to whoever registered it. If that access is
   lost, register a new free key and update the repo secret - same process
-  as the original setup.
+  as the original setup. Link here: https://www.trendsmcp.ai/ 
 - **Power BI read side (PAT)**: tied to whoever generated it. Update both
   Power Query connections (counts + interest) if it's rotated.
 - Transferring the repo to an org: Settings -> Transfer ownership. No
