@@ -278,5 +278,6 @@ Edit the top of `scripts/fetch_trends.py`:
 - Transferring the repo to an org: Settings -> Transfer ownership. No
   secrets transfer automatically with repo ownership - re-add
   `TRENDS_MCP_API_KEY` under the new org repo after transfer.
+    - Go to Repo Settings > Security > Secrets & Variables > Actions > Edit the existing key details with new key from https://www.trendsmcp.ai/
 - **Re-read the Google Trends caveat above periodically** - this is the
   one part of the pipeline most likely to need attention over time.
