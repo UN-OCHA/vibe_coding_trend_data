@@ -18,3 +18,6 @@ date,source,metric,value
 2026-08-10,google_trends,interest_github_copilot,27
 2026-08-10,google_trends,interest_claude_code,34
 2026-08-10,google_trends,interest_chatgpt_codex,39
+2026-08-14,google_trends,interest_github_copilot,27
+2026-08-14,google_trends,interest_claude_code,33
+2026-08-14,google_trends,interest_chatgpt_codex,40
