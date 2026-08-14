@@ -26,9 +26,24 @@ its url is a plain name or @handle, since resolving that to a channel ID
 is a separate lookup before the actual video search - a raw channel ID
 (starts with "UC", 24 characters) skips that extra call.
 
+Unlike fetch_news.py's RSS sources, results here previously had no
+relevance gate at all beyond whatever YouTube's own search ranked highly
+for a topic query - a channel row in particular pulls a channel's ENTIRE
+recent upload history, on-topic or not. matches_topic() (duplicated from
+fetch_news.py) now filters every search result's title before it costs a
+videos.list quota call, same reasoning as that script: a curated source
+isn't the same as every item from it being on-topic.
+
+Optionally, if GEMINI_API_KEY is set, classify_with_gemini() adds a second
+opinion on top of that keyword filter, same pattern (and same per-run cap)
+as fetch_news.py - see that script's docstring for the reasoning. Falls
+back to keyword-only behavior if the key is missing or a call fails.
+
 Configuration:
   SHEET_CSV_URL     - env var, same sheet as fetch_news.py
   YOUTUBE_API_KEY   - env var, YouTube Data API v3 key
+  GEMINI_API_KEY    - env var, optional. Without it, classification is
+                      keyword-only.
 """
 
 import csv
@@ -38,6 +53,7 @@ import json
 import os
 import re
 import sys
+import time
 
 import requests
 
@@ -97,6 +113,119 @@ def categorize(title):
 def is_humanitarian_relevant(title):
     lowered = title.lower()
     return any(keyword in lowered for keyword in HUMANITARIAN_KEYWORDS)
+
+
+# Also duplicated from fetch_news.py - see that file for the reasoning on
+# both the keyword list and the capitalized-whole-word handling for
+# "Cursor"/"Codex" (ambiguous with ordinary English words otherwise).
+TOPIC_KEYWORDS = [
+    "vibe coding", "vibe-coding", "vibecoding", "vibe-coded", "vibe coded",
+    "ai coding", "ai-assisted coding", "ai pair programming",
+    "coding agent", "agentic coding", "coding assistant",
+    "ai code generation", "ai-generated code", "ai developer tool",
+    "github copilot", "claude code", "windsurf",
+    "replit agent", "devin ai", "llm coding",
+]
+CAPITALIZED_WORD_KEYWORDS = ["Cursor", "Codex"]
+CAPITALIZED_WORD_RE = re.compile(r"\b(" + "|".join(CAPITALIZED_WORD_KEYWORDS) + r")\b")
+
+
+def matches_topic(title):
+    lowered = title.lower()
+    if any(keyword in lowered for keyword in TOPIC_KEYWORDS):
+        return True
+    return bool(CAPITALIZED_WORD_RE.search(title))
+
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+# Same conservative per-run cap as fetch_news.py, and for the same reason -
+# see that file. This script's own counter is independent of
+# fetch_news.py's (they run as separate processes), so the two scripts'
+# caps are not shared, but each is bounded on its own.
+MAX_GEMINI_CALLS_PER_RUN = 30
+GEMINI_CALL_DELAY_SECONDS = 4
+_gemini_calls_made = 0
+
+VALID_CATEGORIES = set(CATEGORY_KEYWORDS.keys())
+
+
+def classify_with_gemini(title, description):
+    """Best-effort second opinion on a video that already passed the
+    keyword-based matches_topic() filter. Returns
+    {"relevant": bool, "categories": [...]} on success, or None if the key
+    isn't configured, the per-run cap is hit, or anything about the call
+    fails or comes back malformed - callers must fall back to the keyword-
+    based result in every None case, never treat None as "not relevant"."""
+    global _gemini_calls_made
+    if not GEMINI_API_KEY:
+        return None
+    if _gemini_calls_made >= MAX_GEMINI_CALLS_PER_RUN:
+        return None
+    _gemini_calls_made += 1
+
+    prompt = (
+        "You are helping curate a news site about AI-assisted software "
+        "development tools (examples: GitHub Copilot, Claude Code, "
+        "Cursor, Codex, Windsurf, Replit Agent, Devin, and the general "
+        "\"vibe coding\" trend). Given a YouTube video title and "
+        "description that already matched a keyword filter, decide two "
+        "things and return them as JSON:\n\n"
+        "is_relevant (boolean): true only if this video is genuinely "
+        "about AI coding tools/assistants themselves. False if the match "
+        "was a false positive, e.g. an ordinary mouse \"cursor\", or a "
+        "tool mentioned only in passing (a channel's general programming "
+        "video that isn't really about the tool).\n\n"
+        "categories (array of strings): pick zero or more from exactly "
+        "this list - Tools, Industry, Risks, Research - describing what "
+        "the video is about. Tools = a product launch/update/feature/demo. "
+        "Industry = funding/valuation/acquisition/business news. Risks = "
+        "security, safety, job loss, bias, or other concerns. Research = "
+        "an academic paper, benchmark, or study. Use an empty array if "
+        "none clearly fit.\n\n"
+        f"Title: {title}\n"
+        f"Description: {(description or '(none)')[:500]}"
+    )
+
+    try:
+        resp = requests.post(
+            GEMINI_API_URL,
+            params={"key": GEMINI_API_KEY},
+            json={
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "responseMimeType": "application/json",
+                    "responseSchema": {
+                        "type": "OBJECT",
+                        "properties": {
+                            "is_relevant": {"type": "BOOLEAN"},
+                            "categories": {
+                                "type": "ARRAY",
+                                "items": {"type": "STRING"},
+                            },
+                        },
+                        "required": ["is_relevant", "categories"],
+                    },
+                },
+            },
+            timeout=15,
+        )
+        time.sleep(GEMINI_CALL_DELAY_SECONDS)
+        if resp.status_code != 200:
+            print(f"    WARNING: Gemini classification failed ({resp.status_code}) for '{title[:60]}': {resp.text[:200]}")
+            return None
+        text = resp.json()["candidates"][0]["content"]["parts"][0]["text"]
+        parsed = json.loads(text)
+        categories = [c for c in parsed.get("categories", []) if c in VALID_CATEGORIES]
+        return {
+            "relevant": bool(parsed.get("is_relevant", True)),
+            "categories": categories,
+        }
+    except Exception as e:
+        print(f"    WARNING: Gemini classification error for '{title[:60]}': {e}")
+        return None
+
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 YOUTUBE_JSON_PATH = os.path.join(DATA_DIR, "youtube.json")
@@ -249,6 +378,12 @@ def main():
             continue  # already warned in resolve_channel_id
         all_results.extend(search_channel_videos(channel_id))
 
+    before_filter = len(all_results)
+    all_results = [r for r in all_results if matches_topic(r.get("snippet", {}).get("title", ""))]
+    skipped = before_filter - len(all_results)
+    if skipped:
+        print(f"  Filtered out {skipped} off-topic video result(s) before fetching stats.")
+
     all_candidates = []
     if all_results:
         video_ids = [r["id"]["videoId"] for r in all_results if "videoId" in r.get("id", {})]
@@ -264,6 +399,19 @@ def main():
             thumbnails = data["snippet"].get("thumbnails", {})
             thumbnail = (thumbnails.get("medium") or thumbnails.get("default") or {}).get("url", "")
             title = data["snippet"]["title"]
+            description = data["snippet"].get("description", "")
+            categories = categorize(title)
+
+            # Optional second opinion - see classify_with_gemini(). A None
+            # result (no key, cap hit, or a failed/malformed call) means
+            # "keep the keyword-based result as-is", not "drop this video".
+            gemini_result = classify_with_gemini(title, description)
+            if gemini_result is not None:
+                if not gemini_result["relevant"]:
+                    print(f"  Gemini flagged as off-topic, skipping: {title[:60]}")
+                    continue
+                if gemini_result["categories"]:
+                    categories = gemini_result["categories"]
 
             all_candidates.append({
                 "title": title,
@@ -273,7 +421,7 @@ def main():
                 "published": published.date().isoformat(),
                 "views": views,
                 "views_per_day": round(views / age_days, 1),
-                "categories": categorize(title),
+                "categories": categories,
                 "humanitarian_relevant": is_humanitarian_relevant(title),
             })
 

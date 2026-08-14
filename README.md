@@ -53,6 +53,7 @@ Set these under Settings → Secrets and variables → Actions:
 | `TRENDS_MCP_API_KEY` | weekly workflow | see the Google Trends caveat below |
 | `SHEET_CSV_URL` | daily workflow | the published-CSV URL of the sources Sheet |
 | `YOUTUBE_API_KEY` | daily workflow | YouTube Data API v3 key, free tier |
+| `GEMINI_API_KEY` | daily workflow | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py`. Both scripts run keyword-only (current behavior) if this is unset. Each script caps itself at 30 Gemini calls per run to stay well inside free-tier limits - see `MAX_GEMINI_CALLS_PER_RUN` in either script |
 
 ## What each data source measures
 

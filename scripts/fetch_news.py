@@ -25,8 +25,22 @@ main repo README for why (scraping is fragile and often against ToS).
 Same goes for the humanitarian-relevance flag (is_humanitarian_relevant()):
 derived per-article from the title, not a sheet column either.
 
+Optionally, if GEMINI_API_KEY is set, classify_with_gemini() adds a second
+pass on top of (not instead of) the keyword-based matches_topic() /
+categorize() above: for each new story that already passed the keyword
+filter, ask Gemini to confirm it's genuinely on-topic (catches ambiguous
+keyword matches, e.g. "Cursor" as a literal mouse cursor) and to assign
+more accurate categories. It's called only on that already-small, already-
+filtered set of new items per run - never on the whole archive - and is
+capped at MAX_GEMINI_CALLS_PER_RUN calls per run to stay well inside a
+free-tier quota. If the key is missing, the call fails, or the response
+doesn't parse, this script silently falls back to the keyword-only result;
+Gemini is never required for this script to work.
+
 Configuration:
-  SHEET_CSV_URL - env var, the published-CSV URL of the Google Sheet.
+  SHEET_CSV_URL   - env var, the published-CSV URL of the Google Sheet.
+  GEMINI_API_KEY  - env var, optional. Without it, classification is
+                    keyword-only (see above).
   Everything else comes from the sheet itself, not from this file.
 """
 
@@ -149,6 +163,101 @@ HUMANITARIAN_KEYWORDS = [
 def is_humanitarian_relevant(title):
     lowered = title.lower()
     return any(keyword in lowered for keyword in HUMANITARIAN_KEYWORDS)
+
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+# Hard cap on Gemini calls per run. This key is on Google's free tier and
+# this script runs unattended on a schedule - there's no human in the loop
+# to notice a runaway call count before it burns through a daily quota, so
+# this cap is deliberately conservative and independent of how many sources
+# end up in the sheet. Only ever called on the small, already keyword-
+# filtered set of NEW items for a single run (see fetch_feed_items) - never
+# re-run against the existing archive, which would scale with its size
+# instead of with a single day's new stories.
+MAX_GEMINI_CALLS_PER_RUN = 30
+GEMINI_CALL_DELAY_SECONDS = 4  # keeps well under typical free-tier RPM limits
+_gemini_calls_made = 0
+
+VALID_CATEGORIES = set(CATEGORY_KEYWORDS.keys())
+
+
+def classify_with_gemini(title, excerpt):
+    """Best-effort second opinion on a story that already passed the
+    keyword-based matches_topic() filter. Returns
+    {"relevant": bool, "categories": [...]} on success, or None if the key
+    isn't configured, the per-run cap is hit, or anything about the call
+    fails or comes back malformed - callers must fall back to the keyword-
+    based result in every None case, never treat None as "not relevant"."""
+    global _gemini_calls_made
+    if not GEMINI_API_KEY:
+        return None
+    if _gemini_calls_made >= MAX_GEMINI_CALLS_PER_RUN:
+        return None
+    _gemini_calls_made += 1
+
+    prompt = (
+        "You are helping curate a news site about AI-assisted software "
+        "development tools (examples: GitHub Copilot, Claude Code, "
+        "Cursor, Codex, Windsurf, Replit Agent, Devin, and the general "
+        "\"vibe coding\" trend). Given a headline and excerpt that already "
+        "matched a keyword filter, decide two things and return them as "
+        "JSON:\n\n"
+        "is_relevant (boolean): true only if this story is genuinely "
+        "about AI coding tools/assistants themselves - a launch, funding "
+        "round, research finding, or risk concerning one of them. False "
+        "if the match was a false positive, e.g. an ordinary mouse "
+        "\"cursor\", a crossword \"codex\", or a tool mentioned only in "
+        "passing while the story is about something else entirely.\n\n"
+        "categories (array of strings): pick zero or more from exactly "
+        "this list - Tools, Industry, Risks, Research - describing what "
+        "the story is about. Tools = a product launch/update/feature. "
+        "Industry = funding/valuation/acquisition/business news. Risks = "
+        "security, safety, job loss, bias, or other concerns. Research = "
+        "an academic paper, benchmark, or study. Use an empty array if "
+        "none clearly fit.\n\n"
+        f"Headline: {title}\n"
+        f"Excerpt: {excerpt or '(none)'}"
+    )
+
+    try:
+        resp = requests.post(
+            GEMINI_API_URL,
+            params={"key": GEMINI_API_KEY},
+            json={
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "responseMimeType": "application/json",
+                    "responseSchema": {
+                        "type": "OBJECT",
+                        "properties": {
+                            "is_relevant": {"type": "BOOLEAN"},
+                            "categories": {
+                                "type": "ARRAY",
+                                "items": {"type": "STRING"},
+                            },
+                        },
+                        "required": ["is_relevant", "categories"],
+                    },
+                },
+            },
+            timeout=15,
+        )
+        time.sleep(GEMINI_CALL_DELAY_SECONDS)
+        if resp.status_code != 200:
+            print(f"    WARNING: Gemini classification failed ({resp.status_code}) for '{title[:60]}': {resp.text[:200]}")
+            return None
+        text = resp.json()["candidates"][0]["content"]["parts"][0]["text"]
+        parsed = json.loads(text)
+        categories = [c for c in parsed.get("categories", []) if c in VALID_CATEGORIES]
+        return {
+            "relevant": bool(parsed.get("is_relevant", True)),
+            "categories": categories,
+        }
+    except Exception as e:
+        print(f"    WARNING: Gemini classification error for '{title[:60]}': {e}")
+        return None
 
 
 IMG_TAG_RE = re.compile(r'<img[^>]+src="([^"]+)"')
@@ -316,14 +425,28 @@ def fetch_feed_items(source):
 
         title = entry.get("title", "Untitled")
         link = entry.get("link", "")
+        excerpt = url_to_excerpt[link]
+        categories = categorize(title)
+
+        # Optional second opinion - see classify_with_gemini(). A None
+        # result (no key, cap hit, or a failed/malformed call) means "keep
+        # the keyword-based result as-is", not "drop this story".
+        gemini_result = classify_with_gemini(title, excerpt)
+        if gemini_result is not None:
+            if not gemini_result["relevant"]:
+                print(f"  Gemini flagged as off-topic, skipping: {title[:60]}")
+                continue
+            if gemini_result["categories"]:
+                categories = gemini_result["categories"]
+
         items.append({
             "title": title,
             "url": link,
             "source": source["name"],
-            "categories": categorize(title),
+            "categories": categories,
             "humanitarian_relevant": is_humanitarian_relevant(title),
             "image": url_to_image[link],
-            "excerpt": url_to_excerpt[link],
+            "excerpt": excerpt,
             "date": date_str,
             "fetched_at": datetime.date.today().isoformat(),
         })
@@ -370,7 +493,10 @@ def main():
     # Same reasoning, applied to categories and humanitarian relevance -
     # cheap (no network), so re-derive for the whole archive every run
     # rather than only for new items. Tuning CATEGORY_KEYWORDS or
-    # HUMANITARIAN_KEYWORDS later takes effect on old stories too.
+    # HUMANITARIAN_KEYWORDS later takes effect on old stories too. This is
+    # keyword-only, deliberately - classify_with_gemini() is only ever
+    # called on today's new items (see fetch_feed_items), not the archive,
+    # so re-running this daily can't scale Gemini usage with archive size.
     for item in existing:
         item["categories"] = categorize(item.get("title", ""))
         item["humanitarian_relevant"] = is_humanitarian_relevant(item.get("title", ""))

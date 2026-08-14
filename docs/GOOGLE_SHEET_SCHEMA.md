@@ -88,3 +88,12 @@ genuinely fits, and the humanitarian flag reflects what that specific
 story is about rather than a blanket judgment about its source. Edit
 `CATEGORY_KEYWORDS` / `HUMANITARIAN_KEYWORDS` in those files to tune what
 counts as "on topic" for either - not this sheet.
+
+If the optional `GEMINI_API_KEY` secret is set (see the main README), both
+scripts also ask Gemini for a second opinion on relevance and category for
+each new item that already passed the keyword filter above - it can catch
+ambiguous keyword matches (e.g. a literal mouse "cursor") and assign more
+accurate categories than a keyword list alone. This is capped per run and
+falls back to the keyword-only result above if the key is unset or a call
+fails, so it's an accuracy improvement on top of the keyword filter, not a
+replacement for it.

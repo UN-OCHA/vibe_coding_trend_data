@@ -27,12 +27,14 @@ jobs:
       - name: Fetch news from configured RSS sources
         env:
           SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/fetch_news.py
 
       - name: Fetch trending YouTube videos
         env:
           SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/fetch_youtube.py
 
       - name: Commit and push updated data
