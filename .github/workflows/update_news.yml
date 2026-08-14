@@ -1,0 +1,44 @@
+name: Update news and YouTube data (daily)
+
+on:
+  schedule:
+    # Runs every day at 05:00 UTC.
+    - cron: "0 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Fetch news from configured RSS sources
+        env:
+          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
+        run: python scripts/fetch_news.py
+
+      - name: Fetch trending YouTube videos
+        env:
+          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python scripts/fetch_youtube.py
+
+      - name: Commit and push updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/news.json data/youtube.json
+          git diff --quiet --cached || git commit -m "Daily news update: $(date -u +'%Y-%m-%d')"
+          git push
