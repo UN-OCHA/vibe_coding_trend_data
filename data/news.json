@@ -46,7 +46,8 @@
     "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-13",
-    "fetched_at": "2026-08-14"
+    "fetched_at": "2026-08-14",
+    "image": "https://techcrunch.com/wp-content/uploads/2023/09/May-Habib-Disrupt-2023.jpg?resize=1200,800"
   },
   {
     "title": "Databricks wanted to raise $1B, investors wanted $15B. It settled on $5B at a $190B valuation.",
@@ -55,7 +56,8 @@
     "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-13",
-    "fetched_at": "2026-08-14"
+    "fetched_at": "2026-08-14",
+    "image": "https://techcrunch.com/wp-content/uploads/2021/04/Ali_Ghodsi.jpg?resize=1200,1200"
   },
   {
     "title": "OpenAI introduces \u2018Ultrafast,\u2019 a new mode that makes GPT-5.6 Sol work at 14x the speed",
@@ -64,7 +66,8 @@
     "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-13",
-    "fetched_at": "2026-08-14"
+    "fetched_at": "2026-08-14",
+    "image": "https://techcrunch.com/wp-content/uploads/2026/02/EU-ai-1258475609.jpg?w=1024"
   },
   {
     "title": "IBM partners with OpenAI to bolster enterprise AI push",
@@ -73,7 +76,8 @@
     "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-13",
-    "fetched_at": "2026-08-14"
+    "fetched_at": "2026-08-14",
+    "image": "https://techcrunch.com/wp-content/uploads/2022/04/GettyImages-1127480719.jpg?w=1024"
   },
   {
     "title": "Anthropic set AI agents loose on the same task. They started a turf war.",
@@ -82,7 +86,8 @@
     "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-13",
-    "fetched_at": "2026-08-14"
+    "fetched_at": "2026-08-14",
+    "image": "https://techcrunch.com/wp-content/uploads/2026/08/GettyImages-1354100261.jpg?resize=1200,600"
   },
   {
     "title": "The AI model that just scored 65% on DeepSWE isn\u2019t the one Google promised.",
@@ -188,7 +193,8 @@
     "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-13",
-    "fetched_at": "2026-08-14"
+    "fetched_at": "2026-08-14",
+    "image": "https://techcrunch.com/wp-content/uploads/2025/10/Mico-1.png?resize=1200,675"
   },
   {
     "title": "The web\u2019s newest weapon against AI scrapers is a font",
@@ -217,7 +223,8 @@
     "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-12",
-    "fetched_at": "2026-08-14"
+    "fetched_at": "2026-08-14",
+    "image": "https://techcrunch.com/wp-content/uploads/2026/05/Scott-wu-headshot-e1780070238342.png?resize=1200,1004"
   },
   {
     "title": "Coding agents ignore open source contribution guidelines, researchers find.",
