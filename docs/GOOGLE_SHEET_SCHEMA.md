@@ -2,8 +2,8 @@
 
 This sheet is the single non-technical control surface for the daily
 pipeline. Anyone with edit access can add, remove, or re-flag a source
-without touching any code. One row = one RSS feed or one YouTube search
-topic.
+without touching any code. One row = one RSS feed, one YouTube search
+topic, or one YouTube channel to track.
 
 ## Setup (one-time)
 
@@ -22,8 +22,8 @@ next scheduled run - no redeploy needed.
 | Column | Required | Example | Notes |
 |---|---|---|---|
 | `name` | yes | `Ars Technica` | Display name shown as the byline on the site |
-| `type` | yes | `rss` or `youtube` | Anything else is ignored |
-| `url` | yes | `https://arstechnica.com/tag/ai/feed/` | For `type=rss`, the feed URL. For `type=youtube`, the **search query** to run (e.g. `vibe coding tutorial`) |
+| `type` | yes | `rss`, `youtube`, or `youtube_channel` | Anything else is ignored |
+| `url` | yes | `https://arstechnica.com/tag/ai/feed/` | For `type=rss`, the feed URL. For `type=youtube`, the **search query** to run (e.g. `vibe coding tutorial`). For `type=youtube_channel`, a **channel name, `@handle`, or raw channel ID** (e.g. `Fireship`, `@fireship`, or `UCsBjURrPoezykLs9EqgamOA`) - see below |
 | `active` | yes | `yes` | `yes`/`true`/`1` to include, anything else to pause without deleting the row |
 | `note` | no | `Added after Aug tools roundup` | Free text, not shown on the site - for whoever maintains the sheet |
 
@@ -42,6 +42,8 @@ The Batch,rss,https://www.deeplearning.ai/the-batch/feed/,yes,
 ICT4D roundup,rss,https://example.org/ict4d/feed/,yes,humanitarian tech newsletter
 vibe coding tutorial,youtube,vibe coding tutorial,yes,
 AI coding for nonprofits,youtube,AI coding for nonprofits,yes,
+Fireship,youtube_channel,Fireship,yes,
+Cursor,youtube_channel,@cursor_ai,yes,
 ```
 
 ## Adding a new RSS source
@@ -50,6 +52,23 @@ AI coding for nonprofits,youtube,AI coding for nonprofits,yes,
    page footer - most WordPress and Substack sites publish one automatically).
 2. Add a row with `type=rss`, `active=yes`.
 3. Done - no code change, no redeploy. Picked up on the next daily run.
+
+## Tracking a specific YouTube channel
+
+Add a row with `type=youtube_channel` and put the channel's name, `@handle`,
+or raw channel ID in the `url` column - whichever is easiest to find. A
+plain name (e.g. `Fireship`) is resolved automatically by searching
+YouTube for it and taking the top match, so double-check the first run's
+logs (or the `channel` field on the videos that come through) to confirm
+it resolved to the right channel - a common or ambiguous name can match
+the wrong one. If that happens, switch the row to the channel's exact
+`@handle` (shown on their channel page) or its raw ID (in the channel's
+URL if it looks like `youtube.com/channel/UCxxxxxxxx...`) instead, both
+of which are unambiguous.
+
+This pulls that channel's own recent uploads (last 7 days), same as a
+`type=youtube` row pulls recent videos matching a search query - the two
+can be mixed freely.
 
 ## Removing a source
 
