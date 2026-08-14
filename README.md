@@ -1,4 +1,4 @@
-# Vibecode Daily
+# Vibecode Weekly Reporting
 
 A GitHub Pages site tracking vibe coding trends: weekly momentum data
 (GitHub, Hacker News, Google Trends) plus a daily feed of news and YouTube
