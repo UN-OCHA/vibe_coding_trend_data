@@ -21,26 +21,35 @@
     <div class="section-label" style="text-align:left;">This week</div>
     <div class="section-title" style="text-align:left; font-size:32px;">Momentum leaderboard</div>
     <p class="section-subtitle" style="text-align:left;">
-      Score blends GitHub repo growth, Hacker News engagement, and search interest into a single weekly index. Rank history below shows who's overtaking whom.
+      A weekly momentum score for 4 named tools this site tracks — Claude Code, Codex, Cursor, and GitHub Copilot. Each one's score blends 40% GitHub repo-count growth, 30% Hacker News comment growth, and 30% Google Trends search interest into a single number, recalculated every Monday.
     </p>
   </header>
 
   <div class="chart-card">
-    <div class="chart-label">Rank by week</div>
+    <div class="chart-label">GitHub repo-count rank, by week</div>
     <svg id="bump-chart" style="width:100%; height:200px; display:block;"></svg>
     <div class="scrubber">
       <input type="range" id="week-slider" min="0" max="0" value="0" step="1">
       <span class="week-label" id="week-label">—</span>
     </div>
+    <p class="chart-caption">
+      This ranks GitHub repo-count alone, not the full momentum Score in the table below - momentum.json only
+      keeps this week's snapshot, so repo-count history is the closest available stand-in for past weeks' rank.
+      The two can disagree: a tool can lead here (most repos) while trailing on Score (the 3-signal blend), or
+      vice versa.
+    </p>
   </div>
 
   <div class="leaderboard" id="leaderboard-full">
     <div class="row head"><span>#</span><span>Tool</span><span style="text-align:right;">Score</span><span style="text-align:right;">7-day</span></div>
   </div>
   <p class="method-note">
-    Growth terms are clipped to ±50% before blending, so one noisy week can't dominate the score.
-    A tool without Google Trends coverage gets a neutral 0.5 for that third of the formula rather than being penalized for a gap in data.
-    This is a first-pass formula — worth revisiting once there's more than a few weeks of history to check it against.
+    Score = 40% GitHub repo-count growth (topic-tagged repos, via the GitHub API) + 30% Hacker News comment-count
+    growth (via the Algolia HN Search API) + 30% Google Trends search interest, 0–100 (via a third-party Trends
+    proxy - see the README for the reliability caveat on that one). Growth terms are clipped to ±50% before
+    blending, so one noisy week can't dominate the score. A tool without Google Trends coverage (currently
+    Cursor) gets a neutral 0.5 for that third instead of being penalized for a gap in data. This is a first-pass
+    formula — worth revisiting once there's more than a few weeks of history to check it against.
   </p>
 
   <footer class="site-footer">

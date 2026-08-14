@@ -462,6 +462,13 @@ a:hover { text-decoration: underline; }
   margin-bottom: 14px;
 }
 
+.chart-caption {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--dark-text-secondary);
+  margin: 16px 0 0;
+}
+
 .chart-card svg text { font-family: var(--font-body); }
 
 .chart-grid {
