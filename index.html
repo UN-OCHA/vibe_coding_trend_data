@@ -314,11 +314,17 @@ function renderStories(stories, filter) {
 
   grid.innerHTML = filtered.slice(0, 9).map((s) => `
     <a class="story-card" href="${s.url}" target="_blank" rel="noopener">
-      <div class="thumb" ${s.image ? `style="background-image:url('${s.image}');"` : ""}>
+      <div class="thumb" ${s.image ? `style="background-image:url('${s.image}');"` : ""}></div>
+      <div class="story-meta">
         <div class="tag-pill-row">${(s.categories || []).map((c) => `<span class="tag-pill ${categoryClass(c)}">${c}</span>`).join("")}</div>
+        <span class="story-date">${s.date}</span>
       </div>
       <p class="headline">${s.humanitarian_relevant ? '<span class="tag-pill relevant">Relevant</span>' : ""}${s.title}</p>
-      <p class="byline">${s.date} · ${s.source}</p>
+      ${s.excerpt ? `<p class="excerpt">${s.excerpt}</p>` : ""}
+      <div class="story-footer">
+        <span class="story-source">${s.source}</span>
+        <span class="read-more">Read more →</span>
+      </div>
     </a>
   `).join("");
 }
