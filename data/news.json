@@ -1,0 +1,47 @@
+[
+  {
+    "title": "New benchmark compares five agentic coding tools head to head",
+    "url": "https://arxiv.org/",
+    "source": "arXiv",
+    "category": "Research",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-13"
+  },
+  {
+    "title": "Security flaws found in three vibe-coded crisis-response apps",
+    "url": "https://example.com/",
+    "source": "Sample Source",
+    "category": "Risks",
+    "humanitarian_relevant": true,
+    "date": "2026-08-12",
+    "fetched_at": "2026-08-12"
+  },
+  {
+    "title": "Offline-first coding agents tested for low-connectivity field teams",
+    "url": "https://example.com/",
+    "source": "Sample Source",
+    "category": "Tools",
+    "humanitarian_relevant": true,
+    "date": "2026-08-11",
+    "fetched_at": "2026-08-11"
+  },
+  {
+    "title": "Free AI-coding bootcamp launches for NGO tech volunteers",
+    "url": "https://example.com/",
+    "source": "Sample Source",
+    "category": "Education",
+    "humanitarian_relevant": true,
+    "date": "2026-08-10",
+    "fetched_at": "2026-08-10"
+  },
+  {
+    "title": "The YouTube creators defining vibe coding's voice",
+    "url": "https://example.com/",
+    "source": "Sample Source",
+    "category": "Culture",
+    "humanitarian_relevant": false,
+    "date": "2026-08-09",
+    "fetched_at": "2026-08-09"
+  }
+]

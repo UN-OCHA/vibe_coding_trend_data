@@ -1,5 +1,4 @@
 date,source,metric,value
-
 2026-07-13,google_trends,interest_vibe_coding,51
 2026-07-13,google_trends,interest_github_copilot,32
 2026-07-13,google_trends,interest_chatgpt_codex,45
@@ -15,10 +14,6 @@ date,source,metric,value
 2026-08-03,google_trends,interest_github_copilot,28
 2026-08-03,google_trends,interest_claude_code,40
 2026-08-03,google_trends,interest_chatgpt_codex,37
-2026-08-10,google_trends,interest_vibe_coding,46
-2026-08-10,google_trends,interest_github_copilot,27
-2026-08-10,google_trends,interest_claude_code,34
-2026-08-10,google_trends,interest_chatgpt_codex,38
 2026-08-10,google_trends,interest_vibe_coding,48
 2026-08-10,google_trends,interest_github_copilot,27
 2026-08-10,google_trends,interest_claude_code,34
