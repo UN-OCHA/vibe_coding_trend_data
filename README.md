@@ -24,7 +24,7 @@ GitHub Actions (daily, 05:00 UTC)              GitHub Actions (weekly, Mon 06:00
                         (fetches the JSON/CSV directly, no build step)
                                         |
                                         v
-                      Cloudflare Pages / Netlify / GitHub Pages
+                                   GitHub Pages
 ```
 
 ## Repo layout
