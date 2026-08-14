@@ -1,29 +1,25 @@
 """
-Weekly data collector for the vibecoding trends dashboard.
+Weekly data collector for the vibecoding trends site.
 
-Writes to TWO separate CSVs, since GitHub/Reddit produce raw counts while
+Writes to TWO separate CSVs, since GitHub/HN produce raw counts while
 Google Trends produces a 0-100 relative index - different units that
 shouldn't be plotted on the same axis without normalization:
 
-  data/counts_trends.csv   <- GitHub repo counts + Reddit post mentions (raw counts)
+  data/counts_trends.csv   <- GitHub repo counts + Hacker News mentions
   data/interest_trends.csv <- Google Trends search interest (0-100 index)
 
 Sources:
-  1. GitHub  - repo count per topic tag (official API)
-  2. Hacker News - story + comment mention counts per search term, last 7
-     days, via the official Algolia HN Search API. No auth, no approval
-     process, and returns a true total match count (nbHits).
+  1. GitHub       - repo count per topic tag (official API)
+  2. Hacker News   - story + comment mention counts per search term, last 7
+                     days, via the official Algolia HN Search API.
   3. Google Trends - search interest via Trends MCP (api.trendsmcp.ai), a
-     third-party managed proxy. Switched to this after both pytrends and
-     pytrends-modern were confirmed, in real GitHub Actions runs, to get
-     blocked with 429 errors from Google - GitHub's shared runner IPs are
-     apparently already flagged. Trends MCP's free tier is capped at 100
-     requests/month and 20/day, so TRENDS_TERMS is intentionally kept short.
-     IMPORTANT CAVEAT: this is an unverified, heavily content-marketed
-     third-party vendor, not a Google-official source. See the README for
-     the full reliability caveat - this is the least stable link in the
-     pipeline and may need replacing again if the vendor changes terms or
-     shuts down.
+                     third-party managed proxy. See README for the full
+                     reliability caveat.
+
+Idempotency: this script is safe to run more than once on the same day
+(e.g. a manual trigger on top of the scheduled run). Before writing, it
+checks whether a row already exists for today's date + source + metric,
+and overwrites that row in place rather than appending a duplicate.
 
 Configuration lives in the CONFIG block below.
 """
@@ -50,15 +46,7 @@ COUNTS_CSV_PATH = os.path.join(DATA_DIR, "counts_trends.csv")
 INTEREST_CSV_PATH = os.path.join(DATA_DIR, "interest_trends.csv")
 CSV_HEADERS = ["date", "source", "metric", "value"]
 
-# GitHub API auth is optional but strongly recommended (60/hr unauth vs 5000/hr auth)
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
-
-# Hacker News (Algolia Search API) needs no credentials at all - no key,
-# no approval process, no rate limit officially published (the script
-# still paces itself out of courtesy).
-
-# Trends MCP (api.trendsmcp.ai) - free tier requires an API key. Register at
-# trendsmcp.ai, add as a repo secret named TRENDS_MCP_API_KEY.
 TRENDS_MCP_API_KEY = os.environ.get("TRENDS_MCP_API_KEY", "")
 
 
@@ -74,11 +62,45 @@ def ensure_csv_exists(path):
             writer.writerow(CSV_HEADERS)
 
 
-def append_row(path, source, metric, value):
-    with open(path, "a", newline="") as f:
+def load_rows(path):
+    """Read all existing rows (excluding header) as a list of lists."""
+    with open(path, newline="") as f:
+        reader = csv.reader(f)
+        rows = [r for r in reader if r]
+    return rows[0], rows[1:]  # header, body
+
+
+def write_rows(path, header, rows):
+    with open(path, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([today_str(), source, metric, value])
-    print(f"  wrote: {source} | {metric} | {value}")
+        writer.writerow(header)
+        writer.writerows(rows)
+
+
+# In-memory staging: each fetch function stages rows here instead of
+# appending straight to disk, so main() can dedup once at the end against
+# whatever's already in the file for today.
+_staged = {COUNTS_CSV_PATH: [], INTEREST_CSV_PATH: []}
+
+
+def stage_row(path, source, metric, value):
+    _staged[path].append([today_str(), source, metric, str(value)])
+    print(f"  staged: {source} | {metric} | {value}")
+
+
+def flush_staged():
+    """Write staged rows to each CSV, replacing any existing row for the
+    same (date, source, metric) so re-running the script the same day
+    overwrites rather than duplicates."""
+    for path, new_rows in _staged.items():
+        if not new_rows:
+            continue
+        header, existing = load_rows(path)
+        by_key = {(r[0], r[1], r[2]): r for r in existing}
+        for row in new_rows:
+            by_key[(row[0], row[1], row[2])] = row
+        write_rows(path, header, list(by_key.values()))
+        print(f"Flushed {len(new_rows)} row(s) to {path} (idempotent).")
 
 
 # ---------------------------------------------------------------------------
@@ -94,17 +116,20 @@ def fetch_github_topic_counts():
     for topic in GITHUB_TOPICS:
         url = "https://api.github.com/search/repositories"
         params = {"q": f"topic:{topic}", "per_page": 1}
-        resp = requests.get(url, headers=headers, params=params, timeout=30)
+        try:
+            resp = requests.get(url, headers=headers, params=params, timeout=30)
+        except Exception as e:
+            print(f"  WARNING: request failed for '{topic}': {e}")
+            continue
         if resp.status_code != 200:
             print(f"  WARNING: GitHub API returned {resp.status_code} for topic '{topic}': {resp.text[:200]}")
             continue
         total_count = resp.json().get("total_count", 0)
-        append_row(COUNTS_CSV_PATH, "github", f"repo_count_{topic}", total_count)
+        stage_row(COUNTS_CSV_PATH, "github", f"repo_count_{topic}", total_count)
 
 
 # ---------------------------------------------------------------------------
 # 2. Hacker News - story + comment mentions per term, last 7 days
-#    (docs: https://hn.algolia.com/api) -> counts_trends.csv
 # ---------------------------------------------------------------------------
 
 def fetch_hn_mentions():
@@ -116,30 +141,31 @@ def fetch_hn_mentions():
 
     for term in HN_TERMS:
         metric_name = term.replace(" ", "_")
-
-        # Stories and comments are tracked separately - posting vs. discussing
-        # are different behaviors and shouldn't be silently summed together.
         for tag, label in [("story", "stories"), ("comment", "comments")]:
             url = "https://hn.algolia.com/api/v1/search_by_date"
             params = {
                 "query": term,
                 "tags": tag,
                 "numericFilters": f"created_at_i>{week_ago_ts},created_at_i<{now_ts}",
-                "hitsPerPage": 1,  # we only need nbHits, not the actual hits
+                "hitsPerPage": 1,
             }
-            resp = requests.get(url, params=params, timeout=30)
+            try:
+                resp = requests.get(url, params=params, timeout=30)
+            except Exception as e:
+                print(f"  WARNING: request failed for '{term}' ({label}): {e}")
+                time.sleep(1)
+                continue
             if resp.status_code != 200:
                 print(f"  WARNING: HN Algolia API returned {resp.status_code} for '{term}' ({label}): {resp.text[:200]}")
                 time.sleep(1)
                 continue
             total_hits = resp.json().get("nbHits", 0)
-            append_row(COUNTS_CSV_PATH, "hackernews", f"weekly_{label}_{metric_name}", total_hits)
-            time.sleep(1)  # polite pacing, no official rate limit but good practice
+            stage_row(COUNTS_CSV_PATH, "hackernews", f"weekly_{label}_{metric_name}", total_hits)
+            time.sleep(1)
 
 
 # ---------------------------------------------------------------------------
 # 3. Google Trends (via Trends MCP) - search interest per term -> interest_trends.csv
-#    (docs: https://www.trendsmcp.ai/docs)
 # ---------------------------------------------------------------------------
 
 def fetch_google_trends():
@@ -169,11 +195,6 @@ def fetch_google_trends():
             time.sleep(2)
             continue
 
-        # Response is wrapped Lambda-proxy-style: {"statusCode": 200, "body": "<json string>"}
-        # rather than returning the array directly - the actual data is a JSON
-        # string inside "body" and needs a second parse. Confirmed against a
-        # real response on 2026-07-09; if this changes again, check
-        # trendsmcp.ai/docs for the current exact schema.
         payload = resp.json()
         if isinstance(payload, dict) and isinstance(payload.get("body"), str):
             try:
@@ -192,15 +213,15 @@ def fetch_google_trends():
             time.sleep(2)
             continue
 
-        latest_point = series[-1]  # most recent week
+        latest_point = series[-1]
         latest_value = latest_point.get("value")
         if latest_value is None:
             print(f"  WARNING: no 'value' field in latest Trends MCP data point for '{term}': {latest_point}")
             time.sleep(2)
             continue
 
-        append_row(INTEREST_CSV_PATH, "google_trends", f"interest_{term.replace(' ', '_')}", int(latest_value))
-        time.sleep(2)  # stay well under the 20/day cap
+        stage_row(INTEREST_CSV_PATH, "google_trends", f"interest_{term.replace(' ', '_')}", int(latest_value))
+        time.sleep(2)
 
 
 # ---------------------------------------------------------------------------
@@ -213,6 +234,7 @@ def main():
     fetch_github_topic_counts()
     fetch_hn_mentions()
     fetch_google_trends()
+    flush_staged()
     print("Done.")
 
 
