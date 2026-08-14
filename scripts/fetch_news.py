@@ -46,20 +46,33 @@ SHEET_CSV_URL = os.environ.get("SHEET_CSV_URL", "")
 # topic, so every entry's title is also checked against this list before
 # it's kept. Edit this list to tune what counts as "on topic" - it's
 # intentionally broad (tool names + generic phrasing) since a feed's own
-# scope varies a lot.
+# scope varies a lot. "github copilot" (not bare "copilot") deliberately
+# excludes Microsoft's broader Copilot branding (Windows/Office), which
+# shows up constantly in general AI news and isn't about coding.
 TOPIC_KEYWORDS = [
-    "vibe coding", "vibe-coding", "vibecoding",
+    "vibe coding", "vibe-coding", "vibecoding", "vibe-coded", "vibe coded",
     "ai coding", "ai-assisted coding", "ai pair programming",
     "coding agent", "agentic coding", "coding assistant",
     "ai code generation", "ai-generated code", "ai developer tool",
-    "copilot", "cursor", "claude code", "codex", "windsurf",
-    "replit agent", "devin ai", "llm coding", "vibe-coded", "vibe coded",
+    "github copilot", "claude code", "windsurf",
+    "replit agent", "devin ai", "llm coding",
 ]
+
+# "Cursor" and "Codex" alone are ambiguous with ordinary English words (a
+# mouse cursor, a historical codex) when matched as a lowercase substring -
+# checked instead as a capitalized whole word against the ORIGINAL title,
+# since real headlines about the tools always capitalize them as a proper
+# noun ("Cursor raises $2B...") while generic uses don't ("the cursor
+# blinks").
+CAPITALIZED_WORD_KEYWORDS = ["Cursor", "Codex"]
+CAPITALIZED_WORD_RE = re.compile(r"\b(" + "|".join(CAPITALIZED_WORD_KEYWORDS) + r")\b")
 
 
 def matches_topic(title):
     lowered = title.lower()
-    return any(keyword in lowered for keyword in TOPIC_KEYWORDS)
+    if any(keyword in lowered for keyword in TOPIC_KEYWORDS):
+        return True
+    return bool(CAPITALIZED_WORD_RE.search(title))
 
 
 IMG_TAG_RE = re.compile(r'<img[^>]+src="([^"]+)"')
@@ -239,6 +252,19 @@ def main():
         time.sleep(1)
 
     existing = load_existing_news()
+
+    # Prune anything already archived that doesn't pass the topic filter.
+    # An early run (before this filter existed) added a batch of generic
+    # AI/tech stories with no topic check at all, and because of the URL
+    # dedup below, nothing had ever removed them since - they'd sit in the
+    # archive forever otherwise. Re-checking the whole archive here, not
+    # just new items, also means tightening TOPIC_KEYWORDS later cleans up
+    # the backlog automatically instead of only affecting new fetches.
+    before_prune = len(existing)
+    existing = [item for item in existing if matches_topic(item.get("title", ""))]
+    pruned = before_prune - len(existing)
+    if pruned:
+        print(f"Pruned {pruned} already-archived stor{'y' if pruned == 1 else 'ies'} that no longer pass the topic filter.")
 
     # Backfill: a story added before image extraction existed (or whose
     # feed just didn't have one at the time) gets a second chance here if

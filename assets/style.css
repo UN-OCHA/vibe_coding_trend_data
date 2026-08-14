@@ -275,10 +275,8 @@ a:hover { text-decoration: underline; }
 
 .tag-pill.tools { background: #e8a86a; color: #4a2e10; }
 .tag-pill.industry { background: #d6c9ec; color: #3c2e5c; }
-.tag-pill.culture { background: #ecc9d6; color: #5c2e3c; }
 .tag-pill.risks { background: #f0b3b3; color: #5c1e1e; }
 .tag-pill.research { background: #b3d9c0; color: #1e4a2c; }
-.tag-pill.education { background: #b3d0ec; color: #1e3a5c; }
 .tag-pill.uncategorized { background: #d6d0c4; color: #4a4438; }
 
 .tag-pill.relevant {

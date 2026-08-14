@@ -80,8 +80,7 @@ function onScrollIntoView(el, onEnter) {
 }
 
 const CATEGORY_CLASS = {
-  Tools: "tools", Industry: "industry", Culture: "culture",
-  Risks: "risks", Research: "research", Education: "education",
+  Tools: "tools", Industry: "industry", Risks: "risks", Research: "research",
 };
 
 function categoryClass(cat) {

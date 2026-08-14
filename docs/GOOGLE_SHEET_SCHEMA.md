@@ -24,7 +24,7 @@ next scheduled run - no redeploy needed.
 | `name` | yes | `Ars Technica` | Display name shown as the byline on the site |
 | `type` | yes | `rss` or `youtube` | Anything else is ignored |
 | `url` | yes | `https://arstechnica.com/tag/ai/feed/` | For `type=rss`, the feed URL. For `type=youtube`, the **search query** to run (e.g. `vibe coding tutorial`) |
-| `category` | yes | `Tools` | Must match one of: `Tools`, `Industry`, `Culture`, `Risks`, `Research`, `Education`. Anything else falls back to "Uncategorized" on the site |
+| `category` | yes | `Tools` | Must match one of: `Tools`, `Industry`, `Risks`, `Research`. Anything else falls back to "Uncategorized" on the site |
 | `active` | yes | `yes` | `yes`/`true`/`1` to include, anything else to pause without deleting the row |
 | `humanitarian_relevant` | yes | `no` | Manually judged - not automated. `yes` tags every story from this source as relevant to the org's work |
 | `note` | no | `Added after Aug tools roundup` | Free text, not shown on the site - for whoever maintains the sheet |
@@ -35,9 +35,9 @@ next scheduled run - no redeploy needed.
 name,type,url,category,active,humanitarian_relevant,note
 Ars Technica AI,rss,https://arstechnica.com/tag/ai/feed/,Tools,yes,no,
 The Batch,rss,https://www.deeplearning.ai/the-batch/feed/,Research,yes,no,
-ICT4D roundup,rss,https://example.org/ict4d/feed/,Education,yes,yes,humanitarian tech newsletter
+ICT4D roundup,rss,https://example.org/ict4d/feed/,Industry,yes,yes,humanitarian tech newsletter
 vibe coding tutorial,youtube,vibe coding tutorial,Tools,yes,no,
-AI coding for nonprofits,youtube,AI coding for nonprofits,Education,yes,yes,
+AI coding for nonprofits,youtube,AI coding for nonprofits,Tools,yes,yes,
 ```
 
 ## Adding a new RSS source
