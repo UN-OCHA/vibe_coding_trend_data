@@ -68,9 +68,15 @@ IMG_TAG_RE = re.compile(r'<img[^>]+src="([^"]+)"')
 def extract_thumbnail(entry):
     """Best-effort image URL for a story card. RSS has no one standard
     field for this, so check the common ones in order of reliability:
-    Media RSS thumbnail/content, a plain enclosure, then fall back to the
-    first <img> in the summary HTML. Returns "" if none are present -
-    the site falls back to a gradient placeholder in that case."""
+    Media RSS thumbnail/content, an enclosure, then an <img> tag in
+    either the full content or the summary HTML. Returns "" if none are
+    present - the site falls back to a gradient placeholder in that case.
+
+    The content vs. summary distinction matters in practice: WordPress
+    feeds (TechCrunch, ICTworks) commonly put the only <img> inside
+    <content:encoded> (feedparser: entry.content), with summary/
+    description left as a plain-text excerpt with no image at all -
+    checking summary alone silently missed every story from those."""
     media_thumb = entry.get("media_thumbnail")
     if media_thumb and media_thumb[0].get("url"):
         return media_thumb[0]["url"]
@@ -81,12 +87,20 @@ def extract_thumbnail(entry):
             if m.get("url") and m.get("medium", "image") == "image":
                 return m["url"]
 
+    for enc in entry.get("enclosures", []):
+        if enc.get("type", "").startswith("image/") and enc.get("href"):
+            return enc["href"]
+
     for link in entry.get("links", []):
         if link.get("rel") == "enclosure" and link.get("type", "").startswith("image/"):
             return link.get("href", "")
 
-    summary = entry.get("summary", "")
-    match = IMG_TAG_RE.search(summary)
+    for block in entry.get("content", []):
+        match = IMG_TAG_RE.search(block.get("value", ""))
+        if match:
+            return match.group(1)
+
+    match = IMG_TAG_RE.search(entry.get("summary", ""))
     if match:
         return match.group(1)
 
