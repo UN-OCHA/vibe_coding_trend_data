@@ -35,10 +35,11 @@
     <p id="hero-sub">Loading the latest numbers…</p>
   </section>
 
+  <div class="stat-band-heading" id="stat-band-heading">This week's momentum leader</div>
   <div class="stat-band" id="stat-band">
     <div class="stat">
       <div class="value" id="stat-repos">—</div>
-      <div class="label">Repos tagged (top tool)</div>
+      <div class="label">Repos tagged</div>
     </div>
     <div class="stat">
       <div class="value" id="stat-hn">—</div>
@@ -50,7 +51,7 @@
     </div>
     <div class="stat">
       <div class="value accent" id="stat-momentum">—</div>
-      <div class="label">Top momentum, WoW</div>
+      <div class="label">Momentum growth, WoW</div>
     </div>
   </div>
 
@@ -182,6 +183,8 @@ async function init() {
     document.getElementById("hero-headline").textContent = headline;
 
     renderHeroGraphic(document.getElementById("hero-graphic"), topPoints);
+
+    document.getElementById("stat-band-heading").textContent = `This week's momentum leader: ${top.name}`;
 
     onScrollIntoView(document.getElementById("stat-band"), () => {
       countUp(document.getElementById("stat-repos"), top.github_repo_count || 0, { decimals: 0 });
