@@ -271,6 +271,10 @@ a:hover { text-decoration: underline; }
   column-gap: 28px;
 }
 
+.story-grid {
+  margin-bottom: 28px;
+}
+
 .story-card, .video-card {
   display: block;
   break-inside: avoid;
