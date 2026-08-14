@@ -24,7 +24,7 @@ next scheduled run - no redeploy needed.
 | `name` | yes | `Ars Technica` | Display name shown as the byline on the site |
 | `type` | yes | `rss` or `youtube` | Anything else is ignored |
 | `url` | yes | `https://arstechnica.com/tag/ai/feed/` | For `type=rss`, the feed URL. For `type=youtube`, the **search query** to run (e.g. `vibe coding tutorial`) |
-| `category` | yes | `Tools` | Must match one of: `Tools`, `Industry`, `Risks`, `Research`. Anything else falls back to "Uncategorized" on the site |
+| `category` | yes | `Tools` | Must match one of: `Tools`, `Industry`, `Risks`, `Research`. **Only used for `type=youtube` rows.** For `type=rss` rows this column is ignored - each article's category (it can have more than one) is derived from its own headline instead, since a single feed can cover very different kinds of stories. Still required in the sheet even for rss rows, just not read for them |
 | `active` | yes | `yes` | `yes`/`true`/`1` to include, anything else to pause without deleting the row |
 | `humanitarian_relevant` | yes | `no` | Manually judged - not automated. `yes` tags every story from this source as relevant to the org's work |
 | `note` | no | `Added after Aug tools roundup` | Free text, not shown on the site - for whoever maintains the sheet |

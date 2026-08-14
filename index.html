@@ -289,7 +289,7 @@ function renderVideos(videos) {
   grid.innerHTML = videos.slice(0, 6).map((v) => `
     <a class="video-card" href="${v.url}" target="_blank" rel="noopener">
       <div class="thumb" ${v.thumbnail ? `style="background-image:url('${v.thumbnail}');"` : ""}>
-        <span class="tag-pill ${categoryClass(v.category)}">${v.category}</span>
+        <div class="tag-pill-row"><span class="tag-pill ${categoryClass(v.category)}">${v.category}</span></div>
         <span class="play-badge">▶</span>
         <span class="views-badge">${formatCompact(v.views_per_day)}/day</span>
       </div>
@@ -305,7 +305,7 @@ function renderStories(stories, filter) {
     ? stories
     : filter === "humanitarian"
       ? stories.filter((s) => s.humanitarian_relevant)
-      : stories.filter((s) => s.category === filter);
+      : stories.filter((s) => (s.categories || []).includes(filter));
 
   if (!filtered.length) {
     grid.innerHTML = '<div class="empty-state">No stories in this filter yet.</div>';
@@ -315,7 +315,7 @@ function renderStories(stories, filter) {
   grid.innerHTML = filtered.slice(0, 9).map((s) => `
     <a class="story-card" href="${s.url}" target="_blank" rel="noopener">
       <div class="thumb" ${s.image ? `style="background-image:url('${s.image}');"` : ""}>
-        <span class="tag-pill ${categoryClass(s.category)}">${s.category}</span>
+        <div class="tag-pill-row">${(s.categories || []).map((c) => `<span class="tag-pill ${categoryClass(c)}">${c}</span>`).join("")}</div>
       </div>
       <p class="headline">${s.humanitarian_relevant ? '<span class="tag-pill relevant">Relevant</span>' : ""}${s.title}</p>
       <p class="byline">${s.date} · ${s.source}</p>

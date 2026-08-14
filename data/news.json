@@ -3,70 +3,85 @@
     "title": "AI coding startup Cognition reportedly already in talks to raise at $40B valuation",
     "url": "https://techcrunch.com/2026/08/12/ai-coding-startup-cognition-reportedly-already-in-talks-to-raise-at-40b-valuation/",
     "source": "TechCrunch AI",
-    "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-12",
     "fetched_at": "2026-08-14",
-    "image": "https://techcrunch.com/wp-content/uploads/2026/05/Scott-wu-headshot-e1780070238342.png?resize=1200,1004"
+    "image": "https://techcrunch.com/wp-content/uploads/2026/05/Scott-wu-headshot-e1780070238342.png?resize=1200,1004",
+    "categories": [
+      "Industry"
+    ]
   },
   {
     "title": "Coding agents ignore open source contribution guidelines, researchers find.",
     "url": "https://thenewstack.io/coding-agents-ignore-guidelines/",
     "source": "The New Stack",
-    "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-12",
     "fetched_at": "2026-08-14",
-    "image": "https://cdn.thenewstack.io/media/2026/08/c6b2a5fb-egor-komarov-pqd_evvtb-q-unsplash-1024x556.jpg"
+    "image": "https://cdn.thenewstack.io/media/2026/08/c6b2a5fb-egor-komarov-pqd_evvtb-q-unsplash-1024x556.jpg",
+    "categories": [
+      "Tools",
+      "Research"
+    ]
   },
   {
     "title": "OpenAI\u2019s ChatGPT/Codex desktop app is now on Linux",
     "url": "https://thenewstack.io/openais-chatgpt-desktop-linux/",
     "source": "The New Stack",
-    "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-11",
     "fetched_at": "2026-08-14",
-    "image": "https://cdn.thenewstack.io/media/2026/08/9e7a394a-screenshot-2026-08-11-at-10.42.00-am-1024x695.png"
+    "image": "https://cdn.thenewstack.io/media/2026/08/9e7a394a-screenshot-2026-08-11-at-10.42.00-am-1024x695.png",
+    "categories": [
+      "Tools"
+    ]
   },
   {
     "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
     "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
     "source": "Simon Willison's Weblog",
-    "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-08",
     "fetched_at": "2026-08-14",
-    "image": "https://static.simonwillison.net/static/2026/auto-mode-comparison.png"
+    "image": "https://static.simonwillison.net/static/2026/auto-mode-comparison.png",
+    "categories": [
+      "Tools"
+    ]
   },
   {
     "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
     "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
     "source": "Simon Willison's Weblog",
-    "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-07",
     "fetched_at": "2026-08-14",
-    "image": "https://static.simonwillison.net/static/2026/raccoon-heist-codex-bug.jpg"
+    "image": "https://static.simonwillison.net/static/2026/raccoon-heist-codex-bug.jpg",
+    "categories": [
+      "Uncategorized"
+    ]
   },
   {
     "title": "Cloudflare open-sources vibe-coding platform for people who aren't coders",
     "url": "https://arstechnica.com/ai/2026/08/cloudflare-open-sources-vibe-coding-platform-for-people-who-arent-coders/",
     "source": "Ars Technica AI",
-    "category": "Tools",
     "humanitarian_relevant": false,
     "date": "2026-08-06",
     "fetched_at": "2026-08-14",
-    "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/Cloudflare-logo-500x500.jpg"
+    "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/Cloudflare-logo-500x500.jpg",
+    "categories": [
+      "Tools"
+    ]
   },
   {
     "title": "Vibe Coding XR: Accelerating AI + XR prototyping with XR Blocks and Gemini",
     "url": "https://research.google/blog/vibe-coding-xr-accelerating-ai-xr-prototyping-with-xr-blocks-and-gemini/",
     "source": "Google Research",
-    "category": "Research",
     "humanitarian_relevant": false,
     "image": "https://storage.googleapis.com/gweb-research2023-media/original_images/VibeCodingXR_Hero.png",
     "date": "2026-03-25",
-    "fetched_at": "2026-08-14"
+    "fetched_at": "2026-08-14",
+    "categories": [
+      "Uncategorized"
+    ]
   }
 ]

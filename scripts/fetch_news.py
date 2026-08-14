@@ -5,11 +5,18 @@ Unlike fetch_trends.py (numeric counts, weekly), this script pulls actual
 articles - headline, link, source, date, category - and writes them to
 data/news.json, which the site reads directly (no build step needed).
 
-Sources and categories are NOT hardcoded here. They live in a Google Sheet
-that a non-technical person can edit directly - see docs/GOOGLE_SHEET_SCHEMA.md
-for the exact columns expected. This script reads that sheet at the start of
-every run via its public "publish to web" CSV export URL, so adding, removing,
-or re-categorizing a source is a spreadsheet edit, not a code change.
+Sources are NOT hardcoded here. They live in a Google Sheet that a
+non-technical person can edit directly - see docs/GOOGLE_SHEET_SCHEMA.md
+for the exact columns expected. This script reads that sheet at the start
+of every run via its public "publish to web" CSV export URL, so adding or
+removing a source is a spreadsheet edit, not a code change.
+
+A story's category (or categories - see categorize()) is NOT one of those
+sheet columns, deliberately: a single feed can publish stories that read
+very differently (a product launch vs. a funding round vs. a safety
+story), so categorizing per-source instead of per-article was a poor fit.
+Each story is categorized from its own title, and can land in more than
+one category if it fits.
 
 Each row in the sheet is one RSS feed. If a source doesn't publish RSS, it
 doesn't belong in this pipeline - see the "adding a new source" notes in the
@@ -17,8 +24,8 @@ main repo README for why (scraping is fragile and often against ToS).
 
 Configuration:
   SHEET_CSV_URL - env var, the published-CSV URL of the Google Sheet.
-  Everything else (which sources, which categories, the humanitarian flag)
-  comes from the sheet itself, not from this file.
+  Everything else (which sources, the humanitarian flag) comes from the
+  sheet itself, not from this file.
 """
 
 import csv
@@ -73,6 +80,50 @@ def matches_topic(title):
     if any(keyword in lowered for keyword in TOPIC_KEYWORDS):
         return True
     return bool(CAPITALIZED_WORD_RE.search(title))
+
+
+# A story's category (or categories) come from its own title, not from
+# whatever category its source is generally filed under in the Google
+# Sheet - a source-wide category was a poor fit once a single feed (e.g.
+# TechCrunch AI) turned out to publish stories that read very differently
+# (a product launch vs. a funding round vs. a safety story). A title can
+# match more than one of these, which is the point - a story is filed
+# under every category it fits, not forced into exactly one. Order here is
+# just display order, checked independently, not priority.
+CATEGORY_KEYWORDS = {
+    "Tools": [
+        "launches", "launch", "release", "released", "update", "updated",
+        "feature", "introduces", "adds", "new mode", "desktop app", "ide",
+        "extension", "plugin", "open-sources", "open sources", "now available",
+        "rolls out", "rolling out", "ships", "now supports", "now the default",
+        "goes live", "in beta",
+    ],
+    "Industry": [
+        "raise", "raises", "raised", "funding", "valuation", "valued at",
+        "ipo", "acquire", "acquisition", "invest", "investor", "startup",
+        "revenue", "partners with", "partnership", "merger", "billion",
+        "million",
+    ],
+    "Risks": [
+        "vulnerability", "vulnerable", "security flaw", "exploit", "breach",
+        "backdoor", "malicious", "risk", "concern", "warns", "warning",
+        "job loss", "layoff", "hallucinat", "bias", "prompt injection",
+        "safety", "danger", "harm", "scam", "fraud",
+    ],
+    "Research": [
+        "research", "researchers", "study", "benchmark", "paper", "arxiv",
+        "evaluation", "finds", "found that", "analysis",
+    ],
+}
+
+
+def categorize(title):
+    lowered = title.lower()
+    categories = [
+        name for name, keywords in CATEGORY_KEYWORDS.items()
+        if any(keyword in lowered for keyword in keywords)
+    ]
+    return categories or ["Uncategorized"]
 
 
 IMG_TAG_RE = re.compile(r'<img[^>]+src="([^"]+)"')
@@ -161,6 +212,10 @@ def load_source_config():
     """Fetch and parse the Google Sheet. Expected columns (see
     docs/GOOGLE_SHEET_SCHEMA.md):
       name, type, url, category, active, humanitarian_relevant, note
+
+    The sheet's category column is still required (fetch_youtube.py uses
+    it for YouTube rows), but it's ignored here for RSS rows - a story's
+    category is derived from its own title instead, see categorize().
     """
     if not SHEET_CSV_URL:
         print("ERROR: SHEET_CSV_URL not set - cannot load source config.")
@@ -179,7 +234,6 @@ def load_source_config():
         sources.append({
             "name": row.get("name", "").strip(),
             "url": row.get("url", "").strip(),
-            "category": row.get("category", "").strip() or "Uncategorized",
             "humanitarian_relevant": row.get("humanitarian_relevant", "").strip().lower() in ("yes", "true", "1"),
             "note": row.get("note", "").strip(),
         })
@@ -218,11 +272,12 @@ def fetch_feed_items(source):
         else:
             date_str = datetime.date.today().isoformat()
 
+        title = entry.get("title", "Untitled")
         items.append({
-            "title": entry.get("title", "Untitled"),
+            "title": title,
             "url": entry.get("link", ""),
             "source": source["name"],
-            "category": source["category"],
+            "categories": categorize(title),
             "humanitarian_relevant": source["humanitarian_relevant"],
             "image": url_to_image[entry.get("link", "")],
             "date": date_str,
