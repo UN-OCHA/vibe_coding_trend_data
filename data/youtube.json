@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Vibe coding an entire app in one sitting — full build",
+    "channel": "Sample Channel",
+    "url": "https://example.com/",
+    "thumbnail": "",
+    "published": "2026-08-12",
+    "views": 18400,
+    "views_per_day": 9200.0,
+    "category": "Tools",
+    "humanitarian_relevant": false
+  },
+  {
+    "title": "AI coding assistants for teams with no dedicated developer",
+    "channel": "Sample Channel",
+    "url": "https://example.com/",
+    "thumbnail": "",
+    "published": "2026-08-10",
+    "views": 6300,
+    "views_per_day": 1575.0,
+    "category": "Education",
+    "humanitarian_relevant": true
+  },
+  {
+    "title": "Cursor vs Claude Code vs Codex: a head-to-head walkthrough",
+    "channel": "Sample Channel",
+    "url": "https://example.com/",
+    "thumbnail": "",
+    "published": "2026-08-09",
+    "views": 41200,
+    "views_per_day": 6866.7,
+    "category": "Tools",
+    "humanitarian_relevant": false
+  }
+]

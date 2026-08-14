@@ -123,10 +123,14 @@ def main():
             age_days = max((datetime.datetime.now(datetime.timezone.utc) - published).days, 1)
             views = int(data.get("statistics", {}).get("viewCount", 0))
 
+            thumbnails = data["snippet"].get("thumbnails", {})
+            thumbnail = (thumbnails.get("medium") or thumbnails.get("default") or {}).get("url", "")
+
             all_candidates.append({
                 "title": data["snippet"]["title"],
                 "channel": data["snippet"]["channelTitle"],
                 "url": f"https://www.youtube.com/watch?v={vid}",
+                "thumbnail": thumbnail,
                 "published": published.date().isoformat(),
                 "views": views,
                 "views_per_day": round(views / age_days, 1),

@@ -71,6 +71,13 @@
   </section>
 
   <section>
+    <div class="section-label">Trending videos</div>
+    <div class="video-grid" id="video-grid">
+      <div class="empty-state">Loading videos…</div>
+    </div>
+  </section>
+
+  <section>
     <div class="section-label">This week</div>
     <div class="section-title">Momentum leaderboard</div>
     <div class="section-subtitle">A quick look — see the full leaderboard with weekly rank history.</div>
@@ -144,6 +151,35 @@ async function init() {
     console.error("Failed to load news", e);
     document.getElementById("story-grid").innerHTML = '<div class="empty-state">No stories yet. The daily pipeline runs once the Google Sheet has active sources.</div>';
   }
+
+  // ---- video grid, from youtube.json ----
+  try {
+    const videos = await fetchJson("data/youtube.json");
+    renderVideos(videos);
+  } catch (e) {
+    console.error("Failed to load videos", e);
+    document.getElementById("video-grid").innerHTML = '<div class="empty-state">No videos yet. The daily pipeline runs once the Google Sheet has active YouTube topics.</div>';
+  }
+}
+
+function renderVideos(videos) {
+  const grid = document.getElementById("video-grid");
+  if (!videos.length) {
+    grid.innerHTML = '<div class="empty-state">No videos in the last 7 days.</div>';
+    return;
+  }
+
+  grid.innerHTML = videos.slice(0, 6).map((v) => `
+    <a class="video-card" href="${v.url}" target="_blank" rel="noopener">
+      <div class="thumb" ${v.thumbnail ? `style="background-image:url('${v.thumbnail}');"` : ""}>
+        <span class="tag-pill ${categoryClass(v.category)}">${v.category}</span>
+        <span class="play-badge">▶</span>
+        <span class="views-badge">${formatCompact(v.views_per_day)}/day</span>
+      </div>
+      <p class="headline">${v.humanitarian_relevant ? '<span class="tag-pill relevant">Relevant</span>' : ""}${v.title}</p>
+      <p class="byline">${v.channel} · ${formatCompact(v.views)} views</p>
+    </a>
+  `).join("");
 }
 
 function renderStories(stories, filter) {
