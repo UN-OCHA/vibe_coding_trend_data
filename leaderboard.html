@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momentum leaderboard — Vibecode Daily</title>
+<meta name="description" content="Weekly momentum rankings for AI coding tools, blending GitHub growth, Hacker News engagement, and search interest.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="site-nav">
+    <div class="links">
+      <a href="index.html">Tools</a>
+      <a href="index.html?category=Culture">Culture</a>
+      <a href="index.html?category=Risks">Risks</a>
+      <a href="index.html?category=Research">Research</a>
+    </div>
+    <a href="index.html" style="font-weight:600;">Vibecode Daily</a>
+    <a href="leaderboard.html" class="active">Leaderboard</a>
+  </nav>
+
+  <header class="masthead" style="padding-top:24px;">
+    <div class="section-label" style="text-align:left;">This week</div>
+    <div class="section-title" style="text-align:left; font-size:32px;">Momentum leaderboard</div>
+    <p class="section-subtitle" style="text-align:left;">
+      Score blends GitHub repo growth, Hacker News engagement, and search interest into a single weekly index. Rank history below shows who's overtaking whom.
+    </p>
+  </header>
+
+  <div class="chart-card">
+    <div class="chart-label">Rank by week</div>
+    <svg id="bump-chart" style="width:100%; height:200px; display:block;"></svg>
+    <div class="scrubber">
+      <input type="range" id="week-slider" min="0" max="0" value="0" step="1">
+      <span class="week-label" id="week-label">—</span>
+    </div>
+  </div>
+
+  <div class="leaderboard" id="leaderboard-full">
+    <div class="row head"><span>#</span><span>Tool</span><span style="text-align:right;">Score</span><span style="text-align:right;">7-day</span></div>
+  </div>
+  <p class="method-note">
+    Growth terms are clipped to ±50% before blending, so one noisy week can't dominate the score.
+    A tool without Google Trends coverage gets a neutral 0.5 for that third of the formula rather than being penalized for a gap in data.
+    This is a first-pass formula — worth revisiting once there's more than a few weeks of history to check it against.
+  </p>
+
+  <footer class="site-footer">
+    Momentum recalculated every Monday alongside the trends data refresh.
+  </footer>
+</div>
+
+<script src="assets/app.js"></script>
+<script src="assets/bump-chart.js"></script>
+<script>
+async function init() {
+  try {
+    const [countsRows, momentum] = await Promise.all([
+      fetchCsv("data/counts_trends.csv"),
+      fetchJson("data/momentum.json"),
+    ]);
+
+    // Full leaderboard table
+    const board = document.getElementById("leaderboard-full");
+    momentum.forEach((tool) => {
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+        <span class="rank">${tool.rank}</span>
+        <span class="name">${tool.name}</span>
+        <span class="score">${tool.score}</span>
+        <span class="delta ${tool.github_growth_pct >= 0 ? "up" : "down"}">${tool.github_growth_pct >= 0 ? "▲" : "▼"} ${Math.abs(tool.github_growth_pct)}%</span>
+      `;
+      board.appendChild(row);
+    });
+
+    // Rank-over-time from GitHub repo-count history (proxy for weekly rank,
+    // since momentum.json only stores the current week's snapshot)
+    const counts = seriesByMetric(countsRows);
+    const toolMetrics = {
+      "Claude Code": "repo_count_claude-code",
+      "Codex": "repo_count_codex",
+      "Cursor": "repo_count_cursor-ide",
+      "GitHub Copilot": "repo_count_github-copilot",
+    };
+
+    const weekLabels = counts[toolMetrics["Claude Code"]].map((p) => {
+      const d = new Date(p.date);
+      return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    });
+
+    // Build rank-per-week: for each week index, rank tools by that week's value
+    const numWeeks = weekLabels.length;
+    const toolNames = Object.keys(toolMetrics);
+    const valuesByWeek = toolNames.map((name) => counts[toolMetrics[name]].map((p) => p.value));
+
+    const ranksByTool = {};
+    toolNames.forEach((name) => { ranksByTool[name] = []; });
+
+    for (let w = 0; w < numWeeks; w++) {
+      const weekValues = toolNames.map((name, i) => ({ name, value: valuesByWeek[i][w] }));
+      weekValues.sort((a, b) => b.value - a.value);
+      weekValues.forEach((entry, rankIdx) => {
+        ranksByTool[entry.name].push(rankIdx + 1);
+      });
+    }
+
+    const slider = document.getElementById("week-slider");
+    const weekLabel = document.getElementById("week-label");
+    slider.max = numWeeks - 1;
+    slider.value = numWeeks - 1;
+    weekLabel.textContent = weekLabels[numWeeks - 1];
+
+    const svg = document.getElementById("bump-chart");
+    function draw(upTo) {
+      renderBumpChart(svg, ranksByTool, weekLabels, upTo);
+    }
+    draw(numWeeks - 1);
+
+    slider.addEventListener("input", () => {
+      const idx = Number(slider.value);
+      weekLabel.textContent = weekLabels[idx];
+      draw(idx);
+    });
+  } catch (e) {
+    console.error("Failed to load leaderboard data", e);
+    document.getElementById("leaderboard-full").innerHTML += '<div class="empty-state">Leaderboard data unavailable right now.</div>';
+  }
+}
+
+init();
+</script>
+</body>
+</html>

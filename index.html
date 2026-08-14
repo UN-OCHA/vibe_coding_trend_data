@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibecode Daily — trends in AI-assisted coding</title>
+<meta name="description" content="Daily news, trending videos, and momentum rankings tracking the vibe coding movement across GitHub, Hacker News, and search interest.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="site-nav">
+    <div class="links">
+      <a href="index.html?category=Tools" class="active">Tools</a>
+      <a href="index.html?category=Culture">Culture</a>
+      <a href="index.html?category=Risks">Risks</a>
+      <a href="index.html?category=Research">Research</a>
+    </div>
+    <a href="index.html" style="font-weight:600;">Vibecode Daily</a>
+    <a href="leaderboard.html">Leaderboard →</a>
+  </nav>
+
+  <header class="masthead">
+    <div class="wordmark">VIBECODE</div>
+    <div class="tagline">Daily dispatch on AI-assisted coding</div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="eyebrow">◆ Featured · Tools</div>
+    <h1 id="hero-headline">Agentic coding crosses into the mainstream.</h1>
+    <p id="hero-sub">Loading the latest numbers…</p>
+  </section>
+
+  <div class="stat-band" id="stat-band">
+    <div class="stat">
+      <div class="value" id="stat-repos">—</div>
+      <div class="label">Repos tagged (top tool)</div>
+    </div>
+    <div class="stat">
+      <div class="value" id="stat-hn">—</div>
+      <div class="label">HN comments / week</div>
+    </div>
+    <div class="stat">
+      <div class="value" id="stat-trends">—</div>
+      <div class="label">Search interest index</div>
+    </div>
+    <div class="stat">
+      <div class="value accent" id="stat-momentum">—</div>
+      <div class="label">Top momentum, WoW</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-label">Latest stories</div>
+    <div class="filter-row" id="filter-row">
+      <button class="filter-pill active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="Tools">Tools</button>
+      <button class="filter-pill" data-filter="Industry">Industry</button>
+      <button class="filter-pill" data-filter="Culture">Culture</button>
+      <button class="filter-pill" data-filter="Risks">Risks</button>
+      <button class="filter-pill" data-filter="Research">Research</button>
+      <button class="filter-pill" data-filter="Education">Education</button>
+      <button class="filter-pill humanitarian" data-filter="humanitarian">Relevant to our work</button>
+    </div>
+    <div class="story-grid" id="story-grid">
+      <div class="empty-state">Loading stories…</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">This week</div>
+    <div class="section-title">Momentum leaderboard</div>
+    <div class="section-subtitle">A quick look — see the full leaderboard with weekly rank history.</div>
+    <div class="leaderboard" id="leaderboard-preview">
+      <div class="row head"><span>#</span><span>Tool</span><span style="text-align:right;">Score</span><span></span></div>
+    </div>
+    <p><a href="leaderboard.html">View full leaderboard and rank history →</a></p>
+  </section>
+
+  <footer class="site-footer">
+    Data refreshed weekly (trends, momentum) and daily (news, video). Sources and topics are configured in a shared Google Sheet, not in this code.
+  </footer>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+async function init() {
+  // ---- stat band + hero, from the trends CSVs + momentum.json ----
+  try {
+    const [countsRows, interestRows, momentum] = await Promise.all([
+      fetchCsv("data/counts_trends.csv"),
+      fetchCsv("data/interest_trends.csv"),
+      fetchJson("data/momentum.json"),
+    ]);
+    const counts = seriesByMetric(countsRows);
+    const interest = seriesByMetric(interestRows);
+    const top = momentum[0];
+
+    document.getElementById("hero-sub").textContent =
+      `${top.name} leads this week's momentum score (${top.score}), with ${top.github_growth_pct >= 0 ? "+" : ""}${top.github_growth_pct}% repo growth.`;
+
+    onScrollIntoView(document.getElementById("stat-band"), () => {
+      countUp(document.getElementById("stat-repos"), top.github_repo_count || 0, { decimals: 0 });
+      countUp(document.getElementById("stat-hn"), top.hn_comments || 0, { decimals: 0 });
+      countUp(document.getElementById("stat-trends"), top.trends_interest || 0, { decimals: 0 });
+      const momentumEl = document.getElementById("stat-momentum");
+      momentumEl.textContent = (top.github_growth_pct >= 0 ? "+" : "") + top.github_growth_pct.toFixed(1) + "%";
+    });
+
+    // Leaderboard preview (top 4, no chart)
+    const board = document.getElementById("leaderboard-preview");
+    momentum.slice(0, 4).forEach((tool) => {
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+        <span class="rank">${tool.rank}</span>
+        <span class="name">${tool.name}</span>
+        <span class="score">${tool.score}</span>
+        <span class="delta ${tool.github_growth_pct >= 0 ? "up" : "down"}">${tool.github_growth_pct >= 0 ? "▲" : "▼"} ${Math.abs(tool.github_growth_pct)}%</span>
+      `;
+      board.appendChild(row);
+    });
+  } catch (e) {
+    console.error("Failed to load trends data", e);
+    document.getElementById("hero-sub").textContent = "Trends data unavailable right now.";
+  }
+
+  // ---- story grid, from news.json ----
+  try {
+    const stories = await fetchJson("data/news.json");
+    renderStories(stories, "all");
+
+    document.querySelectorAll(".filter-pill").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-pill").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderStories(stories, btn.dataset.filter);
+      });
+    });
+  } catch (e) {
+    console.error("Failed to load news", e);
+    document.getElementById("story-grid").innerHTML = '<div class="empty-state">No stories yet. The daily pipeline runs once the Google Sheet has active sources.</div>';
+  }
+}
+
+function renderStories(stories, filter) {
+  const grid = document.getElementById("story-grid");
+  const filtered = filter === "all"
+    ? stories
+    : filter === "humanitarian"
+      ? stories.filter((s) => s.humanitarian_relevant)
+      : stories.filter((s) => s.category === filter);
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state">No stories in this filter yet.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.slice(0, 9).map((s) => `
+    <a class="story-card" href="${s.url}" target="_blank" rel="noopener">
+      <div class="thumb">
+        <span class="tag-pill ${categoryClass(s.category)}">${s.category}</span>
+      </div>
+      <p class="headline">${s.humanitarian_relevant ? '<span class="tag-pill relevant">Relevant</span>' : ""}${s.title}</p>
+      <p class="byline">${s.date} · ${s.source}</p>
+    </a>
+  `).join("");
+}
+
+init();
+</script>
+</body>
+</html>
