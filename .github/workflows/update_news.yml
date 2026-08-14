@@ -39,6 +39,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/news.json data/youtube.json
+          git add data/news.json
+          [ -f data/youtube.json ] && git add data/youtube.json
           git diff --quiet --cached || git commit -m "Daily news update: $(date -u +'%Y-%m-%d')"
           git push
