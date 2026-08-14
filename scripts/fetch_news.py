@@ -123,16 +123,23 @@ def load_source_config():
 
 
 def fetch_feed_items(source):
+    """Returns (new_items, url_to_image). url_to_image covers every entry
+    currently in the feed - on-topic or not, already archived or not - so
+    main() can also use it to backfill a missing image onto a story that
+    was added before image extraction existed, as long as that story is
+    still within the feed's current window."""
     print(f"Fetching: {source['name']} ({source['url']})")
     try:
         parsed = feedparser.parse(source["url"])
     except Exception as e:
         print(f"  WARNING: could not parse feed for '{source['name']}': {e}")
-        return []
+        return [], {}
 
     if parsed.bozo and not parsed.entries:
         print(f"  WARNING: feed for '{source['name']}' looked malformed and returned no entries.")
-        return []
+        return [], {}
+
+    url_to_image = {e.get("link", ""): extract_thumbnail(e) for e in parsed.entries}
 
     on_topic = [e for e in parsed.entries if matches_topic(e.get("title", ""))]
     skipped = len(parsed.entries) - len(on_topic)
@@ -153,11 +160,11 @@ def fetch_feed_items(source):
             "source": source["name"],
             "category": source["category"],
             "humanitarian_relevant": source["humanitarian_relevant"],
-            "image": extract_thumbnail(entry),
+            "image": url_to_image[entry.get("link", "")],
             "date": date_str,
             "fetched_at": datetime.date.today().isoformat(),
         })
-    return items
+    return items, url_to_image
 
 
 def load_existing_news():
@@ -173,11 +180,25 @@ def main():
     print(f"Loaded {len(sources)} active RSS source(s) from the Google Sheet.")
 
     new_items = []
+    url_to_image = {}
     for source in sources:
-        new_items.extend(fetch_feed_items(source))
+        items, source_url_to_image = fetch_feed_items(source)
+        new_items.extend(items)
+        url_to_image.update(source_url_to_image)
         time.sleep(1)
 
     existing = load_existing_news()
+
+    # Backfill: a story added before image extraction existed (or whose
+    # feed just didn't have one at the time) gets a second chance here if
+    # it's still within the feed's current window.
+    backfilled = 0
+    for item in existing:
+        if not item.get("image") and url_to_image.get(item.get("url")):
+            item["image"] = url_to_image[item["url"]]
+            backfilled += 1
+    if backfilled:
+        print(f"Backfilled image(s) for {backfilled} existing stor{'y' if backfilled == 1 else 'ies'} still present in today's feeds.")
 
     # Dedup on (url) - a story already in the archive doesn't get re-added,
     # so re-running this daily doesn't create duplicates.
