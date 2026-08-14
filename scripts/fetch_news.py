@@ -63,20 +63,28 @@ def matches_topic(title):
 
 
 IMG_TAG_RE = re.compile(r'<img[^>]+src="([^"]+)"')
+OG_IMAGE_RE = re.compile(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', re.IGNORECASE)
+OG_IMAGE_RE_ALT = re.compile(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', re.IGNORECASE)
+MAX_OG_IMAGE_FETCHES_PER_RUN = 15  # politeness/runtime cap - see fetch_og_image
 
 
 def extract_thumbnail(entry):
-    """Best-effort image URL for a story card. RSS has no one standard
+    """Best-effort image URL for a story card, from feed data only (see
+    fetch_og_image for the network fallback). RSS has no one standard
     field for this, so check the common ones in order of reliability:
     Media RSS thumbnail/content, an enclosure, then an <img> tag in
     either the full content or the summary HTML. Returns "" if none are
-    present - the site falls back to a gradient placeholder in that case.
+    present.
 
-    The content vs. summary distinction matters in practice: WordPress
-    feeds (TechCrunch, ICTworks) commonly put the only <img> inside
-    <content:encoded> (feedparser: entry.content), with summary/
-    description left as a plain-text excerpt with no image at all -
-    checking summary alone silently missed every story from those."""
+    The content vs. summary distinction matters in practice: ICTworks
+    (WordPress) puts its only <img> inside <content:encoded>
+    (feedparser: entry.content), with summary/description left as a
+    plain-text excerpt with no image at all - checking summary alone
+    silently missed every story from it. TechCrunch's feed has no image
+    data in ANY field (confirmed by inspecting a live entry - no media
+    tags, no enclosure, no content field, plain-text summary) - for
+    that case there's genuinely nothing here to extract; see
+    fetch_og_image for how those get a thumbnail instead."""
     media_thumb = entry.get("media_thumbnail")
     if media_thumb and media_thumb[0].get("url"):
         return media_thumb[0]["url"]
@@ -105,6 +113,35 @@ def extract_thumbnail(entry):
         return match.group(1)
 
     return ""
+
+
+def fetch_og_image(url):
+    """Last-resort fallback for a story whose feed has no image data in
+    any field (confirmed case: TechCrunch). Fetches the article page
+    itself and reads its og:image meta tag.
+
+    This is the one place this script does anything scraping-adjacent -
+    fetch_news.py's module docstring explains why the rest of the
+    pipeline sticks to RSS instead. Kept deliberately minimal to limit
+    that exposure: one GET per story, a short timeout, and any failure
+    (network error, no og:image tag, non-200) just means no image for
+    that story rather than a crashed run. Callers are responsible for
+    respecting MAX_OG_IMAGE_FETCHES_PER_RUN so a source with no feed
+    images can't turn every run into dozens of extra requests."""
+    if not url:
+        return ""
+    try:
+        resp = requests.get(
+            url, timeout=10,
+            headers={"User-Agent": "Mozilla/5.0 (compatible; VibecodeDailyBot/1.0; +https://github.com/UN-OCHA/vibe_coding_trend_data)"},
+        )
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"    WARNING: og:image fetch failed for {url}: {e}")
+        return ""
+
+    match = OG_IMAGE_RE.search(resp.text) or OG_IMAGE_RE_ALT.search(resp.text)
+    return match.group(1) if match else ""
 
 
 def load_source_config():
@@ -213,6 +250,24 @@ def main():
             backfilled += 1
     if backfilled:
         print(f"Backfilled image(s) for {backfilled} existing stor{'y' if backfilled == 1 else 'ies'} still present in today's feeds.")
+
+    # og:image fallback - for stories whose feed has no image data in any
+    # field at all (confirmed case: TechCrunch). Capped per run: this is
+    # one HTTP request per attempt against a third-party site we don't
+    # control, so it stays bounded and polite rather than trying every
+    # image-less story every single run.
+    og_fetches = 0
+    for item in new_items + existing:
+        if og_fetches >= MAX_OG_IMAGE_FETCHES_PER_RUN:
+            break
+        if item.get("image"):
+            continue
+        image = fetch_og_image(item["url"])
+        if image:
+            item["image"] = image
+            print(f"  og:image found for: {item['title'][:60]}")
+        og_fetches += 1
+        time.sleep(1)
 
     # Dedup on (url) - a story already in the archive doesn't get re-added,
     # so re-running this daily doesn't create duplicates.

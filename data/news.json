@@ -1,14 +1,5 @@
 [
   {
-    "title": "New benchmark compares five agentic coding tools head to head",
-    "url": "https://arxiv.org/",
-    "source": "arXiv",
-    "category": "Research",
-    "humanitarian_relevant": false,
-    "date": "2026-08-13",
-    "fetched_at": "2026-08-13"
-  },
-  {
     "title": "The new Instagram logo is the perfect embodiment of AI slop",
     "url": "https://arstechnica.com/ai/2026/08/the-new-instagram-logo-is-the-perfect-embodiment-of-ai-slop/",
     "source": "Ars Technica AI",
@@ -200,15 +191,6 @@
     "fetched_at": "2026-08-14"
   },
   {
-    "title": "Security flaws found in three vibe-coded crisis-response apps",
-    "url": "https://example.com/",
-    "source": "Sample Source",
-    "category": "Risks",
-    "humanitarian_relevant": true,
-    "date": "2026-08-12",
-    "fetched_at": "2026-08-12"
-  },
-  {
     "title": "The web\u2019s newest weapon against AI scrapers is a font",
     "url": "https://arstechnica.com/ai/2026/08/new-font-turns-ordinary-webpages-into-nonsense-for-ai-scrapers/",
     "source": "Ars Technica AI",
@@ -248,15 +230,6 @@
     "image": "https://cdn.thenewstack.io/media/2026/08/c6b2a5fb-egor-komarov-pqd_evvtb-q-unsplash-1024x556.jpg"
   },
   {
-    "title": "Offline-first coding agents tested for low-connectivity field teams",
-    "url": "https://example.com/",
-    "source": "Sample Source",
-    "category": "Tools",
-    "humanitarian_relevant": true,
-    "date": "2026-08-11",
-    "fetched_at": "2026-08-11"
-  },
-  {
     "title": "Smartphone Distribution Alone Will Never Close the Gender Gap",
     "url": "https://www.ictworks.org/smartphone-distribution-gender-gap/",
     "source": "ICTworks",
@@ -277,15 +250,6 @@
     "image": "https://cdn.thenewstack.io/media/2026/08/9e7a394a-screenshot-2026-08-11-at-10.42.00-am-1024x695.png"
   },
   {
-    "title": "Free AI-coding bootcamp launches for NGO tech volunteers",
-    "url": "https://example.com/",
-    "source": "Sample Source",
-    "category": "Education",
-    "humanitarian_relevant": true,
-    "date": "2026-08-10",
-    "fetched_at": "2026-08-10"
-  },
-  {
     "title": "Apply Now: $500,000 for African AI-Enabled Family Planning Tools",
     "url": "https://www.ictworks.org/ai-enabled-family-planning-tools-in-africa/",
     "source": "ICTworks",
@@ -294,15 +258,6 @@
     "date": "2026-08-10",
     "fetched_at": "2026-08-14",
     "image": "https://i0.wp.com/www.ictworks.org/wp-content/uploads/2026/08/gates-grand-challenges-funding.png?resize=640%2C360&#038;ssl=1"
-  },
-  {
-    "title": "The YouTube creators defining vibe coding's voice",
-    "url": "https://example.com/",
-    "source": "Sample Source",
-    "category": "Culture",
-    "humanitarian_relevant": false,
-    "date": "2026-08-09",
-    "fetched_at": "2026-08-09"
   },
   {
     "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
