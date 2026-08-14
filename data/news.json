@@ -58,5 +58,15 @@
     "date": "2026-08-06",
     "fetched_at": "2026-08-14",
     "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/Cloudflare-logo-500x500.jpg"
+  },
+  {
+    "title": "Vibe Coding XR: Accelerating AI + XR prototyping with XR Blocks and Gemini",
+    "url": "https://research.google/blog/vibe-coding-xr-accelerating-ai-xr-prototyping-with-xr-blocks-and-gemini/",
+    "source": "Google Research",
+    "category": "Research",
+    "humanitarian_relevant": false,
+    "image": "https://storage.googleapis.com/gweb-research2023-media/original_images/VibeCodingXR_Hero.png",
+    "date": "2026-03-25",
+    "fetched_at": "2026-08-14"
   }
 ]
