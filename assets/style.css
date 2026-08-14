@@ -402,6 +402,15 @@ a:hover { text-decoration: underline; }
 
 .chart-card svg text { font-family: var(--font-body); }
 
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.chart-grid .chart-card { margin-bottom: 0; }
+
 .scrubber {
   display: flex;
   align-items: center;

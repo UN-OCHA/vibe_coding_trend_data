@@ -39,6 +39,27 @@ MAX_TOTAL_ITEMS_KEPT = 300  # trim the archive so news.json doesn't grow forever
 
 SHEET_CSV_URL = os.environ.get("SHEET_CSV_URL", "")
 
+# General tech/AI outlets (Ars Technica AI, TechCrunch AI, etc.) cover far
+# more than vibe coding specifically - model releases, chips, policy, AI
+# slop takes. A source-level category isn't enough to keep the site on
+# topic, so every entry's title is also checked against this list before
+# it's kept. Edit this list to tune what counts as "on topic" - it's
+# intentionally broad (tool names + generic phrasing) since a feed's own
+# scope varies a lot.
+TOPIC_KEYWORDS = [
+    "vibe coding", "vibe-coding", "vibecoding",
+    "ai coding", "ai-assisted coding", "ai pair programming",
+    "coding agent", "agentic coding", "coding assistant",
+    "ai code generation", "ai-generated code", "ai developer tool",
+    "copilot", "cursor", "claude code", "codex", "windsurf",
+    "replit agent", "devin ai", "llm coding", "vibe-coded", "vibe coded",
+]
+
+
+def matches_topic(title):
+    lowered = title.lower()
+    return any(keyword in lowered for keyword in TOPIC_KEYWORDS)
+
 
 def load_source_config():
     """Fetch and parse the Google Sheet. Expected columns (see
@@ -81,8 +102,13 @@ def fetch_feed_items(source):
         print(f"  WARNING: feed for '{source['name']}' looked malformed and returned no entries.")
         return []
 
+    on_topic = [e for e in parsed.entries if matches_topic(e.get("title", ""))]
+    skipped = len(parsed.entries) - len(on_topic)
+    if skipped:
+        print(f"  Filtered out {skipped} off-topic entr{'y' if skipped == 1 else 'ies'} from '{source['name']}'.")
+
     items = []
-    for entry in parsed.entries[:MAX_ITEMS_PER_SOURCE]:
+    for entry in on_topic[:MAX_ITEMS_PER_SOURCE]:
         published = entry.get("published_parsed") or entry.get("updated_parsed")
         if published:
             date_str = datetime.date(*published[:3]).isoformat()

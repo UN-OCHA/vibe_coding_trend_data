@@ -54,6 +54,20 @@
   </div>
 
   <section>
+    <div class="section-label">Momentum trends</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-label">GitHub repos, indexed (first week = 100)</div>
+        <svg id="repo-trend-chart" style="width:100%; height:200px; display:block;"></svg>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Search interest, weekly (0–100)</div>
+        <svg id="interest-trend-chart" style="width:100%; height:200px; display:block;"></svg>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <div class="section-label">Latest stories</div>
     <div class="filter-row" id="filter-row">
       <button class="filter-pill active" data-filter="all">All</button>
@@ -93,7 +107,16 @@
 </div>
 
 <script src="assets/app.js"></script>
+<script src="assets/trend-chart.js"></script>
 <script>
+const TREND_COLORS = {
+  "vibe coding": "#e8a86a",
+  "Claude Code": "#d68fb0",
+  "Codex": "#85c99e",
+  "Cursor": "#8ab8d6",
+  "GitHub Copilot": "#c9beb0",
+};
+
 async function init() {
   // ---- stat band + hero, from the trends CSVs + momentum.json ----
   try {
@@ -129,6 +152,60 @@ async function init() {
         <span class="delta ${tool.github_growth_pct >= 0 ? "up" : "down"}">${tool.github_growth_pct >= 0 ? "▲" : "▼"} ${Math.abs(tool.github_growth_pct)}%</span>
       `;
       board.appendChild(row);
+    });
+
+    // ---- trend charts, animate in on scroll ----
+    const weekLabels = counts["repo_count_claude-code"].map((p) => {
+      const d = new Date(p.date);
+      return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    });
+
+    // GitHub repo counts span wildly different scales (Claude Code in the
+    // tens of thousands, Cursor in the hundreds), so each line is indexed
+    // to its own first week ( = 100) rather than plotted on a shared raw
+    // scale - otherwise the smaller series would be a flat line at the
+    // bottom. This shows relative growth, matching what the chart title says.
+    const REPO_METRICS = {
+      "vibe coding": "repo_count_vibe-coding",
+      "Claude Code": "repo_count_claude-code",
+      "Codex": "repo_count_codex",
+      "Cursor": "repo_count_cursor-ide",
+      "GitHub Copilot": "repo_count_github-copilot",
+    };
+    const repoSeries = {};
+    for (const [name, metric] of Object.entries(REPO_METRICS)) {
+      const points = counts[metric];
+      if (!points || !points.length) continue;
+      const base = points[0].value || 1;
+      repoSeries[name] = points.map((p) => ({ date: p.date, value: (p.value / base) * 100 }));
+    }
+    const repoChartEl = document.getElementById("repo-trend-chart");
+    onScrollIntoView(repoChartEl.closest(".chart-card"), () => {
+      const lines = renderTrendChart(repoChartEl, repoSeries, weekLabels, { colors: TREND_COLORS });
+      animateLinesIn(lines);
+    });
+
+    // Trends interest is already a comparable 0-100 index, so it's plotted
+    // raw. Cursor has no Google Trends coverage (see compute_momentum.py),
+    // so it's left out here rather than shown as a flat zero line.
+    const INTEREST_METRICS = {
+      "vibe coding": "interest_vibe_coding",
+      "Claude Code": "interest_claude_code",
+      "Codex": "interest_chatgpt_codex",
+      "GitHub Copilot": "interest_github_copilot",
+    };
+    const interestSeries = {};
+    for (const [name, metric] of Object.entries(INTEREST_METRICS)) {
+      const points = interest[metric];
+      if (points && points.length) interestSeries[name] = points;
+    }
+    const interestChartEl = document.getElementById("interest-trend-chart");
+    onScrollIntoView(interestChartEl.closest(".chart-card"), () => {
+      const lines = renderTrendChart(interestChartEl, interestSeries, weekLabels, {
+        colors: TREND_COLORS,
+        yDomain: [0, 100],
+      });
+      animateLinesIn(lines);
     });
   } catch (e) {
     console.error("Failed to load trends data", e);
