@@ -111,6 +111,11 @@ const TREND_COLORS = {
   "GitHub Copilot": "#c9beb0",
 };
 
+// 1x1 transparent gif - swapped in when a story/video has no image at
+// all, or when a real image URL fails to load, so the layout falls back
+// to the plain gradient placeholder instead of a broken-image icon.
+const TRANSPARENT_GIF = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBTAA7";
+
 async function init() {
   // ---- stat band + hero, from the trends CSVs + momentum.json ----
   try {
@@ -288,10 +293,13 @@ function renderVideos(videos) {
 
   grid.innerHTML = videos.slice(0, 6).map((v) => `
     <a class="video-card" href="${v.url}" target="_blank" rel="noopener">
-      <div class="thumb" ${v.thumbnail ? `style="background-image:url('${v.thumbnail}');"` : ""}>
-        <div class="tag-pill-row">${(v.categories || []).map((c) => `<span class="tag-pill ${categoryClass(c)}">${c}</span>`).join("")}</div>
+      <div class="thumb-wrap">
+        <img class="thumb ${v.thumbnail ? "" : "thumb-placeholder"}" src="${v.thumbnail || TRANSPARENT_GIF}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${TRANSPARENT_GIF}';this.classList.add('thumb-placeholder');">
         <span class="play-badge">▶</span>
         <span class="views-badge">${formatCompact(v.views_per_day)}/day</span>
+      </div>
+      <div class="story-meta">
+        <div class="tag-pill-row">${(v.categories || []).map((c) => `<span class="tag-pill ${categoryClass(c)}">${c}</span>`).join("")}</div>
       </div>
       <p class="headline">${v.humanitarian_relevant ? '<span class="tag-pill relevant">Relevant</span>' : ""}${v.title}</p>
       <p class="byline">${v.channel} · ${formatCompact(v.views)} views</p>
@@ -314,17 +322,14 @@ function renderStories(stories, filter) {
 
   grid.innerHTML = filtered.slice(0, 9).map((s) => `
     <a class="story-card" href="${s.url}" target="_blank" rel="noopener">
-      <div class="thumb" ${s.image ? `style="background-image:url('${s.image}');"` : ""}></div>
+      <img class="thumb ${s.image ? "" : "thumb-placeholder"}" src="${s.image || TRANSPARENT_GIF}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${TRANSPARENT_GIF}';this.classList.add('thumb-placeholder');">
       <div class="story-meta">
         <div class="tag-pill-row">${(s.categories || []).map((c) => `<span class="tag-pill ${categoryClass(c)}">${c}</span>`).join("")}</div>
         <span class="story-date">${s.date}</span>
       </div>
       <p class="headline">${s.humanitarian_relevant ? '<span class="tag-pill relevant">Relevant</span>' : ""}${s.title}</p>
       ${s.excerpt ? `<p class="excerpt">${s.excerpt}</p>` : ""}
-      <div class="story-footer">
-        <span class="story-source">${s.source}</span>
-        <span class="read-more">Read more →</span>
-      </div>
+      <p class="byline">${s.source}</p>
     </a>
   `).join("");
 }

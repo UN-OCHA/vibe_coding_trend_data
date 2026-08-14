@@ -258,27 +258,48 @@ a:hover { text-decoration: underline; }
   border-bottom-color: var(--success);
 }
 
-/* -------------------- story grid -------------------- */
-/* Editorial-magazine treatment: a bigger image, meta line (category +
-   date) above the headline rather than tags overlaid on the photo,
-   serif headline, an excerpt, then source + a "Read more" button. */
+/* -------------------- story grid + video grid -------------------- */
+/* True masonry, not a uniform grid: CSS multi-column layout, each card's
+   image kept at its own natural aspect ratio (a real <img>, not a
+   fixed-height background-div), so cards of different heights stagger
+   the way the reference layout does - a CSS Grid row can't do this on
+   its own, since every cell in a grid row is forced to the height of
+   the tallest one. Shared between stories and videos, per request. */
 
-.story-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px 28px;
+.story-grid, .video-grid {
+  column-count: 3;
+  column-gap: 28px;
+}
+
+.story-card, .video-card {
+  display: block;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
   margin-bottom: 40px;
 }
 
-.story-card {
+.story-card .thumb, .video-card .thumb {
   display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 14px;
 }
 
-.story-card .thumb {
-  height: 190px;
-  border-radius: 4px;
-  margin-bottom: 16px;
-  background: linear-gradient(135deg, #2a3540, #42302a) center / cover no-repeat;
+.thumb.thumb-placeholder {
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, #2a3540, #42302a);
+}
+
+/* Videos need a positioning context for the play/views badges, which a
+   plain <img> can't provide on its own (it can't contain children). */
+.thumb-wrap {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.thumb-wrap .thumb {
+  margin-bottom: 0;
 }
 
 .story-meta {
@@ -303,13 +324,6 @@ a:hover { text-decoration: underline; }
   gap: 6px;
 }
 
-.video-card .tag-pill-row {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-}
-
 .tag-pill {
   font-size: 10px;
   letter-spacing: 0.5px;
@@ -332,12 +346,12 @@ a:hover { text-decoration: underline; }
   color: var(--success-deep);
 }
 
-.story-card .headline {
+.story-card .headline, .video-card .headline {
   font-family: var(--font-display);
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 1.3;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: var(--paper-text);
 }
 
@@ -345,34 +359,16 @@ a:hover { text-decoration: underline; }
   font-size: 13px;
   line-height: 1.6;
   color: var(--paper-text-secondary);
-  margin: 0 0 16px;
+  margin: 0 0 10px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.story-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.story-source {
+.story-card .byline, .video-card .byline {
   font-size: 12px;
   color: var(--paper-text-muted);
-}
-
-.read-more {
-  font-size: 10px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 7px 14px;
-  border-radius: 4px;
-  background: var(--ink);
-  color: var(--dark-text);
-  white-space: nowrap;
 }
 
 .empty-state {
@@ -382,23 +378,7 @@ a:hover { text-decoration: underline; }
   font-size: 14px;
   border: 1px dashed var(--border-soft);
   border-radius: 8px;
-}
-
-/* -------------------- video grid -------------------- */
-
-.video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin-bottom: 40px;
-}
-
-.video-card .thumb {
-  height: 110px;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  background: linear-gradient(135deg, #2a3540, #42302a) center / cover no-repeat;
-  position: relative;
+  break-inside: avoid;
 }
 
 .video-card .play-badge {
@@ -427,18 +407,6 @@ a:hover { text-decoration: underline; }
   border-radius: 20px;
   background: rgba(23, 20, 15, 0.65);
   color: var(--dark-text);
-}
-
-.video-card .headline {
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.35;
-  margin: 0 0 6px;
-}
-
-.video-card .byline {
-  font-size: 12px;
-  color: var(--paper-text-muted);
 }
 
 /* -------------------- leaderboard -------------------- */
@@ -567,7 +535,12 @@ a:hover { text-decoration: underline; }
   margin-top: 20px;
 }
 
+@media (max-width: 900px) {
+  .story-grid, .video-grid { column-count: 2; }
+}
+
 @media (max-width: 640px) {
   .leaderboard .row { grid-template-columns: 24px 1fr 70px; }
   .leaderboard .delta { display: none; }
+  .story-grid, .video-grid { column-count: 1; }
 }
