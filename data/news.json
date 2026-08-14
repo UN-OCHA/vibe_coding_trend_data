@@ -40,6 +40,19 @@
     "excerpt": "On Tuesday, OpenAI launched its ChatGPT desktop for Linux. Now in preview, the app, which combines ChatGPT, ChatGPT Work, and The post OpenAI\u2019s ChatGPT/Codex\u2026"
   },
   {
+    "title": "Malicious MCP Servers Can Split Instructions to Make AI Coding Agents Exfiltrate Secrets",
+    "url": "https://thehackernews.com/2026/08/malicious-mcp-servers-can-split.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Risks"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj2hJoWr0m-Mx1rwaqZpbsdsQa5iSVY8J_jAnt0zKgBUlynOrS-NgEcINm3asfWZR-Ypx9y1iw28BOVud8sfaOQbiq4lmrvSnaZHUBlrkmkH9KXSPy4AXQkklS-AxG83dzpV8sSMj_uUDyVvZTgKs68EpYd18qHJTWF8s2NRaQIF80mh0e7mok6y0SqFi4/s1600/mcp-agent.jpg",
+    "excerpt": "A malicious tool server connected to an AI coding assistant can quietly walk off with SSH keys, environment secrets, source code, and customer data without\u2026",
+    "date": "2026-08-11",
+    "fetched_at": "2026-08-14"
+  },
+  {
     "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
     "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
     "source": "Simon Willison's Weblog",
@@ -66,6 +79,19 @@
     "excerpt": ""
   },
   {
+    "title": "Claude Code and Gemini CLI Flaws Let a GitHub Issue Reach CI Workflow Secrets",
+    "url": "https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEguukj-eRhx9RtAq9X96hAxHi0IU3ZWgM_W5XkdWhF8ezevuBQygkpv-ku5PSri9Gt5hRkNVxe6HmJJr5Mg33X_PhOGziqaho9bwm-mkRZSBl2jo94XF3jRwTZOb_PocueKWJkEtvl7kG_YqmbVfUxNht8_ODzLOERIqQteMdPxnWpobM-c9-fHhn0cLMQ/s1600/claude-github.jpg",
+    "excerpt": "A GitHub issue opened by an account with no repository privileges was enough to execute code on the CI runners behind Anthropic's and Google's own coding-agent\u2026",
+    "date": "2026-08-07",
+    "fetched_at": "2026-08-14"
+  },
+  {
     "title": "Cloudflare open-sources vibe-coding platform for people who aren't coders",
     "url": "https://arstechnica.com/ai/2026/08/cloudflare-open-sources-vibe-coding-platform-for-people-who-arent-coders/",
     "source": "Ars Technica AI",
@@ -77,6 +103,58 @@
       "Tools"
     ],
     "excerpt": ""
+  },
+  {
+    "title": "SpaceX Colossus deal \ud83d\ude80, GPT-5.5 Cyber launch \ud83d\udee1\ufe0f, Codex as workspace \ud83e\udd16",
+    "url": "https://tldr.tech/ai/2026-06-23",
+    "source": "TLDR AI",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "",
+    "excerpt": "",
+    "date": "2026-06-23",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "GPT-5.6 Tuesday \ud83e\udd16, Claude Code artifacts \ud83d\udc68\u200d\ud83d\udcbb, Perplexity\u2019s Brain memory \ud83e\udde0",
+    "url": "https://tldr.tech/ai/2026-06-19",
+    "source": "TLDR AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "",
+    "excerpt": "",
+    "date": "2026-06-19",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Agentic coding and persistent returns to expertise",
+    "url": "https://www.anthropic.com/research/claude-code-expertise",
+    "source": "Anthropic Research",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://www.anthropic.com/api/opengraph-illustration?name=Hand%20Abacus&amp;backgroundColor=cactus",
+    "excerpt": "This report provides evidence on how Claude Code is used in practice, based on a privacy-preserving analysis of around 400,000 interactive sessions from around\u2026",
+    "date": "2026-06-16",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Coding agents in the social sciences",
+    "url": "https://www.anthropic.com/research/coding-agents-social-sciences",
+    "source": "Anthropic Research",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://www.anthropic.com/api/opengraph-illustration?name=Object%20CodeChatCode&amp;backgroundColor=olive",
+    "excerpt": "Results from a survey of 1,260 social scientists about AI and coding agent use.",
+    "date": "2026-05-27",
+    "fetched_at": "2026-08-14"
   },
   {
     "title": "Vibe Coding XR: Accelerating AI + XR prototyping with XR Blocks and Gemini",
