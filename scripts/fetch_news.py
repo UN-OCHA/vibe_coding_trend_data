@@ -26,6 +26,7 @@ import datetime
 import io
 import json
 import os
+import re
 import sys
 import time
 
@@ -59,6 +60,37 @@ TOPIC_KEYWORDS = [
 def matches_topic(title):
     lowered = title.lower()
     return any(keyword in lowered for keyword in TOPIC_KEYWORDS)
+
+
+IMG_TAG_RE = re.compile(r'<img[^>]+src="([^"]+)"')
+
+
+def extract_thumbnail(entry):
+    """Best-effort image URL for a story card. RSS has no one standard
+    field for this, so check the common ones in order of reliability:
+    Media RSS thumbnail/content, a plain enclosure, then fall back to the
+    first <img> in the summary HTML. Returns "" if none are present -
+    the site falls back to a gradient placeholder in that case."""
+    media_thumb = entry.get("media_thumbnail")
+    if media_thumb and media_thumb[0].get("url"):
+        return media_thumb[0]["url"]
+
+    media_content = entry.get("media_content")
+    if media_content:
+        for m in media_content:
+            if m.get("url") and m.get("medium", "image") == "image":
+                return m["url"]
+
+    for link in entry.get("links", []):
+        if link.get("rel") == "enclosure" and link.get("type", "").startswith("image/"):
+            return link.get("href", "")
+
+    summary = entry.get("summary", "")
+    match = IMG_TAG_RE.search(summary)
+    if match:
+        return match.group(1)
+
+    return ""
 
 
 def load_source_config():
@@ -121,6 +153,7 @@ def fetch_feed_items(source):
             "source": source["name"],
             "category": source["category"],
             "humanitarian_relevant": source["humanitarian_relevant"],
+            "image": extract_thumbnail(entry),
             "date": date_str,
             "fetched_at": datetime.date.today().isoformat(),
         })

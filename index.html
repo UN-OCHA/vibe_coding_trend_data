@@ -29,6 +29,7 @@
   </header>
 
   <section class="hero" id="hero">
+    <svg class="hero-graphic" id="hero-graphic"></svg>
     <div class="eyebrow">◆ Featured · Tools</div>
     <h1 id="hero-headline">Agentic coding crosses into the mainstream.</h1>
     <p id="hero-sub">Loading the latest numbers…</p>
@@ -132,6 +133,56 @@ async function init() {
     document.getElementById("hero-sub").textContent =
       `${top.name} leads this week's momentum score (${top.score}), with ${top.github_growth_pct >= 0 ? "+" : ""}${top.github_growth_pct}% repo growth.`;
 
+    // ---- data-driven headline + background graphic ----
+    // momentum.json only stores the current week's snapshot (see README),
+    // so "did the #1 spot change" is derived the same way the leaderboard's
+    // bump chart derives weekly rank: from the GitHub repo-count history,
+    // used here as a proxy for "who was leading last week."
+    const TOOL_GITHUB_METRIC = {
+      "Claude Code": "repo_count_claude-code",
+      "Codex": "repo_count_codex",
+      "Cursor": "repo_count_cursor-ide",
+      "GitHub Copilot": "repo_count_github-copilot",
+    };
+    function topToolAtWeek(weekIdx) {
+      let best = null;
+      for (const [name, metric] of Object.entries(TOOL_GITHUB_METRIC)) {
+        const pts = counts[metric];
+        if (!pts || !pts[weekIdx]) continue;
+        if (!best || pts[weekIdx].value > best.value) best = { name, value: pts[weekIdx].value };
+      }
+      return best ? best.name : null;
+    }
+    const topPoints = counts[TOOL_GITHUB_METRIC[top.name]] || [];
+    const numWeeks = topPoints.length;
+    // "Overtake" only makes sense if top.name (this week's MOMENTUM leader)
+    // is *also* this week's GitHub repo-count leader and that wasn't true
+    // last week - otherwise this would compare two different rankings (e.g.
+    // claiming a repo-count overtake for a tool that leads on momentum
+    // score alone, while a bigger tool still leads on raw repo count).
+    const currentTopByRepo = numWeeks > 0 ? topToolAtWeek(numWeeks - 1) : null;
+    const previousTop = numWeeks > 1 ? topToolAtWeek(numWeeks - 2) : null;
+    const isRepoOvertake = currentTopByRepo === top.name && previousTop && previousTop !== currentTopByRepo;
+
+    // Priority order: a rank overtake is the most newsworthy thing that can
+    // happen week to week, then a repo-count milestone, then a plain growth
+    // spike, then a generic fallback if nothing notable happened.
+    const MILESTONES = [500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000];
+    let headline;
+    if (isRepoOvertake) {
+      headline = `${top.name} overtakes ${previousTop} for the top GitHub spot.`;
+    } else if (numWeeks > 1 && MILESTONES.some((m) => topPoints[numWeeks - 2].value < m && topPoints[numWeeks - 1].value >= m)) {
+      const crossed = MILESTONES.find((m) => topPoints[numWeeks - 2].value < m && topPoints[numWeeks - 1].value >= m);
+      headline = `${top.name} crosses ${crossed.toLocaleString()} repos on GitHub.`;
+    } else if (top.github_growth_pct >= 15) {
+      headline = `${top.name} surges +${top.github_growth_pct}% in GitHub activity this week.`;
+    } else {
+      headline = `${top.name} leads the pack as vibe coding keeps accelerating.`;
+    }
+    document.getElementById("hero-headline").textContent = headline;
+
+    renderHeroGraphic(document.getElementById("hero-graphic"), topPoints);
+
     onScrollIntoView(document.getElementById("stat-band"), () => {
       countUp(document.getElementById("stat-repos"), top.github_repo_count || 0, { decimals: 0 });
       countUp(document.getElementById("stat-hn"), top.hn_comments || 0, { decimals: 0 });
@@ -165,13 +216,7 @@ async function init() {
     // to its own first week ( = 100) rather than plotted on a shared raw
     // scale - otherwise the smaller series would be a flat line at the
     // bottom. This shows relative growth, matching what the chart title says.
-    const REPO_METRICS = {
-      "vibe coding": "repo_count_vibe-coding",
-      "Claude Code": "repo_count_claude-code",
-      "Codex": "repo_count_codex",
-      "Cursor": "repo_count_cursor-ide",
-      "GitHub Copilot": "repo_count_github-copilot",
-    };
+    const REPO_METRICS = { "vibe coding": "repo_count_vibe-coding", ...TOOL_GITHUB_METRIC };
     const repoSeries = {};
     for (const [name, metric] of Object.entries(REPO_METRICS)) {
       const points = counts[metric];
@@ -274,7 +319,7 @@ function renderStories(stories, filter) {
 
   grid.innerHTML = filtered.slice(0, 9).map((s) => `
     <a class="story-card" href="${s.url}" target="_blank" rel="noopener">
-      <div class="thumb">
+      <div class="thumb" ${s.image ? `style="background-image:url('${s.image}');"` : ""}>
         <span class="tag-pill ${categoryClass(s.category)}">${s.category}</span>
       </div>
       <p class="headline">${s.humanitarian_relevant ? '<span class="tag-pill relevant">Relevant</span>' : ""}${s.title}</p>
