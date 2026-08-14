@@ -9,6 +9,177 @@
     "fetched_at": "2026-08-13"
   },
   {
+    "title": "The new Instagram logo is the perfect embodiment of AI slop",
+    "url": "https://arstechnica.com/ai/2026/08/the-new-instagram-logo-is-the-perfect-embodiment-of-ai-slop/",
+    "source": "Ars Technica AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Google announces Gemini 3.7 Flash just three weeks after previous release",
+    "url": "https://arstechnica.com/ai/2026/08/google-announces-gemini-3-7-flash-just-three-weeks-after-previous-release/",
+    "source": "Ars Technica AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Anthropic could be worth $2 trillion when it goes public",
+    "url": "https://arstechnica.com/ai/2026/08/anthropic-could-be-worth-2-trillion-when-it-goes-public/",
+    "source": "Ars Technica AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Claude's new Scarlet Letter watermark is invisible\u2014for now",
+    "url": "https://arstechnica.com/tech-policy/2026/08/claudes-new-scarlet-letter-watermark-is-invisible-for-now/",
+    "source": "Ars Technica AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Writer introduces new AI model and upgraded harness to contain token costs",
+    "url": "https://techcrunch.com/2026/08/13/writer-introduces-new-ai-model-and-upgraded-harness-to-contain-token-costs/",
+    "source": "TechCrunch AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Databricks wanted to raise $1B, investors wanted $15B. It settled on $5B at a $190B valuation.",
+    "url": "https://techcrunch.com/2026/08/13/databricks-wanted-to-raise-1b-investors-wanted-15b-it-settled-on-5b-at-a-190b-valuation/",
+    "source": "TechCrunch AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "OpenAI introduces \u2018Ultrafast,\u2019 a new mode that makes GPT-5.6 Sol work at 14x the speed",
+    "url": "https://techcrunch.com/2026/08/13/openai-introduces-ultrafast-a-new-mode-that-makes-gpt-5-6-sol-work-at-14x-the-speed/",
+    "source": "TechCrunch AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "IBM partners with OpenAI to bolster enterprise AI push",
+    "url": "https://techcrunch.com/2026/08/13/ibm-partners-with-openai-to-bolster-enterprise-ai-push/",
+    "source": "TechCrunch AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Anthropic set AI agents loose on the same task. They started a turf war.",
+    "url": "https://techcrunch.com/2026/08/13/anthropic-set-ai-agents-loose-on-the-same-task-they-started-a-turf-war/",
+    "source": "TechCrunch AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "The AI model that just scored 65% on DeepSWE isn\u2019t the one Google promised.",
+    "url": "https://thenewstack.io/gemini-3-7-flash-agents/",
+    "source": "The New Stack",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "ChatGPT can now remember what you did on your Mac \u2014 without screenshots",
+    "url": "https://thenewstack.io/openai-chatgpt-computer-history/",
+    "source": "The New Stack",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Rubrik\u2019s lessons from one month with Mythos Preview",
+    "url": "https://thenewstack.io/rubrik-mythos-learnings/",
+    "source": "The New Stack",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "DeepSeek open sources an agent harness where everything is a plugin",
+    "url": "https://thenewstack.io/deepseek-harness-open-source-plugins/",
+    "source": "The New Stack",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Why your AI pipeline costs 10x more after the demo",
+    "url": "https://thenewstack.io/ai-pipeline-token-optimization/",
+    "source": "The New Stack",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "sqlite-utils 4.2.1",
+    "url": "https://simonwillison.net/2026/Aug/13/sqlite-utils-2/",
+    "source": "Simon Willison's Weblog",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "sqlite-utils 4.2",
+    "url": "https://simonwillison.net/2026/Aug/13/sqlite-utils/",
+    "source": "Simon Willison's Weblog",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "llm-gemini 0.33",
+    "url": "https://simonwillison.net/2026/Aug/13/llm-gemini/",
+    "source": "Simon Willison's Weblog",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "alchemy-utils 0.1a1",
+    "url": "https://simonwillison.net/2026/Aug/13/alchemy-utils/",
+    "source": "Simon Willison's Weblog",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Timor-Leste Youth Are AI-Fluent and AI-Unready at the Same Time",
+    "url": "https://www.ictworks.org/timor-leste-youth-are-ai-fluent-and-ai-unready-at-the-same-time/",
+    "source": "ICTworks",
+    "category": "Education",
+    "humanitarian_relevant": true,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
     "title": "Security flaws found in three vibe-coded crisis-response apps",
     "url": "https://example.com/",
     "source": "Sample Source",
@@ -16,6 +187,24 @@
     "humanitarian_relevant": true,
     "date": "2026-08-12",
     "fetched_at": "2026-08-12"
+  },
+  {
+    "title": "The web\u2019s newest weapon against AI scrapers is a font",
+    "url": "https://arstechnica.com/ai/2026/08/new-font-turns-ordinary-webpages-into-nonsense-for-ai-scrapers/",
+    "source": "Ars Technica AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-12",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "DeepSeek V4 Pro 0813 (on OpenRouter)",
+    "url": "https://simonwillison.net/2026/Aug/12/deepseek-v4-pro-0813/",
+    "source": "Simon Willison's Weblog",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-12",
+    "fetched_at": "2026-08-14"
   },
   {
     "title": "Offline-first coding agents tested for low-connectivity field teams",
@@ -27,6 +216,15 @@
     "fetched_at": "2026-08-11"
   },
   {
+    "title": "Smartphone Distribution Alone Will Never Close the Gender Gap",
+    "url": "https://www.ictworks.org/smartphone-distribution-gender-gap/",
+    "source": "ICTworks",
+    "category": "Education",
+    "humanitarian_relevant": true,
+    "date": "2026-08-11",
+    "fetched_at": "2026-08-14"
+  },
+  {
     "title": "Free AI-coding bootcamp launches for NGO tech volunteers",
     "url": "https://example.com/",
     "source": "Sample Source",
@@ -36,6 +234,15 @@
     "fetched_at": "2026-08-10"
   },
   {
+    "title": "Apply Now: $500,000 for African AI-Enabled Family Planning Tools",
+    "url": "https://www.ictworks.org/ai-enabled-family-planning-tools-in-africa/",
+    "source": "ICTworks",
+    "category": "Education",
+    "humanitarian_relevant": true,
+    "date": "2026-08-10",
+    "fetched_at": "2026-08-14"
+  },
+  {
     "title": "The YouTube creators defining vibe coding's voice",
     "url": "https://example.com/",
     "source": "Sample Source",
@@ -43,5 +250,23 @@
     "humanitarian_relevant": false,
     "date": "2026-08-09",
     "fetched_at": "2026-08-09"
+  },
+  {
+    "title": "Wow! Morocco Leads Africa in Certified Data Center Construction",
+    "url": "https://www.ictworks.org/wow-morocco-leads-africa-in-certified-data-center-construction/",
+    "source": "ICTworks",
+    "category": "Education",
+    "humanitarian_relevant": true,
+    "date": "2026-08-06",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "USTDA Wrote the AI RFP Clause the Rest of Government Should Copy Now",
+    "url": "https://www.ictworks.org/ustda-wrote-the-ai-rfp-clause-the-rest-of-government-should-copy-now/",
+    "source": "ICTworks",
+    "category": "Education",
+    "humanitarian_relevant": true,
+    "date": "2026-08-04",
+    "fetched_at": "2026-08-14"
   }
 ]
