@@ -180,6 +180,15 @@
     "fetched_at": "2026-08-14"
   },
   {
+    "title": "Microsoft kills off unsuccessful AI features while merging its separate Copilot apps",
+    "url": "https://techcrunch.com/2026/08/13/microsoft-kills-off-unsuccessful-ai-features-while-merging-its-separate-copilot-apps/",
+    "source": "TechCrunch AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-13",
+    "fetched_at": "2026-08-14"
+  },
+  {
     "title": "Security flaws found in three vibe-coded crisis-response apps",
     "url": "https://example.com/",
     "source": "Sample Source",
@@ -207,6 +216,24 @@
     "fetched_at": "2026-08-14"
   },
   {
+    "title": "AI coding startup Cognition reportedly already in talks to raise at $40B valuation",
+    "url": "https://techcrunch.com/2026/08/12/ai-coding-startup-cognition-reportedly-already-in-talks-to-raise-at-40b-valuation/",
+    "source": "TechCrunch AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-12",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Coding agents ignore open source contribution guidelines, researchers find.",
+    "url": "https://thenewstack.io/coding-agents-ignore-guidelines/",
+    "source": "The New Stack",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-12",
+    "fetched_at": "2026-08-14"
+  },
+  {
     "title": "Offline-first coding agents tested for low-connectivity field teams",
     "url": "https://example.com/",
     "source": "Sample Source",
@@ -221,6 +248,15 @@
     "source": "ICTworks",
     "category": "Education",
     "humanitarian_relevant": true,
+    "date": "2026-08-11",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "OpenAI\u2019s ChatGPT/Codex desktop app is now on Linux",
+    "url": "https://thenewstack.io/openais-chatgpt-desktop-linux/",
+    "source": "The New Stack",
+    "category": "Tools",
+    "humanitarian_relevant": false,
     "date": "2026-08-11",
     "fetched_at": "2026-08-14"
   },
@@ -252,11 +288,38 @@
     "fetched_at": "2026-08-09"
   },
   {
+    "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
+    "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
+    "source": "Simon Willison's Weblog",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-08",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
+    "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
+    "source": "Simon Willison's Weblog",
+    "category": "Tools",
+    "humanitarian_relevant": false,
+    "date": "2026-08-07",
+    "fetched_at": "2026-08-14"
+  },
+  {
     "title": "Wow! Morocco Leads Africa in Certified Data Center Construction",
     "url": "https://www.ictworks.org/wow-morocco-leads-africa-in-certified-data-center-construction/",
     "source": "ICTworks",
     "category": "Education",
     "humanitarian_relevant": true,
+    "date": "2026-08-06",
+    "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "Cloudflare open-sources vibe-coding platform for people who aren't coders",
+    "url": "https://arstechnica.com/ai/2026/08/cloudflare-open-sources-vibe-coding-platform-for-people-who-arent-coders/",
+    "source": "Ars Technica AI",
+    "category": "Tools",
+    "humanitarian_relevant": false,
     "date": "2026-08-06",
     "fetched_at": "2026-08-14"
   },
