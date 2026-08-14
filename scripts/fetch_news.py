@@ -22,14 +22,17 @@ Each row in the sheet is one RSS feed. If a source doesn't publish RSS, it
 doesn't belong in this pipeline - see the "adding a new source" notes in the
 main repo README for why (scraping is fragile and often against ToS).
 
+Same goes for the humanitarian-relevance flag (is_humanitarian_relevant()):
+derived per-article from the title, not a sheet column either.
+
 Configuration:
   SHEET_CSV_URL - env var, the published-CSV URL of the Google Sheet.
-  Everything else (which sources, the humanitarian flag) comes from the
-  sheet itself, not from this file.
+  Everything else comes from the sheet itself, not from this file.
 """
 
 import csv
 import datetime
+import html
 import io
 import json
 import os
@@ -126,10 +129,48 @@ def categorize(title):
     return categories or ["Uncategorized"]
 
 
+# Whether a story is "relevant to our work" used to be a person's one-time
+# judgment call per SOURCE in the sheet (see git history /
+# GOOGLE_SHEET_SCHEMA.md) - every story from a source got the same flag
+# regardless of what that particular story was actually about. Derived from
+# the title instead now, same reasoning as categorize(): a source-level
+# flag is too coarse once you look at what any one source actually
+# publishes.
+HUMANITARIAN_KEYWORDS = [
+    "humanitarian", "nonprofit", "non-profit", "ngo", "ict4d",
+    "refugee", "disaster", "crisis", "relief", "developing world",
+    "global south", "least developed", "low-resource", "low resource",
+    "low-connectivity", "low connectivity", "offline-first", "offline first",
+    "aid worker", "displacement", "displaced", "emergency response",
+    "field team", "underserved",
+]
+
+
+def is_humanitarian_relevant(title):
+    lowered = title.lower()
+    return any(keyword in lowered for keyword in HUMANITARIAN_KEYWORDS)
+
+
 IMG_TAG_RE = re.compile(r'<img[^>]+src="([^"]+)"')
 OG_IMAGE_RE = re.compile(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', re.IGNORECASE)
 OG_IMAGE_RE_ALT = re.compile(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', re.IGNORECASE)
 MAX_OG_IMAGE_FETCHES_PER_RUN = 15  # politeness/runtime cap - see fetch_og_image
+
+TAG_RE = re.compile(r"<[^>]+>")
+WHITESPACE_RE = re.compile(r"\s+")
+EXCERPT_MAX_LEN = 160
+
+
+def extract_excerpt(entry):
+    """Plain-text excerpt for the story card - feed summaries are HTML,
+    so this strips tags and unescapes entities before trimming to a clean
+    word boundary rather than cutting mid-word."""
+    text = TAG_RE.sub(" ", entry.get("summary", ""))
+    text = html.unescape(text)
+    text = WHITESPACE_RE.sub(" ", text).strip()
+    if len(text) > EXCERPT_MAX_LEN:
+        text = text[:EXCERPT_MAX_LEN].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
+    return text
 
 
 def extract_thumbnail(entry):
@@ -210,12 +251,13 @@ def fetch_og_image(url):
 
 def load_source_config():
     """Fetch and parse the Google Sheet. Expected columns (see
-    docs/GOOGLE_SHEET_SCHEMA.md):
-      name, type, url, category, active, humanitarian_relevant, note
+    docs/GOOGLE_SHEET_SCHEMA.md): name, type, url, active, note
 
-    The sheet's category column is still required (fetch_youtube.py uses
-    it for YouTube rows), but it's ignored here for RSS rows - a story's
-    category is derived from its own title instead, see categorize().
+    A story's category and humanitarian relevance both come from its own
+    title now (categorize(), is_humanitarian_relevant()), not from a
+    sheet column - see those functions for why. The sheet no longer needs
+    category or humanitarian_relevant columns at all for rss rows; if
+    either is still present here it's simply not read.
     """
     if not SHEET_CSV_URL:
         print("ERROR: SHEET_CSV_URL not set - cannot load source config.")
@@ -234,30 +276,30 @@ def load_source_config():
         sources.append({
             "name": row.get("name", "").strip(),
             "url": row.get("url", "").strip(),
-            "humanitarian_relevant": row.get("humanitarian_relevant", "").strip().lower() in ("yes", "true", "1"),
             "note": row.get("note", "").strip(),
         })
     return sources
 
 
 def fetch_feed_items(source):
-    """Returns (new_items, url_to_image). url_to_image covers every entry
-    currently in the feed - on-topic or not, already archived or not - so
-    main() can also use it to backfill a missing image onto a story that
-    was added before image extraction existed, as long as that story is
-    still within the feed's current window."""
+    """Returns (new_items, url_to_image, url_to_excerpt). Both lookups
+    cover every entry currently in the feed - on-topic or not, already
+    archived or not - so main() can also use them to backfill a missing
+    image/excerpt onto a story that predates this data existing, as long
+    as that story is still within the feed's current window."""
     print(f"Fetching: {source['name']} ({source['url']})")
     try:
         parsed = feedparser.parse(source["url"])
     except Exception as e:
         print(f"  WARNING: could not parse feed for '{source['name']}': {e}")
-        return [], {}
+        return [], {}, {}
 
     if parsed.bozo and not parsed.entries:
         print(f"  WARNING: feed for '{source['name']}' looked malformed and returned no entries.")
-        return [], {}
+        return [], {}, {}
 
     url_to_image = {e.get("link", ""): extract_thumbnail(e) for e in parsed.entries}
+    url_to_excerpt = {e.get("link", ""): extract_excerpt(e) for e in parsed.entries}
 
     on_topic = [e for e in parsed.entries if matches_topic(e.get("title", ""))]
     skipped = len(parsed.entries) - len(on_topic)
@@ -273,17 +315,19 @@ def fetch_feed_items(source):
             date_str = datetime.date.today().isoformat()
 
         title = entry.get("title", "Untitled")
+        link = entry.get("link", "")
         items.append({
             "title": title,
-            "url": entry.get("link", ""),
+            "url": link,
             "source": source["name"],
             "categories": categorize(title),
-            "humanitarian_relevant": source["humanitarian_relevant"],
-            "image": url_to_image[entry.get("link", "")],
+            "humanitarian_relevant": is_humanitarian_relevant(title),
+            "image": url_to_image[link],
+            "excerpt": url_to_excerpt[link],
             "date": date_str,
             "fetched_at": datetime.date.today().isoformat(),
         })
-    return items, url_to_image
+    return items, url_to_image, url_to_excerpt
 
 
 def load_existing_news():
@@ -300,10 +344,12 @@ def main():
 
     new_items = []
     url_to_image = {}
+    url_to_excerpt = {}
     for source in sources:
-        items, source_url_to_image = fetch_feed_items(source)
+        items, source_url_to_image, source_url_to_excerpt = fetch_feed_items(source)
         new_items.extend(items)
         url_to_image.update(source_url_to_image)
+        url_to_excerpt.update(source_url_to_excerpt)
         time.sleep(1)
 
     existing = load_existing_news()
@@ -321,14 +367,25 @@ def main():
     if pruned:
         print(f"Pruned {pruned} already-archived stor{'y' if pruned == 1 else 'ies'} that no longer pass the topic filter.")
 
-    # Backfill: a story added before image extraction existed (or whose
-    # feed just didn't have one at the time) gets a second chance here if
-    # it's still within the feed's current window.
+    # Same reasoning, applied to categories and humanitarian relevance -
+    # cheap (no network), so re-derive for the whole archive every run
+    # rather than only for new items. Tuning CATEGORY_KEYWORDS or
+    # HUMANITARIAN_KEYWORDS later takes effect on old stories too.
+    for item in existing:
+        item["categories"] = categorize(item.get("title", ""))
+        item["humanitarian_relevant"] = is_humanitarian_relevant(item.get("title", ""))
+
+    # Backfill: a story added before image/excerpt extraction existed (or
+    # whose feed just didn't have one at the time) gets a second chance
+    # here if it's still within the feed's current window.
     backfilled = 0
     for item in existing:
-        if not item.get("image") and url_to_image.get(item.get("url")):
-            item["image"] = url_to_image[item["url"]]
+        url = item.get("url")
+        if not item.get("image") and url_to_image.get(url):
+            item["image"] = url_to_image[url]
             backfilled += 1
+        if not item.get("excerpt") and url_to_excerpt.get(url):
+            item["excerpt"] = url_to_excerpt[url]
     if backfilled:
         print(f"Backfilled image(s) for {backfilled} existing stor{'y' if backfilled == 1 else 'ies'} still present in today's feeds.")
 

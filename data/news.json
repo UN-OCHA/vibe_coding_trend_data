@@ -9,7 +9,8 @@
     "image": "https://techcrunch.com/wp-content/uploads/2026/05/Scott-wu-headshot-e1780070238342.png?resize=1200,1004",
     "categories": [
       "Industry"
-    ]
+    ],
+    "excerpt": ""
   },
   {
     "title": "Coding agents ignore open source contribution guidelines, researchers find.",
@@ -22,7 +23,8 @@
     "categories": [
       "Tools",
       "Research"
-    ]
+    ],
+    "excerpt": ""
   },
   {
     "title": "OpenAI\u2019s ChatGPT/Codex desktop app is now on Linux",
@@ -34,7 +36,8 @@
     "image": "https://cdn.thenewstack.io/media/2026/08/9e7a394a-screenshot-2026-08-11-at-10.42.00-am-1024x695.png",
     "categories": [
       "Tools"
-    ]
+    ],
+    "excerpt": ""
   },
   {
     "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
@@ -46,7 +49,8 @@
     "image": "https://static.simonwillison.net/static/2026/auto-mode-comparison.png",
     "categories": [
       "Tools"
-    ]
+    ],
+    "excerpt": ""
   },
   {
     "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
@@ -58,7 +62,8 @@
     "image": "https://static.simonwillison.net/static/2026/raccoon-heist-codex-bug.jpg",
     "categories": [
       "Uncategorized"
-    ]
+    ],
+    "excerpt": ""
   },
   {
     "title": "Cloudflare open-sources vibe-coding platform for people who aren't coders",
@@ -70,7 +75,8 @@
     "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/Cloudflare-logo-500x500.jpg",
     "categories": [
       "Tools"
-    ]
+    ],
+    "excerpt": ""
   },
   {
     "title": "Vibe Coding XR: Accelerating AI + XR prototyping with XR Blocks and Gemini",
@@ -82,6 +88,7 @@
     "fetched_at": "2026-08-14",
     "categories": [
       "Uncategorized"
-    ]
+    ],
+    "excerpt": ""
   }
 ]

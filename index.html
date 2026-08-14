@@ -289,7 +289,7 @@ function renderVideos(videos) {
   grid.innerHTML = videos.slice(0, 6).map((v) => `
     <a class="video-card" href="${v.url}" target="_blank" rel="noopener">
       <div class="thumb" ${v.thumbnail ? `style="background-image:url('${v.thumbnail}');"` : ""}>
-        <div class="tag-pill-row"><span class="tag-pill ${categoryClass(v.category)}">${v.category}</span></div>
+        <div class="tag-pill-row">${(v.categories || []).map((c) => `<span class="tag-pill ${categoryClass(c)}">${c}</span>`).join("")}</div>
         <span class="play-badge">▶</span>
         <span class="views-badge">${formatCompact(v.views_per_day)}/day</span>
       </div>

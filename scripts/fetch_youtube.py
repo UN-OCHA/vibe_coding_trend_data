@@ -30,6 +30,63 @@ import sys
 
 import requests
 
+# Duplicated from fetch_news.py rather than imported - each script here is
+# self-contained and independently runnable (see README), so a shared
+# module isn't part of this codebase's pattern. Keep these two lists in
+# sync by hand if either changes. See fetch_news.py's categorize() /
+# is_humanitarian_relevant() for the reasoning: a video's category and
+# humanitarian relevance come from its own title, not a sheet column -
+# a source-level flag was too coarse once a single search topic could
+# surface videos about very different things.
+CATEGORY_KEYWORDS = {
+    "Tools": [
+        "launches", "launch", "release", "released", "update", "updated",
+        "feature", "introduces", "adds", "new mode", "desktop app", "ide",
+        "extension", "plugin", "open-sources", "open sources", "now available",
+        "rolls out", "rolling out", "ships", "now supports", "now the default",
+        "goes live", "in beta",
+    ],
+    "Industry": [
+        "raise", "raises", "raised", "funding", "valuation", "valued at",
+        "ipo", "acquire", "acquisition", "invest", "investor", "startup",
+        "revenue", "partners with", "partnership", "merger", "billion",
+        "million",
+    ],
+    "Risks": [
+        "vulnerability", "vulnerable", "security flaw", "exploit", "breach",
+        "backdoor", "malicious", "risk", "concern", "warns", "warning",
+        "job loss", "layoff", "hallucinat", "bias", "prompt injection",
+        "safety", "danger", "harm", "scam", "fraud",
+    ],
+    "Research": [
+        "research", "researchers", "study", "benchmark", "paper", "arxiv",
+        "evaluation", "finds", "found that", "analysis",
+    ],
+}
+
+HUMANITARIAN_KEYWORDS = [
+    "humanitarian", "nonprofit", "non-profit", "ngo", "ict4d",
+    "refugee", "disaster", "crisis", "relief", "developing world",
+    "global south", "least developed", "low-resource", "low resource",
+    "low-connectivity", "low connectivity", "offline-first", "offline first",
+    "aid worker", "displacement", "displaced", "emergency response",
+    "field team", "underserved",
+]
+
+
+def categorize(title):
+    lowered = title.lower()
+    categories = [
+        name for name, keywords in CATEGORY_KEYWORDS.items()
+        if any(keyword in lowered for keyword in keywords)
+    ]
+    return categories or ["Uncategorized"]
+
+
+def is_humanitarian_relevant(title):
+    lowered = title.lower()
+    return any(keyword in lowered for keyword in HUMANITARIAN_KEYWORDS)
+
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 YOUTUBE_JSON_PATH = os.path.join(DATA_DIR, "youtube.json")
 LOOKBACK_DAYS = 7
@@ -57,8 +114,6 @@ def load_youtube_topics():
             continue
         topics.append({
             "query": row.get("url", "").strip(),  # for youtube rows, "url" column holds the search query
-            "category": row.get("category", "").strip() or "Uncategorized",
-            "humanitarian_relevant": row.get("humanitarian_relevant", "").strip().lower() in ("yes", "true", "1"),
         })
     return topics
 
@@ -125,17 +180,18 @@ def main():
 
             thumbnails = data["snippet"].get("thumbnails", {})
             thumbnail = (thumbnails.get("medium") or thumbnails.get("default") or {}).get("url", "")
+            title = data["snippet"]["title"]
 
             all_candidates.append({
-                "title": data["snippet"]["title"],
+                "title": title,
                 "channel": data["snippet"]["channelTitle"],
                 "url": f"https://www.youtube.com/watch?v={vid}",
                 "thumbnail": thumbnail,
                 "published": published.date().isoformat(),
                 "views": views,
                 "views_per_day": round(views / age_days, 1),
-                "category": topic["category"],
-                "humanitarian_relevant": topic["humanitarian_relevant"],
+                "categories": categorize(title),
+                "humanitarian_relevant": is_humanitarian_relevant(title),
             })
 
     all_candidates.sort(key=lambda x: x["views_per_day"], reverse=True)

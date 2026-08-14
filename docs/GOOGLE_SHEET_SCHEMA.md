@@ -24,20 +24,24 @@ next scheduled run - no redeploy needed.
 | `name` | yes | `Ars Technica` | Display name shown as the byline on the site |
 | `type` | yes | `rss` or `youtube` | Anything else is ignored |
 | `url` | yes | `https://arstechnica.com/tag/ai/feed/` | For `type=rss`, the feed URL. For `type=youtube`, the **search query** to run (e.g. `vibe coding tutorial`) |
-| `category` | yes | `Tools` | Must match one of: `Tools`, `Industry`, `Risks`, `Research`. **Only used for `type=youtube` rows.** For `type=rss` rows this column is ignored - each article's category (it can have more than one) is derived from its own headline instead, since a single feed can cover very different kinds of stories. Still required in the sheet even for rss rows, just not read for them |
 | `active` | yes | `yes` | `yes`/`true`/`1` to include, anything else to pause without deleting the row |
-| `humanitarian_relevant` | yes | `no` | Manually judged - not automated. `yes` tags every story from this source as relevant to the org's work |
 | `note` | no | `Added after Aug tools roundup` | Free text, not shown on the site - for whoever maintains the sheet |
+
+That's it - `category` and `humanitarian_relevant` are **not** sheet
+columns. Both are derived automatically per article/video from its own
+title (see "Categories and the humanitarian flag" below), not set once
+per source. If your sheet still has either column from an earlier
+version, it's safe to delete - neither script reads them anymore.
 
 ## Example rows
 
 ```
-name,type,url,category,active,humanitarian_relevant,note
-Ars Technica AI,rss,https://arstechnica.com/tag/ai/feed/,Tools,yes,no,
-The Batch,rss,https://www.deeplearning.ai/the-batch/feed/,Research,yes,no,
-ICT4D roundup,rss,https://example.org/ict4d/feed/,Industry,yes,yes,humanitarian tech newsletter
-vibe coding tutorial,youtube,vibe coding tutorial,Tools,yes,no,
-AI coding for nonprofits,youtube,AI coding for nonprofits,Tools,yes,yes,
+name,type,url,active,note
+Ars Technica AI,rss,https://arstechnica.com/tag/ai/feed/,yes,
+The Batch,rss,https://www.deeplearning.ai/the-batch/feed/,yes,
+ICT4D roundup,rss,https://example.org/ict4d/feed/,yes,humanitarian tech newsletter
+vibe coding tutorial,youtube,vibe coding tutorial,yes,
+AI coding for nonprofits,youtube,AI coding for nonprofits,yes,
 ```
 
 ## Adding a new RSS source
@@ -52,9 +56,16 @@ AI coding for nonprofits,youtube,AI coding for nonprofits,Tools,yes,yes,
 Set `active` to `no`, or delete the row. Either works; setting it to `no`
 keeps a record of why it was added in case someone wants it back later.
 
-## The humanitarian flag
+## Categories and the humanitarian flag
 
-This is deliberately a **person's judgment call**, set per source (or you
-can add per-story overrides later if needed) - not an automated classifier.
-Set it thoughtfully; every story from a source flagged `yes` shows up in the
-site's "Relevant to our work" filter.
+Both used to be a person's one-time judgment call per *source* in this
+sheet - every story from a source got the same category and the same
+humanitarian flag, regardless of what any individual story was actually
+about. Neither is set here anymore. Instead, `categorize()` and
+`is_humanitarian_relevant()` in `scripts/fetch_news.py` (duplicated in
+`scripts/fetch_youtube.py`) check each article/video's own title against
+a keyword list - a story can land in more than one category if it
+genuinely fits, and the humanitarian flag reflects what that specific
+story is about rather than a blanket judgment about its source. Edit
+`CATEGORY_KEYWORDS` / `HUMANITARIAN_KEYWORDS` in those files to tune what
+counts as "on topic" for either - not this sheet.
