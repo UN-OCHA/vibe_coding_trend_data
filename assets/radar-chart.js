@@ -18,9 +18,9 @@
 function renderRadarChart(svgEl, seriesByTool, axisLabels, opts = {}) {
   const { colors = {}, defaultColor = "#9a8f7f", noDataAxes = {} } = opts;
 
-  const width = 380, height = 340;
+  const width = 420, height = 340;
   const cx = width / 2, cy = height / 2 - 6;
-  const outerR = 118;
+  const outerR = 100;
   const numAxes = axisLabels.length;
   const svgNS = "http://www.w3.org/2000/svg";
 
@@ -55,13 +55,22 @@ function renderRadarChart(svgEl, seriesByTool, axisLabels, opts = {}) {
     line.setAttribute("stroke-width", "1");
     svgEl.appendChild(line);
 
-    const [lx, ly] = pointFor(i, 1.2);
+    // Anchor away from center rather than always "middle" - a label
+    // whose point sits to the right/left of center (Community/Interest
+    // in the default 4-axis layout) would otherwise have half its text
+    // extend back over the outermost (rank 1.0) dot on that axis, since
+    // text-anchor="middle" centers the string on the point instead of
+    // pushing it outward. Top/bottom labels stay centered since they
+    // don't have that horizontal collision.
+    const [lx, ly] = pointFor(i, 1.16);
+    const dx = lx - cx;
+    const anchor = dx > 4 ? "start" : dx < -4 ? "end" : "middle";
     const text = document.createElementNS(svgNS, "text");
     text.setAttribute("x", lx);
     text.setAttribute("y", ly + 3);
     text.setAttribute("fill", "#c9beb0");
     text.setAttribute("font-size", "11");
-    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("text-anchor", anchor);
     text.textContent = label;
     svgEl.appendChild(text);
   });
@@ -83,6 +92,13 @@ function renderRadarChart(svgEl, seriesByTool, axisLabels, opts = {}) {
     poly.setAttribute("stroke", color);
     poly.setAttribute("stroke-width", "2");
     poly.setAttribute("stroke-linejoin", "round");
+    // A later-drawn tool's fill (even at 14% opacity) sits on top of an
+    // earlier tool's dots wherever the two shapes overlap, and an SVG
+    // fill captures hover/click by default - so a dot underneath one of
+    // these polygons was literally unreachable by the mouse. Turning off
+    // pointer-events on the fill/stroke lets hover pass through to
+    // whatever dot is actually there, regardless of paint order.
+    poly.setAttribute("pointer-events", "none");
     g.appendChild(poly);
 
     coords.forEach(([px, py], i) => {
