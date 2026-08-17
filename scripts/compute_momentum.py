@@ -54,6 +54,8 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 COUNTS_CSV_PATH = os.path.join(DATA_DIR, "counts_trends.csv")
 INTEREST_CSV_PATH = os.path.join(DATA_DIR, "interest_trends.csv")
 MOMENTUM_JSON_PATH = os.path.join(DATA_DIR, "momentum.json")
+MOMENTUM_HISTORY_JSON_PATH = os.path.join(DATA_DIR, "momentum_history.json")
+STATUS_JSON_PATH = os.path.join(DATA_DIR, "status.json")
 
 # Maps a display name to the metric-name fragments used across both CSVs.
 # Edit this dict (not the CSVs) to add a tool to the leaderboard.
@@ -111,6 +113,41 @@ def latest_value(series, metric):
     return points[-1][1] if points else None
 
 
+def save_history_entry(results):
+    """Appends today's full result set (already ranked) to
+    momentum_history.json, so the leaderboard's bump chart can plot real
+    Score/rank over time instead of standing in with GitHub repo-count
+    history, which is all that used to be available. Idempotent per date,
+    same pattern as the CSVs in fetch_trends.py: replaces today's entry
+    rather than duplicating it if this script runs more than once the
+    same day."""
+    today = datetime.date.today().isoformat()
+    history = []
+    if os.path.exists(MOMENTUM_HISTORY_JSON_PATH):
+        with open(MOMENTUM_HISTORY_JSON_PATH) as f:
+            history = json.load(f)
+    history = [entry for entry in history if entry["date"] != today]
+    history.append({"date": today, "tools": results})
+    history.sort(key=lambda entry: entry["date"])
+    with open(MOMENTUM_HISTORY_JSON_PATH, "w") as f:
+        json.dump(history, f, indent=2)
+
+
+def update_status():
+    """Records today's date as the last time momentum data was
+    recomputed, so the site can show an honest "as of" freshness
+    indicator instead of leaving visitors to guess. Duplicated in
+    fetch_news.py / fetch_youtube.py rather than shared - see this
+    codebase's self-contained-scripts convention (module docstrings)."""
+    status = {}
+    if os.path.exists(STATUS_JSON_PATH):
+        with open(STATUS_JSON_PATH) as f:
+            status = json.load(f)
+    status["trends"] = datetime.date.today().isoformat()
+    with open(STATUS_JSON_PATH, "w") as f:
+        json.dump(status, f, indent=2)
+
+
 def main():
     counts = load_series(COUNTS_CSV_PATH)
     interest = load_series(INTEREST_CSV_PATH)
@@ -160,6 +197,8 @@ def main():
 
     with open(MOMENTUM_JSON_PATH, "w") as f:
         json.dump(results, f, indent=2)
+    save_history_entry(results)
+    update_status()
 
     print(f"Wrote momentum scores for {len(results)} tool(s) to {MOMENTUM_JSON_PATH}.")
     for r in results:

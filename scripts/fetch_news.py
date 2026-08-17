@@ -59,6 +59,7 @@ import requests
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 NEWS_JSON_PATH = os.path.join(DATA_DIR, "news.json")
+STATUS_JSON_PATH = os.path.join(DATA_DIR, "status.json")
 MAX_ITEMS_PER_SOURCE = 5
 MAX_TOTAL_ITEMS_KEPT = 300  # trim the archive so news.json doesn't grow forever
 
@@ -460,6 +461,21 @@ def load_existing_news():
         return json.load(f)
 
 
+def update_status():
+    """Records today's date as the last time this pipeline ran, so the
+    site can show an honest "as of" freshness indicator instead of
+    leaving visitors to guess. Duplicated in fetch_youtube.py /
+    compute_momentum.py rather than shared - see this codebase's
+    self-contained-scripts convention (module docstrings)."""
+    status = {}
+    if os.path.exists(STATUS_JSON_PATH):
+        with open(STATUS_JSON_PATH) as f:
+            status = json.load(f)
+    status["news"] = datetime.date.today().isoformat()
+    with open(STATUS_JSON_PATH, "w") as f:
+        json.dump(status, f, indent=2)
+
+
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
     sources = load_source_config()
@@ -544,6 +560,7 @@ def main():
 
     with open(NEWS_JSON_PATH, "w") as f:
         json.dump(merged, f, indent=2)
+    update_status()
 
     print(f"Wrote {len(merged)} total item(s) to {NEWS_JSON_PATH} ({len(new_items)} new this run).")
 

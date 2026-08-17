@@ -229,6 +229,7 @@ def classify_with_gemini(title, description):
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 YOUTUBE_JSON_PATH = os.path.join(DATA_DIR, "youtube.json")
+STATUS_JSON_PATH = os.path.join(DATA_DIR, "status.json")
 LOOKBACK_DAYS = 7
 MAX_RESULTS_PER_TOPIC = 10
 KEEP_TOP_N = 15
@@ -359,6 +360,22 @@ def get_video_stats(video_ids):
     return {item["id"]: item for item in resp.json().get("items", [])}
 
 
+def update_status():
+    """Records today's date as the last time this pipeline ran, so the
+    site can show an honest "as of" freshness indicator. Duplicated in
+    fetch_news.py / compute_momentum.py rather than shared - see this
+    codebase's self-contained-scripts convention (module docstrings).
+    Not called at all if YOUTUBE_API_KEY is unset (see main()), so the
+    site doesn't claim video freshness that didn't actually happen."""
+    status = {}
+    if os.path.exists(STATUS_JSON_PATH):
+        with open(STATUS_JSON_PATH) as f:
+            status = json.load(f)
+    status["youtube"] = datetime.date.today().isoformat()
+    with open(STATUS_JSON_PATH, "w") as f:
+        json.dump(status, f, indent=2)
+
+
 def main():
     if not YOUTUBE_API_KEY:
         print("WARNING: YOUTUBE_API_KEY not set, skipping YouTube fetch.")
@@ -430,6 +447,7 @@ def main():
 
     with open(YOUTUBE_JSON_PATH, "w") as f:
         json.dump(top, f, indent=2)
+    update_status()
 
     print(f"Wrote {len(top)} video(s) to {YOUTUBE_JSON_PATH}, ranked by views/day since published.")
 

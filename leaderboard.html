@@ -23,20 +23,19 @@
     <p class="section-subtitle" style="text-align:left;">
       A weekly momentum score for 4 named tools this site tracks — Claude Code, Codex, Cursor, and GitHub Copilot. Each one's score blends 40% GitHub repo-count growth, 30% Hacker News comment growth, and 30% Google Trends search interest into a single number, recalculated every Monday.
     </p>
+    <p class="freshness-note" id="freshness-note"></p>
   </header>
 
   <div class="chart-card">
-    <div class="chart-label">GitHub repo-count rank, by week</div>
+    <div class="chart-label">Momentum rank, by week</div>
     <svg id="bump-chart" style="width:100%; height:200px; display:block;"></svg>
     <div class="scrubber">
       <input type="range" id="week-slider" min="0" max="0" value="0" step="1">
       <span class="week-label" id="week-label">—</span>
     </div>
-    <p class="chart-caption">
-      This ranks GitHub repo-count alone, not the full momentum Score in the table below - momentum.json only
-      keeps this week's snapshot, so repo-count history is the closest available stand-in for past weeks' rank.
-      The two can disagree: a tool can lead here (most repos) while trailing on Score (the 3-signal blend), or
-      vice versa.
+    <p class="chart-caption" id="chart-caption">
+      Ranked by the full momentum Score in the table below (the same 3-signal blend, not just GitHub repo-count).
+      Each Monday's run adds one more point to this history.
     </p>
   </div>
 
@@ -64,13 +63,10 @@
 <script src="assets/bump-chart.js"></script>
 <script>
 async function init() {
+  // Full leaderboard table - kept in its own try/catch so a problem
+  // loading rank history (below) can't take this out too, and vice versa.
   try {
-    const [countsRows, momentum] = await Promise.all([
-      fetchCsv("data/counts_trends.csv"),
-      fetchJson("data/momentum.json"),
-    ]);
-
-    // Full leaderboard table
+    const momentum = await fetchJson("data/momentum.json");
     const board = document.getElementById("leaderboard-full");
     momentum.forEach((tool) => {
       const row = document.createElement("div");
@@ -83,37 +79,34 @@ async function init() {
       `;
       board.appendChild(row);
     });
+  } catch (e) {
+    console.error("Failed to load momentum data", e);
+    document.getElementById("leaderboard-full").innerHTML += '<div class="empty-state">Leaderboard data unavailable right now.</div>';
+  }
 
-    // Rank-over-time from GitHub repo-count history (proxy for weekly rank,
-    // since momentum.json only stores the current week's snapshot)
-    const counts = seriesByMetric(countsRows);
-    const toolMetrics = {
-      "Claude Code": "repo_count_claude-code",
-      "Codex": "repo_count_codex",
-      "Cursor": "repo_count_cursor-ide",
-      "GitHub Copilot": "repo_count_github-copilot",
-    };
+  // Rank-over-time bump chart, from real weekly momentum history (each
+  // week's full, already-ranked Score - see compute_momentum.py's
+  // save_history_entry()). Used to be reconstructed from GitHub repo-count
+  // growth alone, as a stand-in for the full 3-signal Score; this reads
+  // the real thing now that it's recorded week over week.
+  try {
+    const history = await fetchJson("data/momentum_history.json");
+    if (!history.length) throw new Error("momentum_history.json is empty");
 
-    const weekLabels = counts[toolMetrics["Claude Code"]].map((p) => {
-      const d = new Date(p.date);
+    const weekLabels = history.map((entry) => {
+      const d = new Date(entry.date);
       return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
     });
-
-    // Build rank-per-week: for each week index, rank tools by that week's value
     const numWeeks = weekLabels.length;
-    const toolNames = Object.keys(toolMetrics);
-    const valuesByWeek = toolNames.map((name) => counts[toolMetrics[name]].map((p) => p.value));
 
+    const toolNames = [...new Set(history.flatMap((entry) => entry.tools.map((t) => t.name)))];
     const ranksByTool = {};
     toolNames.forEach((name) => { ranksByTool[name] = []; });
-
-    for (let w = 0; w < numWeeks; w++) {
-      const weekValues = toolNames.map((name, i) => ({ name, value: valuesByWeek[i][w] }));
-      weekValues.sort((a, b) => b.value - a.value);
-      weekValues.forEach((entry, rankIdx) => {
-        ranksByTool[entry.name].push(rankIdx + 1);
-      });
-    }
+    history.forEach((entry) => {
+      const rankByName = {};
+      entry.tools.forEach((t) => { rankByName[t.name] = t.rank; });
+      toolNames.forEach((name) => { ranksByTool[name].push(rankByName[name]); });
+    });
 
     const slider = document.getElementById("week-slider");
     const weekLabel = document.getElementById("week-label");
@@ -132,9 +125,26 @@ async function init() {
       weekLabel.textContent = weekLabels[idx];
       draw(idx);
     });
+
+    if (numWeeks === 1) {
+      document.getElementById("chart-caption").textContent =
+        `This is the first recorded week of real momentum-rank history (${weekLabels[0]}) - it'll fill in one point per Monday from here. Rank isn't available for earlier weeks.`;
+    }
   } catch (e) {
-    console.error("Failed to load leaderboard data", e);
-    document.getElementById("leaderboard-full").innerHTML += '<div class="empty-state">Leaderboard data unavailable right now.</div>';
+    console.error("Failed to load momentum history", e);
+    document.getElementById("chart-caption").textContent = "Rank history unavailable right now.";
+  }
+
+  // "As of" freshness indicator
+  try {
+    const status = await fetchJson("data/status.json");
+    if (status.trends) {
+      const d = new Date(status.trends);
+      document.getElementById("freshness-note").textContent =
+        `As of ${d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`;
+    }
+  } catch (e) {
+    console.error("Failed to load status", e);
   }
 }
 

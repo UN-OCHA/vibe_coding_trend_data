@@ -209,6 +209,44 @@ a:hover { text-decoration: underline; }
   margin: 0 0 20px;
 }
 
+.freshness-note {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--paper-text-muted);
+  margin: 4px 0 20px;
+}
+
+/* -------------------- weekly digest -------------------- */
+/* Auto-written by scripts/generate_digest.py (Gemini) - an editorial
+   pull-quote treatment (italic serif, amber rule) to read as a written
+   aside rather than another data card. Hidden by default in the markup;
+   JS only reveals it once data/digest.json actually loads. */
+
+.digest-card {
+  background: var(--cream-card);
+  border-left: 3px solid var(--amber);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin: 0 0 36px;
+}
+
+.digest-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--amber-deep);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.digest-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--paper-text);
+  margin: 0;
+}
+
 /* -------------------- filters -------------------- */
 /* Editorial tab style, not buttons: letter-spaced uppercase labels
    sitting on a shared divider line, with the active tab picked out by

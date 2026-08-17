@@ -15,8 +15,11 @@ Google Sheet (non-technical source/topic config)
 GitHub Actions (daily, 05:00 UTC)              GitHub Actions (weekly, Mon 06:00 UTC)
   -> scripts/fetch_news.py                       -> scripts/fetch_trends.py
   -> scripts/fetch_youtube.py                     -> scripts/compute_momentum.py
-  -> writes data/news.json, data/youtube.json     -> writes data/*.csv, data/momentum.json
-  -> commits + pushes                             -> commits + pushes
+  -> writes data/news.json, data/youtube.json     -> scripts/generate_digest.py (optional)
+  -> writes/updates data/status.json              -> writes data/*.csv, data/momentum.json,
+  -> commits + pushes                                data/momentum_history.json, data/status.json,
+                                                       data/digest.json (optional)
+                                                     -> commits + pushes
                     |                                       |
                     +-------------------+-------------------+
                                         v
@@ -32,7 +35,7 @@ GitHub Actions (daily, 05:00 UTC)              GitHub Actions (weekly, Mon 06:00
 - `index.html`, `leaderboard.html` — the site
 - `assets/` — shared CSS/JS (`style.css`, `app.js`, `bump-chart.js`)
 - `data/` — the CSVs/JSON both workflows write to, and what the site reads
-- `scripts/` — the four Python scripts (trends, news, YouTube, momentum)
+- `scripts/` — the five Python scripts (trends, news, YouTube, momentum, digest)
 - `.github/workflows/` — the two scheduled workflows
 - `docs/GOOGLE_SHEET_SCHEMA.md` — the exact columns the Sheet needs
 
@@ -53,7 +56,7 @@ Set these under Settings → Secrets and variables → Actions:
 | `TRENDS_MCP_API_KEY` | weekly workflow | see the Google Trends caveat below |
 | `SHEET_CSV_URL` | daily workflow | the published-CSV URL of the sources Sheet |
 | `YOUTUBE_API_KEY` | daily workflow | YouTube Data API v3 key, free tier |
-| `GEMINI_API_KEY` | daily workflow | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py`. Both scripts run keyword-only (current behavior) if this is unset. Each script caps itself at 30 Gemini calls per run to stay well inside free-tier limits - see `MAX_GEMINI_CALLS_PER_RUN` in either script |
+| `GEMINI_API_KEY` | daily + weekly workflows | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py` (both run keyword-only if unset, capped at 30 calls/run each - see `MAX_GEMINI_CALLS_PER_RUN`), and powers the weekly auto-written digest in `generate_digest.py` (one call/week; skipped entirely, leaving any prior digest in place, if unset) |
 
 ## What each data source measures
 
@@ -103,15 +106,16 @@ private while setting the *published site* to public visibility.
 
 ## Known first-pass limitations
 
-- `momentum.json` stores only the current week's snapshot — the
-  leaderboard's rank-over-time chart is derived from the GitHub repo-count
-  history as a proxy, not from historical momentum scores directly, since
-  those aren't stored week over week yet. Worth adding a
-  `momentum_history.json` if you want the bump chart to reflect the full
-  blended score over time rather than just GitHub growth rank.
-- The humanitarian-relevance flag is set per *source* in the Sheet, so
-  every story from a flagged source inherits it. Per-story overrides would
-  need an additional column and a small script change.
+- `data/momentum_history.json` only goes back as far as the first run
+  after it was added (see `save_history_entry()` in
+  `compute_momentum.py`) — the leaderboard's bump chart has no rank data
+  for any week before that and says so in its caption rather than
+  guessing.
+- The humanitarian-relevance flag is derived per *article/video* from its
+  own title (`is_humanitarian_relevant()` in `fetch_news.py` /
+  `fetch_youtube.py`), not set once per source — see
+  `docs/GOOGLE_SHEET_SCHEMA.md` for the reasoning. Tune the keyword list
+  in those scripts, not the Sheet.
 - `data/news.json` ships with a handful of placeholder rows so the site
   isn't empty on first load — delete them once the daily workflow has run
   for real.

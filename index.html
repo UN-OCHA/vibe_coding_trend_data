@@ -20,6 +20,7 @@
   <header class="masthead">
     <div class="wordmark">VIBECODE</div>
     <div class="tagline">Weekly dispatch on AI-assisted coding</div>
+    <p class="freshness-note" id="freshness-note"></p>
   </header>
 
   <section class="hero" id="hero">
@@ -62,6 +63,11 @@
       </div>
     </div>
   </section>
+
+  <div class="digest-card" id="digest-card" hidden>
+    <div class="digest-label">This week in vibe coding</div>
+    <p class="digest-text" id="digest-text"></p>
+  </div>
 
   <section>
     <div class="section-label">News</div>
@@ -121,10 +127,11 @@ const TRANSPARENT_GIF = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAA
 async function init() {
   // ---- stat band + hero, from the trends CSVs + momentum.json ----
   try {
-    const [countsRows, interestRows, momentum] = await Promise.all([
+    const [countsRows, interestRows, momentum, history] = await Promise.all([
       fetchCsv("data/counts_trends.csv"),
       fetchCsv("data/interest_trends.csv"),
       fetchJson("data/momentum.json"),
+      fetchJson("data/momentum_history.json").catch(() => []),  // optional - see below
     ]);
     const counts = seriesByMetric(countsRows);
     const interest = seriesByMetric(interestRows);
@@ -134,43 +141,35 @@ async function init() {
       `${top.name} leads this week's momentum score (${top.score}), with ${top.github_growth_pct >= 0 ? "+" : ""}${top.github_growth_pct}% repo growth.`;
 
     // ---- data-driven headline + background graphic ----
-    // momentum.json only stores the current week's snapshot (see README),
-    // so "did the #1 spot change" is derived the same way the leaderboard's
-    // bump chart derives weekly rank: from the GitHub repo-count history,
-    // used here as a proxy for "who was leading last week."
+    // "Did the #1 momentum spot change since last week" comes from real
+    // recorded history now (data/momentum_history.json, written by
+    // compute_momentum.py's save_history_entry()) rather than a GitHub
+    // repo-count stand-in. History accumulates one entry per Monday, so
+    // there may not be a previous week yet - isMomentumOvertake is simply
+    // false until there is one, falling through to the next headline rule.
+    const previousWeek = history.length > 1 ? history[history.length - 2] : null;
+    const previousTop = previousWeek
+      ? [...previousWeek.tools].sort((a, b) => a.rank - b.rank)[0].name
+      : null;
+    const isMomentumOvertake = previousTop && previousTop !== top.name;
+
     const TOOL_GITHUB_METRIC = {
       "Claude Code": "repo_count_claude-code",
       "Codex": "repo_count_codex",
       "Cursor": "repo_count_cursor-ide",
       "GitHub Copilot": "repo_count_github-copilot",
     };
-    function topToolAtWeek(weekIdx) {
-      let best = null;
-      for (const [name, metric] of Object.entries(TOOL_GITHUB_METRIC)) {
-        const pts = counts[metric];
-        if (!pts || !pts[weekIdx]) continue;
-        if (!best || pts[weekIdx].value > best.value) best = { name, value: pts[weekIdx].value };
-      }
-      return best ? best.name : null;
-    }
     const topPoints = counts[TOOL_GITHUB_METRIC[top.name]] || [];
     const numWeeks = topPoints.length;
-    // "Overtake" only makes sense if top.name (this week's MOMENTUM leader)
-    // is *also* this week's GitHub repo-count leader and that wasn't true
-    // last week - otherwise this would compare two different rankings (e.g.
-    // claiming a repo-count overtake for a tool that leads on momentum
-    // score alone, while a bigger tool still leads on raw repo count).
-    const currentTopByRepo = numWeeks > 0 ? topToolAtWeek(numWeeks - 1) : null;
-    const previousTop = numWeeks > 1 ? topToolAtWeek(numWeeks - 2) : null;
-    const isRepoOvertake = currentTopByRepo === top.name && previousTop && previousTop !== currentTopByRepo;
 
-    // Priority order: a rank overtake is the most newsworthy thing that can
-    // happen week to week, then a repo-count milestone, then a plain growth
-    // spike, then a generic fallback if nothing notable happened.
+    // Priority order: a momentum-rank overtake is the most newsworthy thing
+    // that can happen week to week, then a repo-count milestone, then a
+    // plain growth spike, then a generic fallback if nothing notable
+    // happened.
     const MILESTONES = [500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000];
     let headline;
-    if (isRepoOvertake) {
-      headline = `${top.name} overtakes ${previousTop} for the top GitHub spot.`;
+    if (isMomentumOvertake) {
+      headline = `${top.name} overtakes ${previousTop} for the top momentum spot.`;
     } else if (numWeeks > 1 && MILESTONES.some((m) => topPoints[numWeeks - 2].value < m && topPoints[numWeeks - 1].value >= m)) {
       const crossed = MILESTONES.find((m) => topPoints[numWeeks - 2].value < m && topPoints[numWeeks - 1].value >= m);
       headline = `${top.name} crosses ${crossed.toLocaleString()} repos on GitHub.`;
@@ -283,6 +282,34 @@ async function init() {
   } catch (e) {
     console.error("Failed to load videos", e);
     document.getElementById("video-grid").innerHTML = '<div class="empty-state">No videos yet. The daily pipeline runs once the Google Sheet has active YouTube topics.</div>';
+  }
+
+  // ---- weekly digest, from digest.json (optional - see generate_digest.py) ----
+  // Stays hidden (its default markup state) if the file is missing or a
+  // week hasn't produced one yet - this is Gemini-written and optional,
+  // never required for the page to make sense without it.
+  try {
+    const digest = await fetchJson("data/digest.json");
+    if (digest.summary) {
+      document.getElementById("digest-text").textContent = digest.summary;
+      document.getElementById("digest-card").hidden = false;
+    }
+  } catch (e) {
+    console.error("Failed to load digest (non-essential, staying hidden)", e);
+  }
+
+  // ---- "as of" freshness indicator, from status.json ----
+  try {
+    const status = await fetchJson("data/status.json");
+    const dates = [status.news, status.youtube, status.trends].filter(Boolean);
+    if (dates.length) {
+      const mostRecent = dates.sort().at(-1);
+      const d = new Date(mostRecent);
+      document.getElementById("freshness-note").textContent =
+        `As of ${d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`;
+    }
+  } catch (e) {
+    console.error("Failed to load status", e);
   }
 }
 

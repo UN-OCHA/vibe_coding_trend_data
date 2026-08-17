@@ -43,5 +43,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/news.json
           [ -f data/youtube.json ] && git add data/youtube.json
+          [ -f data/status.json ] && git add data/status.json
           git diff --quiet --cached || git commit -m "Daily news update: $(date -u +'%Y-%m-%d')"
           git push

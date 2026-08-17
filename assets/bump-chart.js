@@ -60,7 +60,9 @@ function renderBumpChart(svgEl, seriesByWeek, weekLabels, upToWeek) {
   svgEl.setAttribute("viewBox", `0 0 ${width} ${height}`);
   svgEl.innerHTML = "";
 
-  const x = (i) => marginLeft + (i / (numWeeks - 1)) * plotWidth;
+  // numWeeks can be 1 early on (history just started accumulating) - guard
+  // the division so a single point centers instead of computing i/0.
+  const x = (i) => numWeeks > 1 ? marginLeft + (i / (numWeeks - 1)) * plotWidth : marginLeft + plotWidth / 2;
   const y = (rank) => marginTop + ((rank - 1) / Math.max(numTools - 1, 1)) * (height - marginTop - marginBottom);
 
   const visibleWeeks = Math.min(upToWeek + 1, numWeeks);
