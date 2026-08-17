@@ -37,6 +37,11 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/fetch_youtube.py
 
+      - name: Generate weekly digest (runs daily, self-throttled to ~once/week)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/generate_digest.py
+
       - name: Commit and push updated data
         run: |
           git config user.name "github-actions[bot]"
@@ -44,5 +49,6 @@ jobs:
           git add data/news.json
           [ -f data/youtube.json ] && git add data/youtube.json
           [ -f data/status.json ] && git add data/status.json
+          [ -f data/digest.json ] && git add data/digest.json
           git diff --quiet --cached || git commit -m "Daily news update: $(date -u +'%Y-%m-%d')"
           git push

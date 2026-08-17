@@ -15,11 +15,11 @@ Google Sheet (non-technical source/topic config)
 GitHub Actions (daily, 05:00 UTC)              GitHub Actions (weekly, Mon 06:00 UTC)
   -> scripts/fetch_news.py                       -> scripts/fetch_trends.py
   -> scripts/fetch_youtube.py                     -> scripts/compute_momentum.py
-  -> writes data/news.json, data/youtube.json     -> scripts/generate_digest.py (optional)
-  -> writes/updates data/status.json              -> writes data/*.csv, data/momentum.json,
-  -> commits + pushes                                data/momentum_history.json, data/status.json,
-                                                       data/digest.json (optional)
-                                                     -> commits + pushes
+  -> scripts/generate_digest.py (optional)        -> writes data/*.csv, data/momentum.json,
+  -> writes data/news.json, data/youtube.json        data/momentum_history.json, data/status.json
+  -> writes/updates data/status.json,             -> commits + pushes
+     data/digest.json (optional)
+  -> commits + pushes
                     |                                       |
                     +-------------------+-------------------+
                                         v
@@ -56,7 +56,7 @@ Set these under Settings → Secrets and variables → Actions:
 | `TRENDS_MCP_API_KEY` | weekly workflow | see the Google Trends caveat below |
 | `SHEET_CSV_URL` | daily workflow | the published-CSV URL of the sources Sheet |
 | `YOUTUBE_API_KEY` | daily workflow | YouTube Data API v3 key, free tier |
-| `GEMINI_API_KEY` | daily + weekly workflows | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py` (both run keyword-only if unset, capped at 30 calls/run each - see `MAX_GEMINI_CALLS_PER_RUN`), and powers the weekly auto-written digest in `generate_digest.py` (one call/week; skipped entirely, leaving any prior digest in place, if unset) |
+| `GEMINI_API_KEY` | daily workflow | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py` (both run keyword-only if unset, capped at 30 calls/run each - see `MAX_GEMINI_CALLS_PER_RUN`), and powers the auto-written digest in `generate_digest.py`. That script runs daily but self-limits to writing a new digest roughly once a week (`MIN_DAYS_BETWEEN_DIGESTS`); skipped entirely, leaving any prior digest in place, if unset |
 
 ## What each data source measures
 

@@ -3,6 +3,18 @@ Weekly auto-written digest - a short editorial summary of the week's
 dominant story and any notable momentum leaderboard shift, written by
 Gemini and read directly by index.html.
 
+Despite being "weekly," this is meant to run daily, alongside the news
+pipeline (fetch_news.py / fetch_youtube.py) - it only needs whatever's
+already on disk (data/news.json, data/momentum_history.json), not a fresh
+trends/momentum run, so it doesn't belong gated behind that workflow.
+What keeps it "weekly" instead of regenerating (and re-billing a Gemini
+call) every single day is self-imposed: main() checks the existing
+digest's own "date" field and skips regenerating if it's less than
+MIN_DAYS_BETWEEN_DIGESTS old. Running this daily just means a new digest
+is *possible* every day; in practice it only actually writes one roughly
+once a week, and there's no dependency on which workflow last touched
+momentum data.
+
 This is entirely optional and additive. If GEMINI_API_KEY isn't set, or
 the call fails, comes back empty, or comes back malformed, this script
 leaves any existing data/digest.json untouched rather than overwriting it
@@ -10,14 +22,6 @@ with something worse or deleting it - a stale-but-real digest is still
 useful, and its own "date" field already makes that staleness visible on
 the site (see the freshness indicator work in fetch_news.py /
 compute_momentum.py).
-
-Uses a single Gemini call per run - this runs weekly, so even worst-case
-that's a handful of calls a month, well inside a free-tier quota.
-
-Run this after compute_momentum.py, on the same weekly schedule - it
-reads that script's already-written data/momentum.json and
-data/momentum_history.json for "what changed on the leaderboard", plus
-data/news.json (written daily) for the week's top stories.
 
 Configuration:
   GEMINI_API_KEY - env var. Required; without it this script is a no-op.
@@ -41,6 +45,7 @@ GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMI
 LOOKBACK_DAYS = 7
 MAX_STORIES_IN_PROMPT = 10
 MAX_SUMMARY_LEN = 500  # sanity bound in case Gemini ignores the length ask
+MIN_DAYS_BETWEEN_DIGESTS = 6  # keeps a script invoked daily behaving weekly
 
 
 def load_json(path, default):
@@ -56,6 +61,20 @@ def recent_story_titles():
     recent = [s for s in stories if s.get("date", "") >= cutoff]
     recent.sort(key=lambda s: s.get("date", ""), reverse=True)
     return [s["title"] for s in recent[:MAX_STORIES_IN_PROMPT] if s.get("title")]
+
+
+def days_since_last_digest():
+    """Age in days of the existing digest, or None if there isn't one yet
+    (or its date field is unreadable) - both treated as "go ahead and
+    write one" by the caller."""
+    existing = load_json(DIGEST_JSON_PATH, None)
+    if not existing or not existing.get("date"):
+        return None
+    try:
+        prev_date = datetime.date.fromisoformat(existing["date"])
+    except ValueError:
+        return None
+    return (datetime.date.today() - prev_date).days
 
 
 def momentum_shift_summary():
@@ -113,6 +132,12 @@ def call_gemini(prompt):
 def main():
     if not GEMINI_API_KEY:
         print("GEMINI_API_KEY not set - skipping digest (leaving any existing data/digest.json as-is).")
+        return
+
+    age_days = days_since_last_digest()
+    if age_days is not None and age_days < MIN_DAYS_BETWEEN_DIGESTS:
+        print(f"Last digest is {age_days} day(s) old (< {MIN_DAYS_BETWEEN_DIGESTS}) - this is meant to "
+              f"refresh about once a week, so skipping today.")
         return
 
     titles = recent_story_titles()
