@@ -46,10 +46,13 @@
   <p class="method-note">
     Score = 40% GitHub repo-count growth (topic-tagged repos, via the GitHub API) + 30% Hacker News comment-count
     growth (via the Algolia HN Search API) + 30% Google Trends search interest, 0–100 (via a third-party Trends
-    proxy - see the README for the reliability caveat on that one). Growth terms are clipped to ±50% before
-    blending, so one noisy week can't dominate the score. A tool without Google Trends coverage (currently
-    Cursor) gets a neutral 0.5 for that third instead of being penalized for a gap in data. This is a first-pass
-    formula — worth revisiting once there's more than a few weeks of history to check it against.
+    proxy - see the README for the reliability caveat on that one). Growth compares each week's snapshot against
+    whichever earlier snapshot is closest to 7 days prior, not just the previous row, so an off-schedule manual
+    run doesn't get compared against a too-recent point. Growth terms are then clipped to ±50% before blending,
+    so one noisy week can't dominate the score. A tool without Google Trends coverage (currently Cursor - "Cursor"
+    is too generic a search term to track cleanly) uses the average of the other tools' actual Trends values that
+    week for that third, instead of an arbitrary fixed number. This is a first-pass formula — worth revisiting
+    once there's more than a few weeks of history to check it against.
   </p>
 
   <footer class="site-footer">
