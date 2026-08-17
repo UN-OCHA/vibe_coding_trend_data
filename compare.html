@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare tools — Vibecode Weekly</title>
+<meta name="description" content="Claude Code, Codex, Cursor, and GitHub Copilot side by side — pricing, platform support, and live momentum data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="site-nav">
+    <a href="index.html" style="font-weight:600;">Vibecode Weekly</a>
+    <div class="links">
+      <a href="compare.html" class="active">Compare</a>
+      <a href="leaderboard.html">Leaderboard →</a>
+    </div>
+  </nav>
+
+  <header class="masthead" style="padding-top:24px;">
+    <div class="section-label" style="text-align:left;">Head to head</div>
+    <div class="section-title" style="text-align:left; font-size:32px;">Which vibe coding tool should you use?</div>
+    <p class="section-subtitle" style="text-align:left;">
+      Claude Code, Codex, Cursor, and GitHub Copilot, side by side. Pricing and platform facts are maintained
+      by hand; momentum, growth, and mentions are pulled live from the rest of this site — no extra data
+      collection or AI calls for this page.
+    </p>
+    <p class="freshness-note" id="freshness-note"></p>
+  </header>
+
+  <div class="tool-hero-grid" id="tool-hero-grid">
+    <div class="empty-state">Loading…</div>
+  </div>
+
+  <section>
+    <div class="section-label">At a glance</div>
+    <div class="section-title" style="font-size:22px;">How they stack up</div>
+    <div class="chart-card">
+      <div class="radar-wrap">
+        <svg id="radar-chart" style="width:100%; max-width:420px; height:340px; display:block;"></svg>
+        <div class="radar-legend" id="radar-legend"></div>
+      </div>
+      <p class="chart-caption">
+        Momentum = this week's blended leaderboard Score. Community = GitHub repo count. Buzz = Hacker News
+        comments this week. Interest = Google Trends search interest. Each axis plots RANK among these 4 tools
+        (last place closest to center, first place at the outer edge), not raw magnitude — the actual numbers
+        are in the stat cards above. Ranking keeps every tool visible even where the underlying gap is huge,
+        like GitHub repo count. Cursor has no Google Trends coverage - see the dashed marker on the Interest
+        axis rather than a fabricated rank.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Feature by feature</div>
+    <div class="section-title" style="font-size:22px;">Full comparison</div>
+    <p class="compare-scroll-hint">Scroll to see all 4 tools →</p>
+    <div class="compare-table" id="compare-table"></div>
+    <p class="verified-note" id="verified-note"></p>
+  </section>
+
+  <footer class="site-footer">
+    Live stats (momentum, growth, mentions) update daily/weekly alongside the rest of the site. Pricing and
+    feature details are maintained by hand in assets/tool-profiles.js — verify against each vendor before
+    relying on them for a purchase decision.
+  </footer>
+</div>
+
+<script src="assets/app.js"></script>
+<script src="assets/tool-profiles.js"></script>
+<script src="assets/radar-chart.js"></script>
+<script>
+// Purely client-side keyword match over already-fetched news.json - finds
+// which recent stories are about which tool. No new data collection, no
+// Gemini call: this is the same lightweight pattern fetch_news.py's own
+// matches_topic() uses, just run in the browser against data already on
+// the page.
+//
+// "Cursor" and "Codex" are matched as a capitalized whole word, WITHOUT
+// the case-insensitive flag - same reasoning as fetch_news.py's
+// CAPITALIZED_WORD_RE: lowercase "cursor" is ambiguous with an ordinary
+// mouse/text cursor, so only a capitalized match counts. The multi-word
+// phrases don't have that ambiguity, so those stay case-insensitive.
+const TOOL_MATCHERS = {
+  "Claude Code": /claude code/i,
+  "Codex": /\bCodex\b/,
+  "Cursor": /\bCursor\b/,
+  "GitHub Copilot": /github copilot/i,
+};
+const MENTION_LOOKBACK_DAYS = 30;
+
+async function init() {
+  try {
+    const [momentum, news, status] = await Promise.all([
+      fetchJson("data/momentum.json"),
+      fetchJson("data/news.json").catch(() => []),
+      fetchJson("data/status.json").catch(() => ({})),
+    ]);
+
+    const momentumByName = {};
+    momentum.forEach((t) => { momentumByName[t.name] = t; });
+
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - MENTION_LOOKBACK_DAYS);
+    const mentionsByTool = {};
+    Object.keys(TOOL_MATCHERS).forEach((name) => { mentionsByTool[name] = []; });
+    news.forEach((story) => {
+      if (new Date(story.date) < cutoff) return;
+      for (const [name, re] of Object.entries(TOOL_MATCHERS)) {
+        if (re.test(story.title)) mentionsByTool[name].push(story);
+      }
+    });
+
+    renderToolCards(momentumByName, mentionsByTool);
+    renderRadar(momentumByName);
+    renderCompareTable();
+
+    const dates = [status.news, status.youtube, status.trends].filter(Boolean);
+    if (dates.length) {
+      const mostRecent = dates.sort().at(-1);
+      const d = new Date(mostRecent);
+      document.getElementById("freshness-note").textContent =
+        `As of ${d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`;
+    }
+  } catch (e) {
+    console.error("Failed to load comparison data", e);
+    document.getElementById("tool-hero-grid").innerHTML = '<div class="empty-state">Comparison data unavailable right now.</div>';
+  }
+}
+
+function renderToolCards(momentumByName, mentionsByTool) {
+  const grid = document.getElementById("tool-hero-grid");
+  grid.innerHTML = Object.entries(TOOL_PROFILES).map(([name, profile]) => {
+    const m = momentumByName[name] || {};
+    const mentions = mentionsByTool[name] || [];
+    const latest = mentions[0];
+    const hasGrowth = m.github_growth_pct !== undefined && m.github_growth_pct !== null;
+    return `
+      <div class="tool-card" style="--tool-color:${profile.color}">
+        <div class="tool-card-head">
+          <div class="tool-name">${name}</div>
+          ${m.rank ? `<div class="tool-rank-badge">#${m.rank} momentum</div>` : ""}
+        </div>
+        <p class="tool-tagline">${profile.tagline}</p>
+        <div class="tool-stats-row">
+          <div class="tool-stat">
+            <div class="tool-stat-value">${m.score ?? "—"}</div>
+            <div class="tool-stat-label">Score</div>
+          </div>
+          <div class="tool-stat">
+            <div class="tool-stat-value ${hasGrowth ? (m.github_growth_pct >= 0 ? "up" : "down") : ""}">${hasGrowth ? (m.github_growth_pct >= 0 ? "▲" : "▼") + " " + Math.abs(m.github_growth_pct) + "%" : "—"}</div>
+            <div class="tool-stat-label">GitHub, 7d</div>
+          </div>
+          <div class="tool-stat">
+            <div class="tool-stat-value">${mentions.length}</div>
+            <div class="tool-stat-label">Mentions, 30d</div>
+          </div>
+        </div>
+        <p class="tool-best-for"><strong>Best for:</strong> ${profile.bestFor}</p>
+        ${latest ? `<a class="tool-latest" href="${latest.url}" target="_blank" rel="noopener">Latest: ${latest.title}</a>` : ""}
+      </div>
+    `;
+  }).join("");
+}
+
+/** Converts raw values to [0,1] by RANK among this set, not magnitude -
+ *  e.g. with 4 tools, last place -> 0.25, first place -> 1.0. Chosen over
+ *  plain min-max scaling because these tools' raw numbers differ by
+ *  orders of magnitude on some axes (GitHub repo count especially) -
+ *  min-max would let one outlier dominate the shape and squash the other
+ *  three into an indistinguishable cluster near the center. Rank keeps
+ *  every tool visually legible; the actual magnitudes are already shown
+ *  in the stat cards above, so nothing here is hidden, just re-scaled
+ *  for a chart that's meant to be read at a glance. */
+function rankNormalize(values) {
+  const order = values.map((_, i) => i).sort((a, b) => values[a] - values[b]);
+  const scores = new Array(values.length);
+  order.forEach((originalIndex, rank) => { scores[originalIndex] = (rank + 1) / values.length; });
+  return scores;
+}
+
+function renderRadar(momentumByName) {
+  const names = Object.keys(TOOL_PROFILES);
+  const axisLabels = ["Momentum", "Community", "Buzz", "Interest"];
+
+  const momentumRanks = rankNormalize(names.map((n) => momentumByName[n]?.score || 0));
+  const communityRanks = rankNormalize(names.map((n) => Math.log10((momentumByName[n]?.github_repo_count || 1) + 1)));
+  const buzzRanks = rankNormalize(names.map((n) => momentumByName[n]?.hn_comments || 0));
+
+  // Interest is ranked only among tools that actually have Trends
+  // coverage - a tool with no data (currently Cursor) isn't included in
+  // that ranking at all, and gets an explicit "no data" marker instead
+  // of a fabricated rank.
+  const trendsValues = names.map((n) => {
+    const v = momentumByName[n]?.trends_interest;
+    return v !== undefined && v !== null ? v : null;
+  });
+  const trackedIndexes = trendsValues.map((v, i) => (v !== null ? i : null)).filter((i) => i !== null);
+  const trackedRanks = rankNormalize(trackedIndexes.map((i) => trendsValues[i]));
+  const interestRanks = names.map(() => 0);
+  trackedIndexes.forEach((origIndex, j) => { interestRanks[origIndex] = trackedRanks[j]; });
+
+  const seriesByTool = {};
+  const noDataAxes = {};
+  names.forEach((name, i) => {
+    seriesByTool[name] = [momentumRanks[i], communityRanks[i], buzzRanks[i], interestRanks[i]];
+    if (trendsValues[i] === null) noDataAxes[name] = [3];
+  });
+
+  renderRadarChart(document.getElementById("radar-chart"), seriesByTool, axisLabels, {
+    colors: Object.fromEntries(names.map((n) => [n, TOOL_PROFILES[n].color])),
+    noDataAxes,
+  });
+
+  const legend = document.getElementById("radar-legend");
+  legend.innerHTML = names.map((name) => `
+    <button class="radar-legend-item" data-name="${name}" style="--tool-color:${TOOL_PROFILES[name].color}">
+      <span class="radar-legend-dot"></span>${name}
+    </button>
+  `).join("");
+  legend.querySelectorAll(".radar-legend-item").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("radar-legend-off");
+      const g = document.querySelector(`#radar-chart .radar-series[data-name="${CSS.escape(btn.dataset.name)}"]`);
+      if (g) g.classList.toggle("radar-series-hidden");
+    });
+  });
+}
+
+function renderCompareTable() {
+  const names = Object.keys(TOOL_PROFILES);
+  const rows = [
+    ["Pricing", "pricing"],
+    ["Platform", "platform"],
+    ["Autonomy", "autonomy"],
+    ["Standout", "standout"],
+    ["Watch out for", "watchOut"],
+  ];
+  const table = document.getElementById("compare-table");
+  const headerCells = names.map((name) => `<div class="compare-cell compare-head" style="--tool-color:${TOOL_PROFILES[name].color}">${name}</div>`).join("");
+  const bodyRows = rows.map(([label, key]) => `
+    <div class="compare-row">
+      <div class="compare-cell compare-row-label">${label}</div>
+      ${names.map((name) => `<div class="compare-cell">${TOOL_PROFILES[name][key]}</div>`).join("")}
+    </div>
+  `).join("");
+  table.innerHTML = `
+    <div class="compare-row compare-row-head">
+      <div class="compare-cell compare-row-label"></div>
+      ${headerCells}
+    </div>
+    ${bodyRows}
+  `;
+
+  const oldestVerified = names.map((n) => TOOL_PROFILES[n].verified).sort()[0];
+  const d = new Date(oldestVerified);
+  document.getElementById("verified-note").textContent =
+    `Pricing and feature facts last verified ${d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}.`;
+}
+
+init();
+</script>
+</body>
+</html>
