@@ -24,7 +24,7 @@
     <div class="section-label" style="text-align:left;">This week</div>
     <div class="section-title" style="text-align:left; font-size:32px;">Momentum leaderboard</div>
     <p class="section-subtitle" style="text-align:left;">
-      A weekly momentum score for 4 named tools this site tracks — Claude Code, Codex, Cursor, and GitHub Copilot. Each one's score blends 40% GitHub repo-count growth, 30% Hacker News comment growth, and 30% Google Trends search interest into a single number, recalculated every Monday.
+      A weekly momentum score for every tool this site tracks. Each one's score blends GitHub repo-count growth, Hacker News comment growth, and Google Trends search interest into a single number, recalculated every Monday — see the methodology note below for tools where one of those isn't tracked.
     </p>
     <p class="freshness-note" id="freshness-note"></p>
   </header>
@@ -53,8 +53,12 @@
     run doesn't get compared against a too-recent point. Growth terms are then clipped to ±50% before blending,
     so one noisy week can't dominate the score. A tool without Google Trends coverage (currently Cursor - "Cursor"
     is too generic a search term to track cleanly) uses the average of the other tools' actual Trends values that
-    week for that third, instead of an arbitrary fixed number. This is a first-pass formula — worth revisiting
-    once there's more than a few weeks of history to check it against.
+    week for that third, instead of an arbitrary fixed number. A tool with no GitHub signal at all (currently
+    Replit Agent, Devin, and Lovable - not tools people build a public GitHub ecosystem of extensions/example
+    repos around the way an IDE or CLI is, so a repo count would be thin or actively misleading rather than just
+    missing) skips that term entirely and reweights to 50% Hacker News + 50% Trends, rather than scoring it on a
+    number nobody actually measured. This is a first-pass formula — worth revisiting once there's more than a
+    few weeks of history to check it against.
   </p>
 
   <footer class="site-footer">
@@ -74,11 +78,18 @@ async function init() {
     momentum.forEach((tool) => {
       const row = document.createElement("div");
       row.className = "row";
+      // tool.github_growth_pct is null for a tool with no GitHub signal
+      // at all (Replit Agent, Devin, Lovable - see compute_momentum.py's
+      // TOOLS dict), not a real 0% - show it as unavailable, not fake growth.
+      const hasGrowth = tool.github_growth_pct !== null && tool.github_growth_pct !== undefined;
+      const delta = hasGrowth
+        ? `<span class="delta ${tool.github_growth_pct >= 0 ? "up" : "down"}">${tool.github_growth_pct >= 0 ? "▲" : "▼"} ${Math.abs(tool.github_growth_pct)}%</span>`
+        : `<span class="delta">—</span>`;
       row.innerHTML = `
         <span class="rank">${tool.rank}</span>
         <span class="name">${tool.name}</span>
         <span class="score">${tool.score}</span>
-        <span class="delta ${tool.github_growth_pct >= 0 ? "up" : "down"}">${tool.github_growth_pct >= 0 ? "▲" : "▼"} ${Math.abs(tool.github_growth_pct)}%</span>
+        ${delta}
       `;
       board.appendChild(row);
     });

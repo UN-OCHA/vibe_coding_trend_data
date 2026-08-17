@@ -88,12 +88,30 @@ growth (30%), Trends interest (30%) — into a single weekly score. The exact
 weighting is a first-pass judgment call; see the note in
 `scripts/compute_momentum.py` and revisit it once there's more history.
 
+Not every tool gets all three signals. Cursor has no Trends coverage
+("Cursor" is too generic a search term to track cleanly) and falls back to
+the average of the other tools' Trends values for that third. Replit Agent,
+Devin, and Lovable have no GitHub signal at all - none of them are tools
+people build a public GitHub ecosystem of extensions/example repos around
+the way an IDE or CLI tool is, so a repo count would be thin (Replit
+Agent/Lovable - usage mostly stays on the vendor's own hosted platform) or
+actively misleading (Devin - "devin" is also just a common first name).
+Rather than fake a number for a signal nobody's actually measuring, those
+tools skip that term and reweight to 50% Hacker News + 50% Trends.
+
 ## Adding a tool to the leaderboard
 
 Edit the `TOOLS` dict at the top of `scripts/compute_momentum.py` — map a
 display name to the matching metric names already being tracked in the two
-CSVs. If the tool isn't tracked yet, add it to the `GITHUB_TOPICS`/
-`HN_TERMS`/`TRENDS_TERMS` lists in `scripts/fetch_trends.py` first.
+CSVs. Set `"github"` or `"trends"` to `None` if that signal genuinely isn't
+trackable for this tool (see "Momentum score" above) - `"hn"` is the one
+every tool is expected to have, since Hacker News needs no topic tag or
+Trends term to configure first. If the tool isn't tracked yet, add it to the
+`GITHUB_TOPICS`/`HN_TERMS`/`TRENDS_TERMS` lists in `scripts/fetch_trends.py`
+first (skip `GITHUB_TOPICS` if you're setting `"github": None`). Also add it
+to `assets/tool-profiles.js` (compare.html's hand-curated facts) and to
+`TOOL_MATCHERS` in `compare.html` if you want it picked up by the "recent
+mentions" count there.
 
 ## Hosting
 

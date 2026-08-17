@@ -14,6 +14,14 @@ numbers drown everything else out):
 score = 40% * normalized(github growth) + 30% * normalized(hn growth)
         + 30% * (trends interest / 100)
 
+A tool whose TOOLS entry has "github": None (currently Replit Agent, Devin,
+Lovable - see that dict below) skips the GitHub term entirely rather than
+treating a missing metric as 0% growth, which would be a fabricated number,
+not an honest one. For those tools the score is 50% normalized(hn growth) +
+50% (trends interest / 100) instead - the freed-up 40% split evenly across
+the two signals that still have real data, same relative proportion they
+already had (30:30) to each other.
+
 Growth terms are normalized with a simple clip to [-50%, +50%] mapped onto
 [0, 1], so one noisy outlier week can't dominate the score. This is a
 starting formula, not a final one - the weighting is a judgment call and
@@ -41,6 +49,11 @@ Two things worth knowing about the growth comparison:
   that could end up higher (or lower) than every real value being compared
   against it.
 
+A tool can be missing GitHub coverage, Trends coverage, or (like Cursor)
+just Trends - but every tracked tool needs at least a real Hacker News
+signal, since that's the one metric every tool here gets by default (no
+GitHub topic tag or Trends term to configure first).
+
 Run this after fetch_trends.py, on the same weekly schedule.
 """
 
@@ -58,12 +71,26 @@ MOMENTUM_HISTORY_JSON_PATH = os.path.join(DATA_DIR, "momentum_history.json")
 STATUS_JSON_PATH = os.path.join(DATA_DIR, "status.json")
 
 # Maps a display name to the metric-name fragments used across both CSVs.
-# Edit this dict (not the CSVs) to add a tool to the leaderboard.
+# Edit this dict (not the CSVs) to add a tool to the leaderboard. "github"
+# and "trends" may both be None if that signal genuinely isn't trackable for
+# a tool (see the module docstring) - "hn" is the one metric every tool here
+# is expected to have.
 TOOLS = {
     "Claude Code": {"github": "repo_count_claude-code", "hn": "claude_code", "trends": "interest_claude_code"},
     "Codex": {"github": "repo_count_codex", "hn": "chatgpt_codex", "trends": "interest_chatgpt_codex"},
     "Cursor": {"github": "repo_count_cursor-ide", "hn": "cursor_ai", "trends": None},
     "GitHub Copilot": {"github": "repo_count_github-copilot", "hn": "github_copilot", "trends": "interest_github_copilot"},
+    "Windsurf": {"github": "repo_count_windsurf-ide", "hn": "windsurf_editor", "trends": "interest_windsurf_editor"},
+    # No "github" for these three - they're not tools people build a public
+    # GitHub ecosystem of extensions/example repos around the way an IDE or
+    # CLI tool is, so a repo count would be thin at best (Replit Agent,
+    # Lovable - mostly used through the vendor's own hosted platform) or
+    # actively misleading at worst (Devin - "devin" is also just a common
+    # first name, so a repo-count signal built on that word would mostly
+    # measure unrelated repos belonging to people named Devin).
+    "Replit Agent": {"github": None, "hn": "replit_agent", "trends": "interest_replit_agent"},
+    "Devin": {"github": None, "hn": "devin_ai", "trends": "interest_devin_ai"},
+    "Lovable": {"github": None, "hn": "lovable_ai", "trends": "interest_lovable_ai"},
 }
 
 
@@ -169,23 +196,34 @@ def main():
 
     results = []
     for name, metrics in TOOLS.items():
-        github_growth = pct_growth(counts, metrics["github"])
+        has_github = metrics["github"] is not None
+        github_growth = pct_growth(counts, metrics["github"]) if has_github else None
         hn_growth = pct_growth(counts, f"weekly_comments_{metrics['hn']}")
         trends_value = latest_value(interest, metrics["trends"]) if metrics["trends"] else None
 
         trends_component = (trends_value / 100) if trends_value is not None else fallback_trends_component
 
-        score = (
-            0.4 * normalize_growth(github_growth)
-            + 0.3 * normalize_growth(hn_growth)
-            + 0.3 * trends_component
-        ) * 100
+        if has_github:
+            score = (
+                0.4 * normalize_growth(github_growth)
+                + 0.3 * normalize_growth(hn_growth)
+                + 0.3 * trends_component
+            ) * 100
+        else:
+            # No GitHub signal for this tool at all (see TOOLS dict) - skip
+            # that term rather than treating a missing metric as 0% growth,
+            # which would be fabricated, not measured. Reweight HN/Trends
+            # to fill the full 100% instead.
+            score = (
+                0.5 * normalize_growth(hn_growth)
+                + 0.5 * trends_component
+            ) * 100
 
         results.append({
             "name": name,
             "score": round(score, 1),
-            "github_repo_count": latest_value(counts, metrics["github"]),
-            "github_growth_pct": round(github_growth * 100, 1),
+            "github_repo_count": latest_value(counts, metrics["github"]) if has_github else None,
+            "github_growth_pct": round(github_growth * 100, 1) if has_github else None,
             "hn_comments": latest_value(counts, f"weekly_comments_{metrics['hn']}"),
             "hn_growth_pct": round(hn_growth * 100, 1),
             "trends_interest": trends_value,

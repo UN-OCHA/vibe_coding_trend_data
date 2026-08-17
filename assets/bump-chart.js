@@ -7,11 +7,17 @@
             weekLabels    = ["Jul 13", "Jul 20", ...]
 --------------------------------------------------------------------- */
 
+// Matches assets/tool-profiles.js's colors, so a tool means the same
+// color everywhere on the site.
 const BUMP_COLORS = {
   "Claude Code": "#e8a86a",
   "Codex": "#85c99e",
   "Cursor": "#8ab8d6",
   "GitHub Copilot": "#9a8f7f",
+  "Windsurf": "#6fb8a8",
+  "Replit Agent": "#d97a6c",
+  "Devin": "#a893c9",
+  "Lovable": "#e0a5c4",
 };
 
 /** Same Catmull-Rom -> cubic Bezier smoothing as assets/trend-chart.js,

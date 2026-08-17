@@ -123,10 +123,10 @@ TOPIC_KEYWORDS = [
     "ai coding", "ai-assisted coding", "ai pair programming",
     "coding agent", "agentic coding", "coding assistant",
     "ai code generation", "ai-generated code", "ai developer tool",
-    "github copilot", "claude code", "windsurf",
+    "github copilot", "claude code",
     "replit agent", "devin ai", "llm coding",
 ]
-CAPITALIZED_WORD_KEYWORDS = ["Cursor", "Codex"]
+CAPITALIZED_WORD_KEYWORDS = ["Cursor", "Codex", "Windsurf", "Lovable"]
 CAPITALIZED_WORD_RE = re.compile(r"\b(" + "|".join(CAPITALIZED_WORD_KEYWORDS) + r")\b")
 
 

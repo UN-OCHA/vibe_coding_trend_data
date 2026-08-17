@@ -79,7 +79,7 @@ TOPIC_KEYWORDS = [
     "ai coding", "ai-assisted coding", "ai pair programming",
     "coding agent", "agentic coding", "coding assistant",
     "ai code generation", "ai-generated code", "ai developer tool",
-    "github copilot", "claude code", "windsurf",
+    "github copilot", "claude code",
     "replit agent", "devin ai", "llm coding",
 ]
 
@@ -88,8 +88,12 @@ TOPIC_KEYWORDS = [
 # checked instead as a capitalized whole word against the ORIGINAL title,
 # since real headlines about the tools always capitalize them as a proper
 # noun ("Cursor raises $2B...") while generic uses don't ("the cursor
-# blinks").
-CAPITALIZED_WORD_KEYWORDS = ["Cursor", "Codex"]
+# blinks"). Same problem, same fix, for "Windsurf" (the sport) and
+# "Lovable" (just an ordinary adjective) - both used to be looser
+# substring entries in TOPIC_KEYWORDS above, which would have quietly let
+# through any windsurfing-hobby story or any review calling something
+# generically "lovable".
+CAPITALIZED_WORD_KEYWORDS = ["Cursor", "Codex", "Windsurf", "Lovable"]
 CAPITALIZED_WORD_RE = re.compile(r"\b(" + "|".join(CAPITALIZED_WORD_KEYWORDS) + r")\b")
 
 

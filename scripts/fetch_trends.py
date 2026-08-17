@@ -37,9 +37,30 @@ import requests
 # CONFIG - edit these to change what gets tracked
 # ---------------------------------------------------------------------------
 
-GITHUB_TOPICS = ["vibe-coding", "github-copilot", "claude-code", "codex", "cursor-ide"]
-HN_TERMS = ["vibe coding", "github copilot", "claude code", "chatgpt codex", "cursor ai"]
-TRENDS_TERMS = ["vibe coding", "github copilot", "claude code", "chatgpt codex"]  # kept short - Trends MCP free tier caps at 20 requests/day, 100/month
+# "windsurf-ide" (not bare "windsurf") for the same reason "cursor-ide" isn't
+# bare "cursor" - the word alone collides with an unrelated real thing (here,
+# the windsurfing sport) badly enough that a GitHub topic tag built on it
+# would be noisy. Same reasoning behind "devin ai" and "lovable ai" below
+# rather than bare "devin"/"lovable" - both are also ordinary words/names.
+# Replit Agent, Devin, and Lovable have no GITHUB_TOPICS entry at all: unlike
+# the other five, they're not tools people build a public GitHub ecosystem of
+# extensions/configs/example repos around (Replit/Lovable projects mostly
+# live on those platforms' own hosting, not pushed to GitHub with a
+# meaningful topic tag), so a repo count for them would be thin at best and
+# actively misleading at worst - see compute_momentum.py's TOOLS dict, which
+# skips the GitHub signal for these three rather than faking one.
+GITHUB_TOPICS = ["vibe-coding", "github-copilot", "claude-code", "codex", "cursor-ide", "windsurf-ide"]
+HN_TERMS = [
+    "vibe coding", "github copilot", "claude code", "chatgpt codex", "cursor ai",
+    "windsurf editor", "replit agent", "devin ai", "lovable ai",
+]
+# 8 terms now (was 4) - still comfortably inside the Trends MCP free tier's
+# 100/month cap on the normal weekly schedule (8/week * ~4.3 weeks =~ 34/month),
+# but leaves less slack for extra manual runs than before - see the README.
+TRENDS_TERMS = [
+    "vibe coding", "github copilot", "claude code", "chatgpt codex",
+    "windsurf editor", "replit agent", "devin ai", "lovable ai",
+]  # Cursor deliberately excluded - "cursor" alone is too generic to track cleanly even qualified
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 COUNTS_CSV_PATH = os.path.join(DATA_DIR, "counts_trends.csv")

@@ -731,13 +731,18 @@ a:hover { text-decoration: underline; }
   flex-direction: column;
   border: 1px solid var(--border-soft);
   border-radius: 4px;
-  overflow: hidden;
   margin-bottom: 12px;
+  /* Always scrollable, not just below a breakpoint - the tool count is
+     dynamic (set via --compare-cols in JS) and can exceed what fits
+     comfortably even on a wide desktop viewport once past ~5 tools. */
+  overflow-x: auto;
 }
 
 .compare-row {
   display: grid;
-  grid-template-columns: 130px repeat(4, 1fr);
+  grid-template-columns: 130px repeat(var(--compare-cols, 4), minmax(170px, 1fr));
+  width: max-content;
+  min-width: 100%;
 }
 
 .compare-row:not(:last-child) { border-bottom: 1px solid var(--border-soft); }
@@ -779,7 +784,6 @@ a:hover { text-decoration: underline; }
 }
 
 .compare-scroll-hint {
-  display: none;
   font-size: 11px;
   color: var(--paper-text-muted);
   margin: 0 0 8px;
@@ -793,7 +797,5 @@ a:hover { text-decoration: underline; }
   .leaderboard .row { grid-template-columns: 24px 1fr 70px; }
   .leaderboard .delta { display: none; }
   .story-grid, .video-grid { column-count: 1; }
-  .compare-row { grid-template-columns: 90px repeat(4, minmax(120px, 1fr)); }
-  .compare-table { overflow-x: auto; }
-  .compare-scroll-hint { display: block; }
+  .compare-row { grid-template-columns: 90px repeat(var(--compare-cols, 4), minmax(140px, 1fr)); }
 }

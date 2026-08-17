@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Compare tools — Vibecode Weekly</title>
-<meta name="description" content="Claude Code, Codex, Cursor, and GitHub Copilot side by side — pricing, platform support, and live momentum data.">
+<meta name="description" content="Every vibe coding tool this site tracks, side by side — pricing, platform support, and live momentum data.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -24,9 +24,9 @@
     <div class="section-label" style="text-align:left;">Head to head</div>
     <div class="section-title" style="text-align:left; font-size:32px;">Which vibe coding tool should you use?</div>
     <p class="section-subtitle" style="text-align:left;">
-      Claude Code, Codex, Cursor, and GitHub Copilot, side by side. Pricing and platform facts are maintained
-      by hand; momentum, growth, and mentions are pulled live from the rest of this site — no extra data
-      collection or AI calls for this page.
+      Every tool this site tracks, side by side. Pricing and platform facts are maintained by hand; momentum,
+      growth, and mentions are pulled live from the rest of this site — no extra data collection or AI calls
+      for this page.
     </p>
     <p class="freshness-note" id="freshness-note"></p>
   </header>
@@ -43,21 +43,14 @@
         <svg id="radar-chart" style="width:100%; max-width:420px; height:340px; display:block;"></svg>
         <div class="radar-legend" id="radar-legend"></div>
       </div>
-      <p class="chart-caption">
-        Momentum = this week's blended leaderboard Score. Community = GitHub repo count. Buzz = Hacker News
-        comments this week. Interest = Google Trends search interest. Each axis plots RANK among these 4 tools
-        (last place closest to center, first place at the outer edge), not raw magnitude — the actual numbers
-        are in the stat cards above. Ranking keeps every tool visible even where the underlying gap is huge,
-        like GitHub repo count. Cursor has no Google Trends coverage - see the dashed marker on the Interest
-        axis rather than a fabricated rank.
-      </p>
+      <p class="chart-caption" id="radar-caption"></p>
     </div>
   </section>
 
   <section>
     <div class="section-label">Feature by feature</div>
     <div class="section-title" style="font-size:22px;">Full comparison</div>
-    <p class="compare-scroll-hint">Scroll to see all 4 tools →</p>
+    <p class="compare-scroll-hint" id="compare-scroll-hint"></p>
     <div class="compare-table" id="compare-table"></div>
     <p class="verified-note" id="verified-note"></p>
   </section>
@@ -79,18 +72,25 @@
 // matches_topic() uses, just run in the browser against data already on
 // the page.
 //
-// "Cursor" and "Codex" are matched as a capitalized whole word, WITHOUT
-// the case-insensitive flag - same reasoning as fetch_news.py's
-// CAPITALIZED_WORD_RE: lowercase "cursor" is ambiguous with an ordinary
-// mouse/text cursor, so only a capitalized match counts. The multi-word
-// phrases don't have that ambiguity, so those stay case-insensitive.
+// "Cursor", "Codex", "Windsurf", and "Lovable" are matched as a
+// capitalized whole word, WITHOUT the case-insensitive flag - same
+// reasoning as fetch_news.py's CAPITALIZED_WORD_RE: each is ambiguous
+// with an ordinary word (a mouse/text cursor, a historical codex, the
+// windsurfing sport, an everyday adjective) when matched loosely, so
+// only a capitalized match counts. The multi-word phrases don't have
+// that ambiguity, so those stay case-insensitive.
 const TOOL_MATCHERS = {
   "Claude Code": /claude code/i,
   "Codex": /\bCodex\b/,
   "Cursor": /\bCursor\b/,
   "GitHub Copilot": /github copilot/i,
+  "Windsurf": /\bWindsurf\b/,
+  "Replit Agent": /replit agent/i,
+  "Devin": /\bDevin\b/,
+  "Lovable": /\bLovable\b/,
 };
 const MENTION_LOOKBACK_DAYS = 30;
+const RADAR_TOOL_COUNT = 4; // cap the radar chart to the top N by momentum - see renderRadar()
 
 async function init() {
   try {
@@ -183,31 +183,55 @@ function rankNormalize(values) {
 }
 
 function renderRadar(momentumByName) {
-  const names = Object.keys(TOOL_PROFILES);
+  // Capped to the top N by momentum score rather than every tracked tool -
+  // overlapping polygons for 8 tools on a 4-axis chart stop being legible
+  // well before that point. The comparison table and tool cards below
+  // still cover every tool; this chart is specifically "how do this
+  // week's leaders stack up," and which tools qualify can change week to
+  // week as momentum shifts.
+  const allNames = Object.keys(TOOL_PROFILES);
+  const names = [...allNames]
+    .sort((a, b) => (momentumByName[b]?.score || 0) - (momentumByName[a]?.score || 0))
+    .slice(0, RADAR_TOOL_COUNT);
   const axisLabels = ["Momentum", "Community", "Buzz", "Interest"];
 
   const momentumRanks = rankNormalize(names.map((n) => momentumByName[n]?.score || 0));
-  const communityRanks = rankNormalize(names.map((n) => Math.log10((momentumByName[n]?.github_repo_count || 1) + 1)));
   const buzzRanks = rankNormalize(names.map((n) => momentumByName[n]?.hn_comments || 0));
 
-  // Interest is ranked only among tools that actually have Trends
-  // coverage - a tool with no data (currently Cursor) isn't included in
-  // that ranking at all, and gets an explicit "no data" marker instead
-  // of a fabricated rank.
+  // Community and Interest are each ranked only among tools that actually
+  // HAVE that signal - github_repo_count/trends_interest is null (not 0)
+  // for a tool this site deliberately doesn't track that way (see
+  // compute_momentum.py's TOOLS dict), and folding a missing value into
+  // the ranking as if it were a real low number would fabricate a rank
+  // that was never measured. Those tools get an explicit "no data"
+  // marker on that axis instead.
+  function rankWithGaps(values) {
+    const trackedIndexes = values.map((v, i) => (v !== null ? i : null)).filter((i) => i !== null);
+    const trackedRanks = rankNormalize(trackedIndexes.map((i) => values[i]));
+    const ranks = values.map(() => 0);
+    trackedIndexes.forEach((origIndex, j) => { ranks[origIndex] = trackedRanks[j]; });
+    return ranks;
+  }
+
+  const githubValues = names.map((n) => {
+    const v = momentumByName[n]?.github_repo_count;
+    return v !== undefined && v !== null ? Math.log10(v + 1) : null;
+  });
   const trendsValues = names.map((n) => {
     const v = momentumByName[n]?.trends_interest;
     return v !== undefined && v !== null ? v : null;
   });
-  const trackedIndexes = trendsValues.map((v, i) => (v !== null ? i : null)).filter((i) => i !== null);
-  const trackedRanks = rankNormalize(trackedIndexes.map((i) => trendsValues[i]));
-  const interestRanks = names.map(() => 0);
-  trackedIndexes.forEach((origIndex, j) => { interestRanks[origIndex] = trackedRanks[j]; });
+  const communityRanks = rankWithGaps(githubValues);
+  const interestRanks = rankWithGaps(trendsValues);
 
   const seriesByTool = {};
   const noDataAxes = {};
   names.forEach((name, i) => {
     seriesByTool[name] = [momentumRanks[i], communityRanks[i], buzzRanks[i], interestRanks[i]];
-    if (trendsValues[i] === null) noDataAxes[name] = [3];
+    const gaps = [];
+    if (githubValues[i] === null) gaps.push(1);
+    if (trendsValues[i] === null) gaps.push(3);
+    if (gaps.length) noDataAxes[name] = gaps;
   });
 
   renderRadarChart(document.getElementById("radar-chart"), seriesByTool, axisLabels, {
@@ -228,6 +252,16 @@ function renderRadar(momentumByName) {
       if (g) g.classList.toggle("radar-series-hidden");
     });
   });
+
+  const cappedNote = allNames.length > RADAR_TOOL_COUNT
+    ? ` Showing this week's top ${RADAR_TOOL_COUNT} by momentum (of ${allNames.length} tracked) - full comparison below covers all of them.`
+    : "";
+  document.getElementById("radar-caption").textContent =
+    "Momentum = this week's blended leaderboard Score. Community = GitHub repo count. Buzz = Hacker News " +
+    "comments this week. Interest = Google Trends search interest. Each axis plots RANK among the tools shown " +
+    "(last place closest to center, first place at the outer edge), not raw magnitude — the actual numbers are " +
+    "in the stat cards above. A tool with no Trends coverage or no GitHub tracking (see the comparison table) " +
+    "gets an explicit \"no data\" marker on that axis rather than a fabricated rank." + cappedNote;
 }
 
 function renderCompareTable() {
@@ -240,6 +274,7 @@ function renderCompareTable() {
     ["Watch out for", "watchOut"],
   ];
   const table = document.getElementById("compare-table");
+  table.style.setProperty("--compare-cols", names.length);
   const headerCells = names.map((name) => `<div class="compare-cell compare-head" style="--tool-color:${TOOL_PROFILES[name].color}">${name}</div>`).join("");
   const bodyRows = rows.map(([label, key]) => `
     <div class="compare-row">
@@ -254,6 +289,8 @@ function renderCompareTable() {
     </div>
     ${bodyRows}
   `;
+
+  document.getElementById("compare-scroll-hint").textContent = `Scroll to see all ${names.length} tools →`;
 
   const oldestVerified = names.map((n) => TOOL_PROFILES[n].verified).sort()[0];
   const d = new Date(oldestVerified);
