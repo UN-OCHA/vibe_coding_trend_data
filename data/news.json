@@ -1,5 +1,44 @@
 [
   {
+    "title": "Cursor capitalizes on GitHub frustration, launches rival hosting platform",
+    "url": "https://techcrunch.com/2026/08/18/cursor-capitalizes-on-github-frustration-launches-rival-hosting-platform/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2026/07/cursor.jpg?resize=1200,800",
+    "excerpt": "Cursor, known for its AI Code Editor, is launching a new code-hosting platform to rival developers' long preferred favorite, GitHub.",
+    "date": "2026-08-18",
+    "fetched_at": "2026-08-19"
+  },
+  {
+    "title": "\u201cIf GitHub was stable, these alternatives would not be as interesting\u201d: Cursor launches Origin as GitHub goes dark",
+    "url": "https://thenewstack.io/cursor-origin-github-alternative/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/08/6af2f836-puji-ningsih-iqe3s5nigxc-unsplash-1024x512.jpg",
+    "excerpt": "Cursor has officially thrown its hat into the code-hosting ring with Origin, a Git-compatible platform built for a world where The post \u201cIf GitHub was stable\u2026",
+    "date": "2026-08-18",
+    "fetched_at": "2026-08-19"
+  },
+  {
+    "title": "A Claude Code skill was eating 200,000 tokens before answering a single question",
+    "url": "https://thenewstack.io/claude-code-token-reduction/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/08/c3134c2c-egor-komarov-jrlhwxzoboc-unsplash-1024x556.jpg",
+    "excerpt": "A Claude Code skill designed to help developers work with Anthropic\u2019s API was consuming more than 200,000 tokens to load. The post A Claude Code skill was\u2026",
+    "date": "2026-08-18",
+    "fetched_at": "2026-08-19"
+  },
+  {
     "title": "SpaceX officially closes its Cursor acquisition",
     "url": "https://techcrunch.com/2026/08/15/spacex-officially-closes-its-cursor-acquisition/",
     "source": "TechCrunch AI",
