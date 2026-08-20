@@ -1,5 +1,31 @@
 [
   {
+    "title": "Codex can now keep coding while it waits for your answer",
+    "url": "https://thenewstack.io/codex-async-developer-messaging/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/04/a0f52b0f-puzzle-creative-x0nz565wjq-unsplash-1024x603.jpg",
+    "excerpt": "Long-running coding agents face an awkward choice when they need a developer\u2019s input. They can stop and wait or make The post Codex can now keep coding while\u2026",
+    "date": "2026-08-19",
+    "fetched_at": "2026-08-20"
+  },
+  {
+    "title": "Your coding agent got the onboarding your developers never did",
+    "url": "https://thenewstack.io/coding-agents-developer-neglect/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/08/4485ac86-allison-saeng-4xbqlxk8xl0-unsplash-1024x768.jpg",
+    "excerpt": "Steve Yegge thinks your AI has feelings. His new two-part essay, \u201cThe Shape of Things to Come,\u201d argues that agentic The post Your coding agent got the\u2026",
+    "date": "2026-08-19",
+    "fetched_at": "2026-08-20"
+  },
+  {
     "title": "Cursor capitalizes on GitHub frustration, launches rival hosting platform",
     "url": "https://techcrunch.com/2026/08/18/cursor-capitalizes-on-github-frustration-launches-rival-hosting-platform/",
     "source": "TechCrunch AI",
