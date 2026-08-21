@@ -53,10 +53,12 @@ Marketplace listing to configure first - Reddit was added specifically to
 give the four GitHub/VS-Code-less tools a second real signal instead of
 just one. VS Code installs is the one signal here that's a direct usage
 count rather than a proxy for one - see fetch_trends.py's
-fetch_vscode_marketplace_installs(). Reddit is also worth treating as the
-least reliable signal here, more so than Trends - see
-fetch_reddit_mentions()'s docstring notes on rate-limiting/blocking and
-its 100-result cap.
+fetch_vscode_marketplace_installs(). Reddit uses an OAuth app-only token
+(REDDIT_CLIENT_ID/REDDIT_CLIENT_SECRET) rather than an unauthenticated
+request - the unauthenticated version got 403-blocked on every request in
+production (see fetch_trends.py's module docstring) - but even
+authenticated, its count is capped at 100 results per request, so treat
+it as less precise than HN at the high end.
 
 Run this after fetch_trends.py, on the same weekly schedule.
 """

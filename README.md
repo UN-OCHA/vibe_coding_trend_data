@@ -55,15 +55,34 @@ Set these under Settings → Secrets and variables → Actions:
 |---|---|---|
 | `GITHUB_TOKEN` | weekly workflow | auto-provided, no setup needed |
 | `TRENDS_MCP_API_KEY` | weekly workflow | see the Google Trends caveat below |
+| `REDDIT_CLIENT_ID` | weekly workflow | free Reddit OAuth app - see the Reddit setup steps below |
+| `REDDIT_CLIENT_SECRET` | weekly workflow | free Reddit OAuth app - see the Reddit setup steps below |
 | `SHEET_CSV_URL` | daily workflow | the published-CSV URL of the sources Sheet |
 | `YOUTUBE_API_KEY` | daily workflow | YouTube Data API v3 key, free tier |
 | `GEMINI_API_KEY` | daily workflow | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py` (both run keyword-only if unset, capped at 30 calls/run each - see `MAX_GEMINI_CALLS_PER_RUN`), and powers the auto-written digest in `generate_digest.py`. That script runs daily but self-limits to writing a new digest roughly once a week (`MIN_DAYS_BETWEEN_DIGESTS`); skipped entirely, leaving any prior digest in place, if unset |
 
-The VS Code Marketplace and Reddit signals (`fetch_vscode_marketplace_installs()`
-and `fetch_reddit_mentions()` in `scripts/fetch_trends.py`) need no secret at
-all - both are unauthenticated public endpoints, so there's nothing to add
-here for either. Reddit's reliability is the tradeoff for that - see the
-caveat below.
+The VS Code Marketplace signal (`fetch_vscode_marketplace_installs()` in
+`scripts/fetch_trends.py`) needs no secret at all - it's an unauthenticated
+public endpoint, so there's nothing to add here for it. Reddit needs the two
+secrets above; here's the free setup:
+
+1. Log into the Reddit account that should own this app (any account works -
+   this is app-only auth, it doesn't post or act as that user) and go to
+   [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps).
+2. Click **"create app"** (bottom of the page). Name it anything (e.g.
+   `vibecode-weekly-trends-bot`), select **"script"** as the type, and put
+   any placeholder in the required "redirect uri" field (e.g.
+   `http://localhost` - unused for this grant type, but Reddit requires
+   something there).
+3. After creating it, the client ID is the string shown directly under the
+   app's name (a short string, not labeled). The client secret is the
+   longer string labeled **"secret"**.
+4. Add both as repo secrets: Settings → Secrets and variables → Actions →
+   `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET`.
+
+Without these two set, `fetch_reddit_mentions()` skips itself with a
+warning and leaves the Reddit columns as dashes - same graceful-degradation
+behavior as every other optional signal here, never a crash.
 
 ## What each data source measures
 
@@ -93,22 +112,22 @@ ship an actual VS Code extension (Cursor and Windsurf are standalone forked
 editors, not extensions; Replit Agent, Devin, and Lovable are browser-only,
 so they have no extension to count installs for either).
 
-**Reddit** — post mentions per search term, past 7 days, via Reddit's own
-public search endpoint (`reddit.com/search.json`), unauthenticated. This is
-the second signal (after Hacker News) that every tracked tool gets — added
-specifically to give Replit Agent, Devin, Lovable, and Windsurf's VS Code
-gap a real second data point instead of relying on Hacker News alone.
-**Treat this as the least reliable signal on the site, less reliable than
-Trends**: unauthenticated requests to reddit.com are commonly rate-limited
-or blocked outright from data-center IPs, GitHub Actions runners included,
-so a run can come back with several tools silently missing this week — and
-even a clean response is capped at 100 results (one unauthenticated page),
-not a true total, so a very active week and a merely busy one can look
-identical past that cap. If this proves too unreliable in practice, an
-OAuth "script" app (Reddit's free API tier) would fix both the blocking and
-the 100-result cap, at the cost of adding `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET`
-secrets — not done here to keep this signal's overhead at zero, matching
-VS Code Marketplace.
+**Reddit** — post mentions per search term, past 7 days, via Reddit's
+official OAuth search API (`oauth.reddit.com/search`), using an app-only
+"client_credentials" token (`REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET` -
+see setup above). This is the second signal (after Hacker News) that
+every tracked tool gets — added specifically to give Replit Agent, Devin,
+Lovable, and Windsurf's VS Code gap a real second data point instead of
+relying on Hacker News alone. This originally called the unauthenticated
+`reddit.com/search.json` endpoint instead, and it got **403-blocked on
+every single request** in its first real production run (all 8 terms) -
+Reddit rejects unauthenticated automated requests from data-center IPs,
+GitHub Actions runners included, and that wasn't a fluke worth working
+around. OAuth fixes that. **One caveat OAuth does not fix**: results are
+still capped at 100 per request (Reddit's listing API limit), not a true
+total, so a very active week and a merely busy one can look identical
+past that cap - fixing that would mean paginating with `after`, not done
+here to keep this at one request per term.
 
 **News (RSS)** — headline, link, date per configured feed. Feeds only, not
 scraping — scraping is fragile and often against a site's terms of service.
@@ -193,8 +212,7 @@ private while setting the *published site* to public visibility.
 - `data/news.json` ships with a handful of placeholder rows so the site
   isn't empty on first load — delete them once the daily workflow has run
   for real.
-- The Reddit signal is unauthenticated and may get rate-limited or blocked
-  from GitHub Actions' IPs in practice, not just in theory — watch the
-  first few weekly runs' logs for `WARNING: Reddit returned...` before
-  trusting it. See "What each data source measures" above for the fix if
-  it turns out to be unreliable (an OAuth "script" app).
+- The Reddit signal's 100-result-per-request cap (see "What each data
+  source measures" above) is unresolved — it plateaus instead of
+  distinguishing a very active week from a merely busy one. Fixing that
+  means paginating with `after`, not done yet.

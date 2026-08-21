@@ -25,21 +25,28 @@ Sources:
                      VS Code's own client calls, not an official public API -
                      see fetch_vscode_marketplace_installs() for the same
                      kind of "inferred, not documented" caveat as Trends.
-  5. Reddit        - post mention counts per search term, past 7 days
-                     (reddit.com/search.json, unauthenticated). This is the
-                     signal that closes the gap GitHub/VS Code leave open:
-                     it's the second metric (after Hacker News) that every
-                     tracked tool gets, including the four with no public
-                     GitHub ecosystem or VS Code extension. Two caveats
-                     worth knowing, both covered in fetch_reddit_mentions():
-                     unauthenticated requests to reddit.com are commonly
-                     rate-limited or blocked outright from data-center IPs
-                     (GitHub Actions runners included) - treat this as at
-                     least as unreliable as the Trends signal, maybe more -
-                     and the count is capped at one page (100 results),
+  5. Reddit        - post mention counts per search term, past 7 days, via
+                     Reddit's official OAuth API (oauth.reddit.com), using
+                     an app-only "client_credentials" token - no Reddit user
+                     account tied to it, just the script app's own
+                     credentials (REDDIT_CLIENT_ID/REDDIT_CLIENT_SECRET).
+                     This is the signal that closes the gap GitHub/VS Code
+                     leave open: it's the second metric (after Hacker News)
+                     that every tracked tool gets, including the four with
+                     no public GitHub ecosystem or VS Code extension.
+                     This started out unauthenticated (reddit.com/search.json)
+                     and got 403-blocked on every single request in
+                     production (all 8 terms, first real run) - Reddit
+                     rejects unauthenticated automated requests from
+                     data-center IPs, GitHub Actions runners included, and
+                     that wasn't a fluke worth retrying around. OAuth fixes
+                     that specific problem. One caveat OAuth does NOT fix:
+                     the count is still capped at one page (100 results) per
+                     get_reddit_access_token()/fetch_reddit_mentions() call,
                      unlike HN's true total, so it plateaus instead of
                      distinguishing "busy week" from "huge week" past that
-                     cap.
+                     cap - fixing that would mean paginating with `after`,
+                     not done here to keep this at one request per term.
 
 Idempotency: this script is safe to run more than once on the same day
 (e.g. a manual trigger on top of the scheduled run). Before writing, it
@@ -99,21 +106,19 @@ REDDIT_TERMS = [
 
 # Maps a display name to its exact Marketplace item ID (the "itemName="
 # value in a marketplace.visualstudio.com/items?itemName=... URL, i.e.
-# "Publisher.extension-name"). ONLY "GitHub Copilot" has been checked
-# against a real, well-known listing - the rest are a best effort, since
-# this sandbox has no live internet access to open the Marketplace and
-# confirm them. That's a safe kind of wrong, not a misleading one: a
-# mistaken ID just returns zero matching extensions (handled as "not
-# found" below), not a real count attributed to the wrong product - but
-# double-check each of these against the live Marketplace before trusting
-# the numbers. Cursor and Windsurf aren't here at all: both are standalone
-# forked editors, not something installed as a VS Code extension, so
-# there's nothing to look up for them. Replit Agent, Devin, and Lovable
-# are browser-only hosted platforms - same reasoning.
+# "Publisher.extension-name"). All three below were confirmed by hand
+# against the live Marketplace (2026-08-21) - "GitHub Copilot" points at
+# the Copilot Chat listing specifically (github.copilot-chat), not the
+# older bare autocomplete extension (GitHub.copilot) - those are two
+# different listings with two different install counts, so don't swap
+# this back without meaning to. Cursor and Windsurf aren't here at all:
+# both are standalone forked editors, not something installed as a VS
+# Code extension, so there's nothing to look up for them. Replit Agent,
+# Devin, and Lovable are browser-only hosted platforms - same reasoning.
 VSCODE_EXTENSIONS = {
-    "GitHub Copilot": "GitHub.copilot",
-    "Claude Code": "Anthropic.claude-code",  # UNVERIFIED - confirm the exact ID
-    "Codex": "openai.chatgpt",  # UNVERIFIED - confirm the exact ID
+    "GitHub Copilot": "github.copilot-chat",
+    "Claude Code": "anthropic.claude-code",
+    "Codex": "openai.chatgpt",
 }
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
@@ -123,6 +128,8 @@ CSV_HEADERS = ["date", "source", "metric", "value"]
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 TRENDS_MCP_API_KEY = os.environ.get("TRENDS_MCP_API_KEY", "")
+REDDIT_CLIENT_ID = os.environ.get("REDDIT_CLIENT_ID", "")
+REDDIT_CLIENT_SECRET = os.environ.get("REDDIT_CLIENT_SECRET", "")
 
 
 def today_str():
@@ -355,49 +362,82 @@ def fetch_vscode_marketplace_installs():
 # 5. Reddit - post mention counts per term, last 7 days -> counts_trends.csv
 # ---------------------------------------------------------------------------
 
-# A descriptive, honest User-Agent, as Reddit's API guidance asks for -
-# doesn't avoid the rate-limiting/blocking risk described in the module
-# docstring, but an unlabeled default requests User-Agent gets blocked even
-# more readily.
+# A descriptive, honest User-Agent, as Reddit's API guidance asks for.
 REDDIT_HEADERS = {"User-Agent": "vibecode-weekly-trends-bot/1.0 (github.com/UN-OCHA/vibe_coding_trend_data)"}
+
+
+def get_reddit_access_token():
+    """App-only OAuth token via the "client_credentials" grant - no Reddit
+    user account tied to it, just this script's own app credentials. This
+    replaced a plain unauthenticated reddit.com/search.json call that got
+    403-blocked on every single request in production (all 8 terms, first
+    real run) - see the module docstring. Returns None (never raises) if
+    the credentials aren't set or the token request fails in any way,
+    same graceful-degradation convention as every other fetch function
+    here; fetch_reddit_mentions() treats a None token as "skip Reddit
+    entirely this run", not a partial failure."""
+    if not REDDIT_CLIENT_ID or not REDDIT_CLIENT_SECRET:
+        print("  WARNING: REDDIT_CLIENT_ID/REDDIT_CLIENT_SECRET not set, skipping Reddit fetch.")
+        return None
+    try:
+        resp = requests.post(
+            "https://www.reddit.com/api/v1/access_token",
+            auth=(REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET),
+            data={"grant_type": "client_credentials"},
+            headers=REDDIT_HEADERS,
+            timeout=30,
+        )
+    except Exception as e:
+        print(f"  WARNING: Reddit OAuth token request failed: {e}")
+        return None
+    if resp.status_code != 200:
+        print(f"  WARNING: Reddit OAuth token request returned {resp.status_code}: {resp.text[:200]}")
+        return None
+    try:
+        return resp.json()["access_token"]
+    except (KeyError, TypeError, ValueError) as e:
+        print(f"  WARNING: unexpected Reddit OAuth token response shape: {e}")
+        return None
 
 
 def fetch_reddit_mentions():
     print("Fetching Reddit mention counts...")
-    url = "https://www.reddit.com/search.json"
+    token = get_reddit_access_token()
+    if not token:
+        return  # already warned in get_reddit_access_token()
+
+    # oauth.reddit.com, not www.reddit.com - the OAuth-authenticated host
+    # is a separate endpoint from the public unauthenticated one.
+    headers = {**REDDIT_HEADERS, "Authorization": f"Bearer {token}"}
+    url = "https://oauth.reddit.com/search"
 
     for term in REDDIT_TERMS:
         metric_name = term.replace(" ", "_")
         # t=week asks Reddit's own search to restrict to the past 7 days,
         # same window HN and Trends use - no client-side date filtering
-        # needed like fetch_hn_mentions() does. limit=100 is the practical
-        # ceiling for a single unauthenticated request; see the module
-        # docstring for why that's a real cap, not just a safety margin.
+        # needed like fetch_hn_mentions() does. limit=100 is still the
+        # practical ceiling per request even with OAuth - see the module
+        # docstring for why that cap is unrelated to the auth fix.
         params = {"q": term, "sort": "new", "t": "week", "limit": 100}
         try:
-            resp = requests.get(url, headers=REDDIT_HEADERS, params=params, timeout=30)
+            resp = requests.get(url, headers=headers, params=params, timeout=30)
         except Exception as e:
             print(f"  WARNING: request failed for '{term}': {e}")
-            time.sleep(2)
+            time.sleep(1)
             continue
         if resp.status_code != 200:
-            print(f"  WARNING: Reddit returned {resp.status_code} for '{term}' - this commonly means "
-                  f"reddit.com rate-limited or blocked this request rather than the query itself being "
-                  f"wrong (see the module docstring): {resp.text[:200]}")
-            time.sleep(2)
+            print(f"  WARNING: Reddit returned {resp.status_code} for '{term}': {resp.text[:200]}")
+            time.sleep(1)
             continue
         try:
             children = resp.json()["data"]["children"]
         except (KeyError, TypeError, ValueError) as e:
-            # A block/CAPTCHA page returns HTML or a differently-shaped
-            # JSON body, not the search listing - .json() itself can raise
-            # here too (ValueError covers requests' JSONDecodeError).
-            print(f"  WARNING: unexpected Reddit response shape for '{term}' (often means a block page instead of real results): {e}")
-            time.sleep(2)
+            print(f"  WARNING: unexpected Reddit response shape for '{term}': {e}")
+            time.sleep(1)
             continue
 
         stage_row(COUNTS_CSV_PATH, "reddit", f"weekly_mentions_{metric_name}", len(children))
-        time.sleep(2)
+        time.sleep(1)
 
 
 # ---------------------------------------------------------------------------

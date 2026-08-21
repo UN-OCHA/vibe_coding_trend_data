@@ -40,10 +40,9 @@
     Every number here is a raw, unblended measurement - no formula, no weighting, no ranking. GitHub repos =
     count of repos tagged with that tool's topic, via the GitHub API. HN comments = Hacker News comment volume
     this week, via the Algolia HN Search API. Reddit mentions = post count for that tool's search term over the
-    past week, via Reddit's own (unauthenticated) search - treat this as the least reliable column on the page,
-    less reliable even than Trends: reddit.com commonly rate-limits or blocks unauthenticated requests outright,
-    and the count is capped at 100 results rather than a true total, so a very active week can look identical to
-    a merely busy one. Trends interest = Google's 0–100 relative search-interest index, via a third-party proxy -
+    past week, via Reddit's official OAuth search API - the count is capped at 100 results per request rather
+    than a true total, so a very active week can look identical to a merely busy one. Trends interest = Google's
+    0–100 relative search-interest index, via a third-party proxy -
     see the README for the reliability caveat and a confirmed case of it silently missing a week's data point.
     VS Code installs = the extension's total install count from the VS Code Marketplace's own public API - the
     one number on this page that's a direct usage count rather than a proxy for one. 7-day columns compare each
