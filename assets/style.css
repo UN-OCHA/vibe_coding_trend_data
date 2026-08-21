@@ -697,7 +697,11 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.tool-stat { text-align: center; }
+/* min-width:0 overrides the grid-item default of min-width:auto, which
+   refuses to shrink a track below its content's intrinsic width - that's
+   what was pushing the last column (and the text in it) past the card's
+   edge for long values like VS Code install counts. */
+.tool-stat { text-align: center; min-width: 0; }
 
 .tool-stat-value {
   font-family: var(--font-display);
@@ -705,6 +709,8 @@ a:hover { text-decoration: underline; }
   color: var(--dark-text);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tool-stat-value.up { color: #85c99e; }
