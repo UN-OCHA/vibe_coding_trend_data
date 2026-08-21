@@ -13,10 +13,18 @@
    value, for a tool with a genuine data gap on that axis. The polygon
    still passes through 0 there so the shape stays honest about what
    isn't known, rather than silently omitting or faking a number.
+
+   opts.emptyAxes = [3] -- axis indices where NONE of the tools shown
+   have data at all (e.g. a growth signal with only one snapshot so far,
+   nothing to diff yet). Without this, every tool's per-tool "no data"
+   marker from noDataAxes would stack on top of each other at dead
+   center, indistinguishable from nothing being drawn there. Instead the
+   spoke itself is dashed/muted and gets a single "not enough data yet"
+   label, and the redundant per-tool markers on that axis are skipped.
 --------------------------------------------------------------------- */
 
 function renderRadarChart(svgEl, seriesByTool, axisLabels, opts = {}) {
-  const { colors = {}, defaultColor = "#9a8f7f", noDataAxes = {} } = opts;
+  const { colors = {}, defaultColor = "#9a8f7f", noDataAxes = {}, emptyAxes = [] } = opts;
 
   const width = 420, height = 340;
   const cx = width / 2, cy = height / 2 - 6;
@@ -45,14 +53,16 @@ function renderRadarChart(svgEl, seriesByTool, axisLabels, opts = {}) {
 
   // Axis spokes + labels
   axisLabels.forEach((label, i) => {
+    const isEmpty = emptyAxes.includes(i);
     const [ex, ey] = pointFor(i, 1);
     const line = document.createElementNS(svgNS, "line");
     line.setAttribute("x1", cx);
     line.setAttribute("y1", cy);
     line.setAttribute("x2", ex);
     line.setAttribute("y2", ey);
-    line.setAttribute("stroke", "#2a251d");
+    line.setAttribute("stroke", isEmpty ? "#4a4238" : "#2a251d");
     line.setAttribute("stroke-width", "1");
+    if (isEmpty) line.setAttribute("stroke-dasharray", "3,3");
     svgEl.appendChild(line);
 
     // Anchor away from center rather than always "middle" - a label
@@ -68,11 +78,30 @@ function renderRadarChart(svgEl, seriesByTool, axisLabels, opts = {}) {
     const text = document.createElementNS(svgNS, "text");
     text.setAttribute("x", lx);
     text.setAttribute("y", ly + 3);
-    text.setAttribute("fill", "#c9beb0");
+    text.setAttribute("fill", isEmpty ? "#8a8071" : "#c9beb0");
     text.setAttribute("font-size", "11");
     text.setAttribute("text-anchor", anchor);
     text.textContent = label;
     svgEl.appendChild(text);
+
+    if (isEmpty) {
+      // One shared "not enough data yet" label per empty axis, placed
+      // partway along the spoke - not per tool, since every tool's
+      // individual marker would sit at the exact same point and be
+      // unreadable stacked on top of each other.
+      const [mx, my] = pointFor(i, 0.56);
+      const mdx = mx - cx;
+      const manchor = mdx > 4 ? "start" : mdx < -4 ? "end" : "middle";
+      const note = document.createElementNS(svgNS, "text");
+      note.setAttribute("x", mx);
+      note.setAttribute("y", my + 3);
+      note.setAttribute("fill", "#6b6154");
+      note.setAttribute("font-size", "9");
+      note.setAttribute("font-style", "italic");
+      note.setAttribute("text-anchor", manchor);
+      note.textContent = "no data yet";
+      svgEl.appendChild(note);
+    }
   });
 
   Object.entries(seriesByTool).forEach(([name, values]) => {
@@ -102,6 +131,12 @@ function renderRadarChart(svgEl, seriesByTool, axisLabels, opts = {}) {
     g.appendChild(poly);
 
     coords.forEach(([px, py], i) => {
+      // Skip the per-tool marker on an axis where NOTHING is tracked yet
+      // (opts.emptyAxes) - it'd sit at the exact same point as every other
+      // tool's marker there, stacked unreadably. The shared spoke-level
+      // "no data yet" label drawn above already covers it once for the
+      // whole axis.
+      if (emptyAxes.includes(i)) return;
       const isNoData = noData.includes(i);
       const dot = document.createElementNS(svgNS, "circle");
       dot.setAttribute("cx", px);

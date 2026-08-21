@@ -24,9 +24,7 @@
     <div class="section-label" style="text-align:left;">Head to head</div>
     <div class="section-title" style="text-align:left; font-size:32px;">Which vibe coding tool should you use?</div>
     <p class="section-subtitle" style="text-align:left;">
-      Every tool this site tracks, side by side. Pricing and platform facts are maintained by hand; growth and
-      mentions are pulled live from the rest of this site — no extra data collection or AI calls for this page.
-      Nothing here is blended into one score; each signal is shown on its own.
+      Every AI coding tool this site tracks, side by side — pricing, platform details, and live growth signals.
     </p>
     <p class="freshness-note" id="freshness-note"></p>
   </header>
@@ -56,9 +54,8 @@
   </section>
 
   <footer class="site-footer">
-    Live stats (growth, buzz, mentions) update daily/weekly alongside the rest of the site. Pricing and
-    feature details are maintained by hand in assets/tool-profiles.js — verify against each vendor before
-    relying on them for a purchase decision.
+    Growth and mention stats update automatically. Pricing and feature details are maintained by hand —
+    verify against each vendor before making a purchase decision.
   </footer>
 </div>
 
@@ -246,9 +243,20 @@ function renderRadar(signalsByName) {
     if (gaps.length) noDataAxes[name] = gaps;
   });
 
+  // An axis where NONE of the displayed tools have data yet (e.g. VS Code
+  // growth before a second weekly snapshot exists to diff against) would
+  // otherwise render as every tool's per-tool "no data" marker stacked on
+  // top of each other at dead center - indistinguishable from nothing.
+  // Flagging it lets renderRadarChart draw one clear "not enough data yet"
+  // treatment for the whole axis instead.
+  const emptyAxes = [githubValues, hnValues, trendsValues, vscodeValues]
+    .map((vals, i) => (vals.every((v) => v === null) ? i : null))
+    .filter((i) => i !== null);
+
   renderRadarChart(document.getElementById("radar-chart"), seriesByTool, axisLabels, {
     colors: Object.fromEntries(names.map((n) => [n, TOOL_PROFILES[n].color])),
     noDataAxes,
+    emptyAxes,
   });
 
   const legend = document.getElementById("radar-legend");
@@ -266,13 +274,10 @@ function renderRadar(signalsByName) {
   });
 
   const cappedNote = allNames.length > RADAR_TOOL_COUNT
-    ? ` Showing this week's top ${RADAR_TOOL_COUNT} by Hacker News comment volume (of ${allNames.length} tracked) - full comparison below covers all of them.`
+    ? ` Showing this week's top ${RADAR_TOOL_COUNT} by Hacker News activity.`
     : "";
   document.getElementById("radar-caption").textContent =
-    "Each axis plots RANK among the tools shown, on that one raw signal (last place closest to center, first " +
-    "place at the outer edge) - not magnitude, and not blended with the other three. The actual numbers are in " +
-    "the stat cards above and the full table below. A tool with no data for a signal gets an explicit \"no " +
-    "data\" marker on that axis rather than a fabricated rank." + cappedNote;
+    "Each axis ranks tools by that signal alone (center = lowest, edge = highest)." + cappedNote;
 }
 
 function renderCompareTable() {
