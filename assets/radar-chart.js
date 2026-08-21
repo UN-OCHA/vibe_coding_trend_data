@@ -1,7 +1,7 @@
 /* ---------------------------------------------------------------------
    Radar / spider chart -- compares several tools across a handful of
    normalized [0,1] axes at once. Same hand-rolled SVG approach as
-   bump-chart.js / trend-chart.js (no charting library, no build step).
+   trend-chart.js (no charting library, no build step).
 
    Expects: seriesByTool = { "Claude Code": [0.8, 0.4, ...], ... }
                             (one value per axis, aligned with axisLabels,

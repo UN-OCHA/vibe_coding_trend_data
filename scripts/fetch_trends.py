@@ -47,7 +47,7 @@ import requests
 # extensions/configs/example repos around (Replit/Lovable projects mostly
 # live on those platforms' own hosting, not pushed to GitHub with a
 # meaningful topic tag), so a repo count for them would be thin at best and
-# actively misleading at worst - see compute_momentum.py's TOOLS dict, which
+# actively misleading at worst - see compute_signals.py's TOOLS dict, which
 # skips the GitHub signal for these three rather than faking one.
 GITHUB_TOPICS = ["vibe-coding", "github-copilot", "claude-code", "codex", "cursor-ide", "windsurf-ide"]
 HN_TERMS = [

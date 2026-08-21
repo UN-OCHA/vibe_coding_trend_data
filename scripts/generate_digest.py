@@ -1,19 +1,23 @@
 """
 Weekly auto-written digest - a short editorial summary of the week's
-dominant story and any notable momentum leaderboard shift, written by
-Gemini and read directly by index.html.
+dominant news story, written by Gemini and read directly by index.html.
+
+This used to also fold in "who's #1 on the momentum leaderboard shifted"
+- that's gone along with the leaderboard's blended score itself (see
+compute_signals.py's docstring for why). Re-introducing a "who's winning"
+narrative through the digest's prose would undercut the same point:
+nothing here ranks tools against each other anymore, including in what
+Gemini is asked to write.
 
 Despite being "weekly," this is meant to run daily, alongside the news
 pipeline (fetch_news.py / fetch_youtube.py) - it only needs whatever's
-already on disk (data/news.json, data/momentum_history.json), not a fresh
-trends/momentum run, so it doesn't belong gated behind that workflow.
-What keeps it "weekly" instead of regenerating (and re-billing a Gemini
-call) every single day is self-imposed: main() checks the existing
-digest's own "date" field and skips regenerating if it's less than
-MIN_DAYS_BETWEEN_DIGESTS old. Running this daily just means a new digest
-is *possible* every day; in practice it only actually writes one roughly
-once a week, and there's no dependency on which workflow last touched
-momentum data.
+already on disk (data/news.json), not a fresh trends run, so it doesn't
+belong gated behind that workflow. What keeps it "weekly" instead of
+regenerating (and re-billing a Gemini call) every single day is
+self-imposed: main() checks the existing digest's own "date" field and
+skips regenerating if it's less than MIN_DAYS_BETWEEN_DIGESTS old.
+Running this daily just means a new digest is *possible* every day; in
+practice it only actually writes one roughly once a week.
 
 This is entirely optional and additive. If GEMINI_API_KEY isn't set, or
 the call fails, comes back empty, or comes back malformed, this script
@@ -21,7 +25,7 @@ leaves any existing data/digest.json untouched rather than overwriting it
 with something worse or deleting it - a stale-but-real digest is still
 useful, and its own "date" field already makes that staleness visible on
 the site (see the freshness indicator work in fetch_news.py /
-compute_momentum.py).
+compute_signals.py).
 
 Configuration:
   GEMINI_API_KEY - env var. Required; without it this script is a no-op.
@@ -35,7 +39,6 @@ import requests
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 NEWS_JSON_PATH = os.path.join(DATA_DIR, "news.json")
-MOMENTUM_HISTORY_JSON_PATH = os.path.join(DATA_DIR, "momentum_history.json")
 DIGEST_JSON_PATH = os.path.join(DATA_DIR, "digest.json")
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
@@ -77,36 +80,18 @@ def days_since_last_digest():
     return (datetime.date.today() - prev_date).days
 
 
-def momentum_shift_summary():
-    """One-line description of how the #1 leaderboard spot changed vs.
-    the previous recorded week, or None if there isn't a previous week to
-    compare against yet (e.g. the first couple of runs after
-    momentum_history.json started being written)."""
-    history = load_json(MOMENTUM_HISTORY_JSON_PATH, [])
-    if len(history) < 2:
-        return None
-    current = sorted(history[-1]["tools"], key=lambda t: t["rank"])
-    previous = sorted(history[-2]["tools"], key=lambda t: t["rank"])
-    if not current or not previous:
-        return None
-    if current[0]["name"] != previous[0]["name"]:
-        return f"{current[0]['name']} overtook {previous[0]['name']} for the #1 momentum spot this week."
-    return f"{current[0]['name']} held the #1 momentum spot for another week."
-
-
-def build_prompt(titles, shift_summary):
+def build_prompt(titles):
     lines = [
         "You are writing a short editorial digest for a news site that "
         "tracks AI-assisted coding tools (GitHub Copilot, Claude Code, "
         "Cursor, Codex, and the broader \"vibe coding\" trend). Based on "
-        "this week's headlines and leaderboard movement below, write a "
-        "2-3 sentence summary (under 60 words total) of the dominant "
-        "theme this week. Plain prose, no markdown, no restating the "
-        "leaderboard line verbatim - just the summary itself.\n",
+        "this week's headlines below, write a 2-3 sentence summary (under "
+        "60 words total) of the dominant theme this week. Plain prose, no "
+        "markdown - just the summary itself. Don't declare any tool a "
+        "\"leader\" or rank tools against each other; describe what "
+        "happened, not who's winning.\n",
+        "Headlines this week:",
     ]
-    if shift_summary:
-        lines.append(f"Leaderboard: {shift_summary}\n")
-    lines.append("Headlines this week:")
     lines.extend(f"- {t}" for t in titles)
     return "\n".join(lines)
 
@@ -145,7 +130,7 @@ def main():
         print("No recent stories to summarize - skipping digest (leaving any existing data/digest.json as-is).")
         return
 
-    prompt = build_prompt(titles, momentum_shift_summary())
+    prompt = build_prompt(titles)
 
     try:
         summary = call_gemini(prompt)

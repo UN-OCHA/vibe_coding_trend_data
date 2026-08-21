@@ -462,7 +462,7 @@ a:hover { text-decoration: underline; }
 
 .leaderboard .row {
   display: grid;
-  grid-template-columns: 32px 1fr 90px 90px;
+  grid-template-columns: 1fr 100px 90px;
   align-items: center;
   padding: 14px 20px;
   border-bottom: 0.5px solid #241f18;
@@ -471,8 +471,6 @@ a:hover { text-decoration: underline; }
 .leaderboard .row:last-child { border-bottom: none; }
 .leaderboard .row.head { color: var(--dark-text-muted); font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; }
 
-.leaderboard .rank { font-family: var(--font-display); font-size: 16px; color: var(--dark-text-muted); }
-.leaderboard .row:nth-child(2) .rank { color: var(--amber); }
 .leaderboard .name { color: var(--dark-text); font-size: 14px; }
 .leaderboard .score { text-align: right; font-family: var(--font-display); font-size: 16px; color: var(--dark-text); }
 .leaderboard .delta { text-align: right; font-size: 13px; }
@@ -486,6 +484,76 @@ a:hover { text-decoration: underline; }
   max-width: 560px;
   margin: 12px 0 40px;
 }
+
+/* -------------------- signals table -------------------- */
+/* leaderboard.html's sortable table of raw per-tool signals - deliberately
+   NOT a ranked leaderboard (no rank column, no blended score - see
+   compute_signals.py's docstring for why that was retired). Fixed pixel
+   column widths + flex-shrink:0, not minmax(_,1fr) + width:max-content -
+   the latter combination was a confirmed bug in compare.html's table
+   (each row resolved a different column width based on its own content). */
+
+.signals-table {
+  display: flex;
+  flex-direction: column;
+  background: var(--cream-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.signals-row {
+  display: grid;
+  grid-template-columns: 170px repeat(5, 130px);
+  flex-shrink: 0;
+}
+
+.signals-row:not(:last-child) { border-bottom: 1px solid var(--border-soft); }
+.signals-row:not(.signals-row-head):hover { background: rgba(0,0,0,0.02); }
+
+.signals-row-head {
+  background: var(--cream);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.signals-head {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--paper-text-muted);
+  text-align: left;
+  padding: 12px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.signals-head:hover { color: var(--paper-text-secondary); }
+.signals-head-active { color: var(--amber-deep); font-weight: 600; }
+.signals-head:not(:first-child) { text-align: right; }
+
+.signals-name {
+  padding: 12px 14px;
+  font-size: 13.5px;
+  color: var(--paper-text);
+  border-left: 3px solid var(--tool-color, var(--amber));
+  display: flex;
+  align-items: center;
+}
+
+.signals-cell {
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--paper-text-secondary);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.signals-cell.delta.up { color: #4f9c7f; }
+.signals-cell.delta.down { color: #c4655f; }
 
 /* -------------------- charts -------------------- */
 
@@ -523,59 +591,42 @@ a:hover { text-decoration: underline; }
 .chart-grid .chart-card { margin-bottom: 0; }
 
 /* -------------------- chart interactivity -------------------- */
-/* Shared by the trend charts (assets/trend-chart.js) and the bump chart
-   (assets/bump-chart.js): hover a line to dim the others, hover a dot to
+/* Shared by the trend charts (assets/trend-chart.js) and the radar chart
+   (assets/radar-chart.js): hover a line to dim the others, hover a dot to
    see it grow (the <title> child gives the native tooltip), click a
-   line's label to isolate/restore it. */
+   line's label (or the radar's external legend) to isolate/restore it. */
 
 .chart-card svg .trend-series,
-.chart-card svg .bump-series,
 .chart-card svg .radar-series {
   transition: opacity 0.2s ease;
 }
 
 .chart-card svg:has(.trend-series:hover) .trend-series:not(:hover),
-.chart-card svg:has(.bump-series:hover) .bump-series:not(:hover),
 .chart-card svg:has(.radar-series:hover) .radar-series:not(:hover) {
   opacity: 0.25;
 }
 
-.chart-card svg .trend-dot,
-.chart-card svg .bump-dot {
+.chart-card svg .trend-dot {
   cursor: pointer;
   transition: r 0.15s ease;
 }
 
-.chart-card svg .trend-dot:hover,
-.chart-card svg .bump-dot:hover {
+.chart-card svg .trend-dot:hover {
   r: 6;
 }
 
-.chart-card svg .trend-label,
-.chart-card svg .bump-label {
+.chart-card svg .trend-label {
   cursor: pointer;
 }
 
 .chart-card svg .trend-series-hidden,
-.chart-card svg .bump-series-hidden,
 .chart-card svg .radar-series-hidden {
   opacity: 0.08;
 }
 
-.chart-card svg .trend-series-hidden .trend-dot,
-.chart-card svg .bump-series-hidden .bump-dot {
+.chart-card svg .trend-series-hidden .trend-dot {
   pointer-events: none;
 }
-
-.scrubber {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.scrubber input[type="range"] { flex: 1; }
-.scrubber .week-label { font-size: 12px; color: var(--dark-text); min-width: 60px; }
 
 /* -------------------- footer -------------------- */
 
@@ -618,14 +669,6 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
   font-size: 19px;
   color: var(--dark-text);
-}
-
-.tool-rank-badge {
-  font-size: 10px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--tool-color, var(--amber));
-  white-space: nowrap;
 }
 
 .tool-tagline {
@@ -801,7 +844,6 @@ a:hover { text-decoration: underline; }
 }
 
 @media (max-width: 640px) {
-  .leaderboard .row { grid-template-columns: 24px 1fr 70px; }
-  .leaderboard .delta { display: none; }
+  .leaderboard .row { grid-template-columns: 1fr 80px 70px; }
   .story-grid, .video-grid { column-count: 1; }
 }

@@ -1,7 +1,7 @@
 /* ---------------------------------------------------------------------
    Generic animated line chart -- draws each series' line in via
    stroke-dashoffset when the chart scrolls into view. Shares the same
-   hand-rolled SVG approach as bump-chart.js (no charting library).
+   hand-rolled SVG approach as radar-chart.js (no charting library).
 
    Expects: seriesByName = { "Claude Code": [{date, value}, ...], ... }
             weekLabels    = ["Jul 13", "Jul 20", ...] (same length/order

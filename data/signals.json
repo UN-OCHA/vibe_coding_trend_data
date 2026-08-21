@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Claude Code",
+    "github_repo_count": 60575.0,
+    "github_growth_pct": 5.2,
+    "hn_comments": 620.0,
+    "hn_growth_pct": -14.2,
+    "trends_interest": 32.0
+  },
+  {
+    "name": "Codex",
+    "github_repo_count": 24428.0,
+    "github_growth_pct": 8.9,
+    "hn_comments": 60.0,
+    "hn_growth_pct": -4.8,
+    "trends_interest": 41.0
+  },
+  {
+    "name": "Cursor",
+    "github_repo_count": 423.0,
+    "github_growth_pct": 2.4,
+    "hn_comments": 23.0,
+    "hn_growth_pct": -37.8,
+    "trends_interest": null
+  },
+  {
+    "name": "GitHub Copilot",
+    "github_repo_count": 2746.0,
+    "github_growth_pct": 5.3,
+    "hn_comments": 24.0,
+    "hn_growth_pct": -29.4,
+    "trends_interest": 24.0
+  },
+  {
+    "name": "Windsurf",
+    "github_repo_count": null,
+    "github_growth_pct": null,
+    "hn_comments": null,
+    "hn_growth_pct": null,
+    "trends_interest": null
+  },
+  {
+    "name": "Replit Agent",
+    "github_repo_count": null,
+    "github_growth_pct": null,
+    "hn_comments": null,
+    "hn_growth_pct": null,
+    "trends_interest": null
+  },
+  {
+    "name": "Devin",
+    "github_repo_count": null,
+    "github_growth_pct": null,
+    "hn_comments": null,
+    "hn_growth_pct": null,
+    "trends_interest": null
+  },
+  {
+    "name": "Lovable",
+    "github_repo_count": null,
+    "github_growth_pct": null,
+    "hn_comments": null,
+    "hn_growth_pct": null,
+    "trends_interest": null
+  }
+]

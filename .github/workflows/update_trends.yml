@@ -30,13 +30,13 @@ jobs:
           TRENDS_MCP_API_KEY: ${{ secrets.TRENDS_MCP_API_KEY }}
         run: python scripts/fetch_trends.py
 
-      - name: Recompute momentum leaderboard
-        run: python scripts/compute_momentum.py
+      - name: Recompute tool signals
+        run: python scripts/compute_signals.py
 
       - name: Commit and push updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/counts_trends.csv data/interest_trends.csv data/momentum.json data/momentum_history.json data/status.json
+          git add data/counts_trends.csv data/interest_trends.csv data/signals.json data/status.json
           git diff --quiet --cached || git commit -m "Weekly trends update: $(date -u +'%Y-%m-%d')"
           git push

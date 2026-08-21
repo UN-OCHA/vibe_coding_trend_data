@@ -469,7 +469,7 @@ def update_status():
     """Records today's date as the last time this pipeline ran, so the
     site can show an honest "as of" freshness indicator instead of
     leaving visitors to guess. Duplicated in fetch_youtube.py /
-    compute_momentum.py rather than shared - see this codebase's
+    compute_signals.py rather than shared - see this codebase's
     self-contained-scripts convention (module docstrings)."""
     status = {}
     if os.path.exists(STATUS_JSON_PATH):

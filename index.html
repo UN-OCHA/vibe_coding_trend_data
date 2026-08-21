@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vibecode Weekly — trends in AI-assisted coding</title>
-<meta name="description" content="Daily news, trending videos, and momentum rankings tracking the vibe coding movement across GitHub, Hacker News, and search interest.">
+<meta name="description" content="Daily news and trending videos, plus GitHub, Hacker News, and search-interest signals tracking the vibe coding movement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -33,28 +33,28 @@
     <p id="hero-sub">Loading the latest numbers…</p>
   </section>
 
-  <div class="stat-band-heading" id="stat-band-heading">This week's momentum leader</div>
+  <div class="stat-band-heading" id="stat-band-heading">This week, across the tools we track</div>
   <div class="stat-band" id="stat-band">
     <div class="stat">
+      <div class="value" id="stat-tools">—</div>
+      <div class="label">Tools tracked</div>
+    </div>
+    <div class="stat">
       <div class="value" id="stat-repos">—</div>
-      <div class="label">Repos tagged</div>
+      <div class="label">GitHub repos, combined</div>
     </div>
     <div class="stat">
       <div class="value" id="stat-hn">—</div>
-      <div class="label">HN comments / week</div>
+      <div class="label">HN comments this week</div>
     </div>
     <div class="stat">
-      <div class="value" id="stat-trends">—</div>
-      <div class="label">Search interest index</div>
-    </div>
-    <div class="stat">
-      <div class="value accent" id="stat-momentum">—</div>
-      <div class="label">Momentum growth, WoW</div>
+      <div class="value accent" id="stat-growing">—</div>
+      <div class="label">Growing on GitHub this week</div>
     </div>
   </div>
 
   <section>
-    <div class="section-label">Momentum trends</div>
+    <div class="section-label">Signals</div>
     <div class="chart-grid">
       <div class="chart-card">
         <div class="chart-label">GitHub repos, indexed (first week = 100)</div>
@@ -98,16 +98,16 @@
 
   <section>
     <div class="section-label">This week</div>
-    <div class="section-title">Momentum leaderboard</div>
-    <div class="section-subtitle">Blends GitHub growth, Hacker News buzz, and Google Trends interest into one weekly score per tool — see the full breakdown and rank history.</div>
+    <div class="section-title">Tool signals</div>
+    <div class="section-subtitle">GitHub growth, Hacker News buzz, and Google Trends interest, tracked per tool — shown side by side, not blended into one ranking. Sorted here by GitHub repo count.</div>
     <div class="leaderboard" id="leaderboard-preview">
-      <div class="row head"><span>#</span><span>Tool</span><span style="text-align:right;">Score</span><span></span></div>
+      <div class="row head"><span>Tool</span><span style="text-align:right;">GitHub repos</span><span style="text-align:right;">7-day</span></div>
     </div>
-    <p><a href="leaderboard.html">View full leaderboard and rank history →</a></p>
+    <p><a href="leaderboard.html">See every signal for every tool →</a></p>
   </section>
 
   <footer class="site-footer">
-    Data refreshed weekly (trends, momentum) and daily (news, video). Sources and topics are configured in a shared Google Sheet, not in this code.
+    Data refreshed weekly (trends, signals) and daily (news, video). Sources and topics are configured in a shared Google Sheet, not in this code.
   </footer>
 </div>
 
@@ -132,44 +132,18 @@ const TREND_COLORS = {
 const TRANSPARENT_GIF = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBTAA7";
 
 async function init() {
-  // ---- stat band + hero, from the trends CSVs + momentum.json ----
+  // ---- stat band + hero, from the trends CSVs + signals.json ----
   try {
-    const [countsRows, interestRows, momentum, history] = await Promise.all([
+    const [countsRows, interestRows, signals] = await Promise.all([
       fetchCsv("data/counts_trends.csv"),
       fetchCsv("data/interest_trends.csv"),
-      fetchJson("data/momentum.json"),
-      fetchJson("data/momentum_history.json").catch(() => []),  // optional - see below
+      fetchJson("data/signals.json"),
     ]);
     const counts = seriesByMetric(countsRows);
     const interest = seriesByMetric(interestRows);
-    const top = momentum[0];
 
-    // top.github_growth_pct is null for a tool with no GitHub signal at
-    // all (Replit Agent, Devin, Lovable - see compute_momentum.py's TOOLS
-    // dict) - any of these can legitimately be this week's #1 momentum
-    // leader, so every place below that reads this field needs to handle
-    // null as "not tracked", not coerce it into a fake "+0%".
-    const hasGithubGrowth = top.github_growth_pct !== null && top.github_growth_pct !== undefined;
-    document.getElementById("hero-sub").textContent = hasGithubGrowth
-      ? `${top.name} leads this week's momentum score (${top.score}), with ${top.github_growth_pct >= 0 ? "+" : ""}${top.github_growth_pct}% repo growth.`
-      : `${top.name} leads this week's momentum score (${top.score}).`;
-
-    // ---- data-driven headline + background graphic ----
-    // "Did the #1 momentum spot change since last week" comes from real
-    // recorded history now (data/momentum_history.json, written by
-    // compute_momentum.py's save_history_entry()) rather than a GitHub
-    // repo-count stand-in. History accumulates one entry per Monday, so
-    // there may not be a previous week yet - isMomentumOvertake is simply
-    // false until there is one, falling through to the next headline rule.
-    const previousWeek = history.length > 1 ? history[history.length - 2] : null;
-    const previousTop = previousWeek
-      ? [...previousWeek.tools].sort((a, b) => a.rank - b.rank)[0].name
-      : null;
-    const isMomentumOvertake = previousTop && previousTop !== top.name;
-
-    // Replit Agent, Devin, and Lovable aren't here - they have no GitHub
-    // repo-count signal at all (see compute_momentum.py's TOOLS dict), so
-    // there's no metric to reference for them on this chart.
+    // Windsurf has GitHub tracking; Replit Agent/Devin/Lovable don't (see
+    // compute_signals.py's TOOLS dict) - no metric to reference for them here.
     const TOOL_GITHUB_METRIC = {
       "Claude Code": "repo_count_claude-code",
       "Codex": "repo_count_codex",
@@ -177,58 +151,90 @@ async function init() {
       "GitHub Copilot": "repo_count_github-copilot",
       "Windsurf": "repo_count_windsurf-ide",
     };
-    const topPoints = counts[TOOL_GITHUB_METRIC[top.name]] || [];
-    const numWeeks = topPoints.length;
 
-    // Priority order: a momentum-rank overtake is the most newsworthy thing
-    // that can happen week to week, then a repo-count milestone, then a
-    // plain growth spike, then a generic fallback if nothing notable
-    // happened.
+    // ---- data-driven headline: one specific, honest fact, never a
+    // "leader" - see compute_signals.py's docstring for why nothing on
+    // this site ranks tools against each other anymore. Priority: a
+    // GitHub repo-count milestone crossed by any tracked tool (a real,
+    // countable, unambiguous event) beats a plain growth-rate callout,
+    // which beats a generic ecosystem-wide fallback if nothing stood out.
     const MILESTONES = [500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000];
+    let milestoneHeadline = null;
+    for (const [name, metric] of Object.entries(TOOL_GITHUB_METRIC)) {
+      const pts = counts[metric];
+      if (!pts || pts.length < 2) continue;
+      const prev = pts[pts.length - 2].value, latest = pts[pts.length - 1].value;
+      const crossed = MILESTONES.find((m) => prev < m && latest >= m);
+      if (crossed) { milestoneHeadline = `${name} crosses ${crossed.toLocaleString()} repos on GitHub.`; break; }
+    }
+
+    const withGithubGrowth = signals.filter((s) => s.github_growth_pct != null);
+    const biggestGithubMove = withGithubGrowth.length
+      ? withGithubGrowth.reduce((a, b) => (b.github_growth_pct > a.github_growth_pct ? b : a))
+      : null;
+    const withHnGrowth = signals.filter((s) => s.hn_growth_pct != null);
+    const biggestHnMove = withHnGrowth.length
+      ? withHnGrowth.reduce((a, b) => (b.hn_growth_pct > a.hn_growth_pct ? b : a))
+      : null;
+
+    const totalRepos = signals.reduce((sum, s) => sum + (s.github_repo_count || 0), 0);
+
     let headline;
-    if (isMomentumOvertake) {
-      headline = `${top.name} overtakes ${previousTop} for the top momentum spot.`;
-    } else if (numWeeks > 1 && MILESTONES.some((m) => topPoints[numWeeks - 2].value < m && topPoints[numWeeks - 1].value >= m)) {
-      const crossed = MILESTONES.find((m) => topPoints[numWeeks - 2].value < m && topPoints[numWeeks - 1].value >= m);
-      headline = `${top.name} crosses ${crossed.toLocaleString()} repos on GitHub.`;
-    } else if (hasGithubGrowth && top.github_growth_pct >= 15) {
-      headline = `${top.name} surges +${top.github_growth_pct}% in GitHub activity this week.`;
+    if (milestoneHeadline) {
+      headline = milestoneHeadline;
+    } else if (biggestGithubMove && biggestGithubMove.github_growth_pct >= 15) {
+      headline = `${biggestGithubMove.name} posts the week's biggest GitHub gain, up ${biggestGithubMove.github_growth_pct}%.`;
     } else {
-      headline = `${top.name} leads the pack as vibe coding keeps accelerating.`;
+      headline = `${signals.length} tools tracked, ${totalRepos.toLocaleString()}+ combined GitHub repos this week.`;
     }
     document.getElementById("hero-headline").textContent = headline;
 
-    renderHeroGraphic(document.getElementById("hero-graphic"), topPoints);
+    document.getElementById("hero-sub").textContent = biggestHnMove
+      ? `${biggestHnMove.name} saw the biggest jump in Hacker News mentions this week, ${biggestHnMove.hn_growth_pct >= 0 ? "+" : ""}${biggestHnMove.hn_growth_pct}%.`
+      : "Tracking GitHub growth, Hacker News buzz, and search interest across the vibe coding tools below.";
 
-    document.getElementById("stat-band-heading").textContent = `This week's momentum leader: ${top.name}`;
+    // Decorative hero graphic: combined GitHub repo count across every
+    // GitHub-tracked tool, not any one tool's line - avoids visually
+    // spotlighting a "leader" the same way the headline logic does.
+    const aggregatePoints = [];
+    const anyMetricSeries = Object.values(TOOL_GITHUB_METRIC).map((m) => counts[m]).find((s) => s && s.length);
+    if (anyMetricSeries) {
+      for (let i = 0; i < anyMetricSeries.length; i++) {
+        const date = anyMetricSeries[i].date;
+        const value = Object.values(TOOL_GITHUB_METRIC)
+          .map((m) => counts[m] && counts[m][i] && counts[m][i].value)
+          .filter((v) => v != null)
+          .reduce((sum, v) => sum + v, 0);
+        aggregatePoints.push({ date, value });
+      }
+    }
+    renderHeroGraphic(document.getElementById("hero-graphic"), aggregatePoints);
 
     onScrollIntoView(document.getElementById("stat-band"), () => {
-      if (top.github_repo_count != null) {
-        countUp(document.getElementById("stat-repos"), top.github_repo_count, { decimals: 0 });
-      } else {
-        document.getElementById("stat-repos").textContent = "n/a"; // not "0" - genuinely not tracked, see hasGithubGrowth above
-      }
-      countUp(document.getElementById("stat-hn"), top.hn_comments || 0, { decimals: 0 });
-      countUp(document.getElementById("stat-trends"), top.trends_interest || 0, { decimals: 0 });
-      const momentumEl = document.getElementById("stat-momentum");
-      momentumEl.textContent = hasGithubGrowth
-        ? (top.github_growth_pct >= 0 ? "+" : "") + top.github_growth_pct.toFixed(1) + "%"
-        : "n/a";
+      countUp(document.getElementById("stat-tools"), signals.length, { decimals: 0 });
+      countUp(document.getElementById("stat-repos"), totalRepos, { decimals: 0 });
+      const totalHn = signals.reduce((sum, s) => sum + (s.hn_comments || 0), 0);
+      countUp(document.getElementById("stat-hn"), totalHn, { decimals: 0 });
+      const growingCount = signals.filter((s) => s.github_growth_pct != null && s.github_growth_pct > 0).length;
+      document.getElementById("stat-growing").textContent = `${growingCount} of ${withGithubGrowth.length || signals.length}`;
     });
 
-    // Leaderboard preview (top 4, no chart)
+    // Signals preview (top 4 by GitHub repo count - an objective, single,
+    // real number, not a ranking of "importance". Tools with no GitHub
+    // tracking sort last rather than being hidden.)
     const board = document.getElementById("leaderboard-preview");
-    momentum.slice(0, 4).forEach((tool) => {
+    const bySize = [...signals].sort((a, b) => (b.github_repo_count || -1) - (a.github_repo_count || -1));
+    bySize.slice(0, 4).forEach((tool) => {
       const row = document.createElement("div");
       row.className = "row";
-      const hasGrowth = tool.github_growth_pct !== null && tool.github_growth_pct !== undefined;
+      const hasRepos = tool.github_repo_count != null;
+      const hasGrowth = tool.github_growth_pct != null;
       const delta = hasGrowth
         ? `<span class="delta ${tool.github_growth_pct >= 0 ? "up" : "down"}">${tool.github_growth_pct >= 0 ? "▲" : "▼"} ${Math.abs(tool.github_growth_pct)}%</span>`
         : `<span class="delta">—</span>`;
       row.innerHTML = `
-        <span class="rank">${tool.rank}</span>
         <span class="name">${tool.name}</span>
-        <span class="score">${tool.score}</span>
+        <span class="score">${hasRepos ? tool.github_repo_count.toLocaleString() : "—"}</span>
         ${delta}
       `;
       board.appendChild(row);
@@ -260,7 +266,7 @@ async function init() {
     });
 
     // Trends interest is already a comparable 0-100 index, so it's plotted
-    // raw. Cursor has no Google Trends coverage (see compute_momentum.py),
+    // raw. Cursor has no Google Trends coverage (see compute_signals.py),
     // so it's left out here rather than shown as a flat zero line.
     const INTEREST_METRICS = {
       "vibe coding": "interest_vibe_coding",

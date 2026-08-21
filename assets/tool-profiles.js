@@ -4,7 +4,7 @@
    Gemini-generated: this kind of fact changes slowly enough that manual
    upkeep is more reliable than an automated pipeline, and it keeps
    compare.html at zero incremental API cost - every other number on
-   that page comes from data this site already collects (momentum.json,
+   that page comes from data this site already collects (signals.json,
    news.json), not a new fetch or LLM call.
 
    IMPORTANT: pricing and feature claims below reflect a point-in-time
@@ -14,8 +14,8 @@
    compare.html surfaces that date on-page so it's never presented as
    more current than it is.
 
-   Colors intentionally match BUMP_COLORS / TREND_COLORS elsewhere on
-   the site, so a tool's color means the same thing on every page.
+   Colors intentionally match TREND_COLORS in index.html/leaderboard.html,
+   so a tool's color means the same thing on every page.
 --------------------------------------------------------------------- */
 
 const TOOL_PROFILES = {

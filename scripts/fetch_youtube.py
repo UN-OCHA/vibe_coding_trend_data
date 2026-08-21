@@ -363,7 +363,7 @@ def get_video_stats(video_ids):
 def update_status():
     """Records today's date as the last time this pipeline ran, so the
     site can show an honest "as of" freshness indicator. Duplicated in
-    fetch_news.py / compute_momentum.py rather than shared - see this
+    fetch_news.py / compute_signals.py rather than shared - see this
     codebase's self-contained-scripts convention (module docstrings).
     Not called at all if YOUTUBE_API_KEY is unset (see main()), so the
     site doesn't claim video freshness that didn't actually happen."""

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Compare tools — Vibecode Weekly</title>
-<meta name="description" content="Every vibe coding tool this site tracks, side by side — pricing, platform support, and live momentum data.">
+<meta name="description" content="Every vibe coding tool this site tracks, side by side — pricing, platform support, and live growth signals.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -16,7 +16,7 @@
     <a href="index.html" style="font-weight:600;">Vibecode Weekly</a>
     <div class="links">
       <a href="compare.html" class="active">Compare</a>
-      <a href="leaderboard.html">Leaderboard →</a>
+      <a href="leaderboard.html">Signals →</a>
     </div>
   </nav>
 
@@ -24,9 +24,9 @@
     <div class="section-label" style="text-align:left;">Head to head</div>
     <div class="section-title" style="text-align:left; font-size:32px;">Which vibe coding tool should you use?</div>
     <p class="section-subtitle" style="text-align:left;">
-      Every tool this site tracks, side by side. Pricing and platform facts are maintained by hand; momentum,
-      growth, and mentions are pulled live from the rest of this site — no extra data collection or AI calls
-      for this page.
+      Every tool this site tracks, side by side. Pricing and platform facts are maintained by hand; growth and
+      mentions are pulled live from the rest of this site — no extra data collection or AI calls for this page.
+      Nothing here is blended into one score; each signal is shown on its own.
     </p>
     <p class="freshness-note" id="freshness-note"></p>
   </header>
@@ -56,7 +56,7 @@
   </section>
 
   <footer class="site-footer">
-    Live stats (momentum, growth, mentions) update daily/weekly alongside the rest of the site. Pricing and
+    Live stats (growth, buzz, mentions) update daily/weekly alongside the rest of the site. Pricing and
     feature details are maintained by hand in assets/tool-profiles.js — verify against each vendor before
     relying on them for a purchase decision.
   </footer>
@@ -90,18 +90,18 @@ const TOOL_MATCHERS = {
   "Lovable": /\bLovable\b/,
 };
 const MENTION_LOOKBACK_DAYS = 30;
-const RADAR_TOOL_COUNT = 4; // cap the radar chart to the top N by momentum - see renderRadar()
+const RADAR_TOOL_COUNT = 4; // cap the radar chart to the top N by HN comment volume - see renderRadar()
 
 async function init() {
   try {
-    const [momentum, news, status] = await Promise.all([
-      fetchJson("data/momentum.json"),
+    const [signals, news, status] = await Promise.all([
+      fetchJson("data/signals.json"),
       fetchJson("data/news.json").catch(() => []),
       fetchJson("data/status.json").catch(() => ({})),
     ]);
 
-    const momentumByName = {};
-    momentum.forEach((t) => { momentumByName[t.name] = t; });
+    const signalsByName = {};
+    signals.forEach((t) => { signalsByName[t.name] = t; });
 
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - MENTION_LOOKBACK_DAYS);
@@ -114,8 +114,8 @@ async function init() {
       }
     });
 
-    renderToolCards(momentumByName, mentionsByTool);
-    renderRadar(momentumByName);
+    renderToolCards(signalsByName, mentionsByTool);
+    renderRadar(signalsByName);
     renderCompareTable();
 
     const dates = [status.news, status.youtube, status.trends].filter(Boolean);
@@ -131,10 +131,10 @@ async function init() {
   }
 }
 
-function renderToolCards(momentumByName, mentionsByTool) {
+function renderToolCards(signalsByName, mentionsByTool) {
   const grid = document.getElementById("tool-hero-grid");
   grid.innerHTML = Object.entries(TOOL_PROFILES).map(([name, profile]) => {
-    const m = momentumByName[name] || {};
+    const m = signalsByName[name] || {};
     const mentions = mentionsByTool[name] || [];
     const latest = mentions[0];
     const hasGrowth = m.github_growth_pct !== undefined && m.github_growth_pct !== null;
@@ -142,17 +142,16 @@ function renderToolCards(momentumByName, mentionsByTool) {
       <div class="tool-card" style="--tool-color:${profile.color}">
         <div class="tool-card-head">
           <div class="tool-name">${name}</div>
-          ${m.rank ? `<div class="tool-rank-badge">#${m.rank} momentum</div>` : ""}
         </div>
         <p class="tool-tagline">${profile.tagline}</p>
         <div class="tool-stats-row">
           <div class="tool-stat">
-            <div class="tool-stat-value">${m.score ?? "—"}</div>
-            <div class="tool-stat-label">Score</div>
-          </div>
-          <div class="tool-stat">
             <div class="tool-stat-value ${hasGrowth ? (m.github_growth_pct >= 0 ? "up" : "down") : ""}">${hasGrowth ? (m.github_growth_pct >= 0 ? "▲" : "▼") + " " + Math.abs(m.github_growth_pct) + "%" : "—"}</div>
             <div class="tool-stat-label">GitHub, 7d</div>
+          </div>
+          <div class="tool-stat">
+            <div class="tool-stat-value">${m.hn_comments ?? "—"}</div>
+            <div class="tool-stat-label">HN comments</div>
           </div>
           <div class="tool-stat">
             <div class="tool-stat-value">${mentions.length}</div>
@@ -182,28 +181,26 @@ function rankNormalize(values) {
   return scores;
 }
 
-function renderRadar(momentumByName) {
-  // Capped to the top N by momentum score rather than every tracked tool -
-  // overlapping polygons for 8 tools on a 4-axis chart stop being legible
-  // well before that point. The comparison table and tool cards below
-  // still cover every tool; this chart is specifically "how do this
-  // week's leaders stack up," and which tools qualify can change week to
-  // week as momentum shifts.
+function renderRadar(signalsByName) {
+  // Capped to the top N by Hacker News comment volume this week - the one
+  // signal every tracked tool actually has (see compute_signals.py's TOOLS
+  // dict), so it's a defensible, always-populated way to pick which tools
+  // are "in the conversation" enough to chart, without resurrecting a
+  // blended ranking just to decide it. The comparison table below still
+  // covers every tool.
   const allNames = Object.keys(TOOL_PROFILES);
   const names = [...allNames]
-    .sort((a, b) => (momentumByName[b]?.score || 0) - (momentumByName[a]?.score || 0))
+    .sort((a, b) => (signalsByName[b]?.hn_comments || 0) - (signalsByName[a]?.hn_comments || 0))
     .slice(0, RADAR_TOOL_COUNT);
-  const axisLabels = ["Momentum", "Community", "Buzz", "Interest"];
+  // Three axes, not four - these are exactly the three raw signals tracked
+  // everywhere else on the site (see leaderboard.html), no composite
+  // "momentum" axis anymore.
+  const axisLabels = ["GitHub growth", "HN growth", "Trends interest"];
 
-  const momentumRanks = rankNormalize(names.map((n) => momentumByName[n]?.score || 0));
-  const buzzRanks = rankNormalize(names.map((n) => momentumByName[n]?.hn_comments || 0));
-
-  // Community and Interest are each ranked only among tools that actually
-  // HAVE that signal - github_repo_count/trends_interest is null (not 0)
-  // for a tool this site deliberately doesn't track that way (see
-  // compute_momentum.py's TOOLS dict), and folding a missing value into
-  // the ranking as if it were a real low number would fabricate a rank
-  // that was never measured. Those tools get an explicit "no data"
+  // Each axis is ranked only among tools that actually HAVE that signal -
+  // a null value (not tracked, see compute_signals.py's TOOLS dict) folded
+  // into the ranking as if it were a real low number would fabricate a
+  // rank that was never measured. Those tools get an explicit "no data"
   // marker on that axis instead.
   function rankWithGaps(values) {
     const trackedIndexes = values.map((v, i) => (v !== null ? i : null)).filter((i) => i !== null);
@@ -214,23 +211,29 @@ function renderRadar(momentumByName) {
   }
 
   const githubValues = names.map((n) => {
-    const v = momentumByName[n]?.github_repo_count;
-    return v !== undefined && v !== null ? Math.log10(v + 1) : null;
-  });
-  const trendsValues = names.map((n) => {
-    const v = momentumByName[n]?.trends_interest;
+    const v = signalsByName[n]?.github_growth_pct;
     return v !== undefined && v !== null ? v : null;
   });
-  const communityRanks = rankWithGaps(githubValues);
+  const hnValues = names.map((n) => {
+    const v = signalsByName[n]?.hn_growth_pct;
+    return v !== undefined && v !== null ? v : null;
+  });
+  const trendsValues = names.map((n) => {
+    const v = signalsByName[n]?.trends_interest;
+    return v !== undefined && v !== null ? v : null;
+  });
+  const githubRanks = rankWithGaps(githubValues);
+  const hnRanks = rankWithGaps(hnValues);
   const interestRanks = rankWithGaps(trendsValues);
 
   const seriesByTool = {};
   const noDataAxes = {};
   names.forEach((name, i) => {
-    seriesByTool[name] = [momentumRanks[i], communityRanks[i], buzzRanks[i], interestRanks[i]];
+    seriesByTool[name] = [githubRanks[i], hnRanks[i], interestRanks[i]];
     const gaps = [];
-    if (githubValues[i] === null) gaps.push(1);
-    if (trendsValues[i] === null) gaps.push(3);
+    if (githubValues[i] === null) gaps.push(0);
+    if (hnValues[i] === null) gaps.push(1);
+    if (trendsValues[i] === null) gaps.push(2);
     if (gaps.length) noDataAxes[name] = gaps;
   });
 
@@ -254,14 +257,13 @@ function renderRadar(momentumByName) {
   });
 
   const cappedNote = allNames.length > RADAR_TOOL_COUNT
-    ? ` Showing this week's top ${RADAR_TOOL_COUNT} by momentum (of ${allNames.length} tracked) - full comparison below covers all of them.`
+    ? ` Showing this week's top ${RADAR_TOOL_COUNT} by Hacker News comment volume (of ${allNames.length} tracked) - full comparison below covers all of them.`
     : "";
   document.getElementById("radar-caption").textContent =
-    "Momentum = this week's blended leaderboard Score. Community = GitHub repo count. Buzz = Hacker News " +
-    "comments this week. Interest = Google Trends search interest. Each axis plots RANK among the tools shown " +
-    "(last place closest to center, first place at the outer edge), not raw magnitude — the actual numbers are " +
-    "in the stat cards above. A tool with no Trends coverage or no GitHub tracking (see the comparison table) " +
-    "gets an explicit \"no data\" marker on that axis rather than a fabricated rank." + cappedNote;
+    "Each axis plots RANK among the tools shown, on that one raw signal (last place closest to center, first " +
+    "place at the outer edge) - not magnitude, and not blended with the other two. The actual numbers are in " +
+    "the stat cards above and the full table below. A tool with no data for a signal gets an explicit \"no " +
+    "data\" marker on that axis rather than a fabricated rank." + cappedNote;
 }
 
 function renderCompareTable() {
