@@ -690,8 +690,9 @@ a:hover { text-decoration: underline; }
 
 .tool-stats-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 14px;
+  column-gap: 8px;
   padding: 12px 0;
   border-top: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -705,7 +706,7 @@ a:hover { text-decoration: underline; }
 
 .tool-stat-value {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: 17px;
   color: var(--dark-text);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
