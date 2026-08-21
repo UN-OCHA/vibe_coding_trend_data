@@ -733,16 +733,23 @@ a:hover { text-decoration: underline; }
   border-radius: 4px;
   margin-bottom: 12px;
   /* Always scrollable, not just below a breakpoint - the tool count is
-     dynamic (set via --compare-cols in JS) and can exceed what fits
-     comfortably even on a wide desktop viewport once past ~5 tools. */
+     dynamic and can exceed what fits comfortably even on a wide desktop
+     viewport once past ~5 tools. */
   overflow-x: auto;
 }
 
+/* grid-template-columns is set inline per row in JS (compare.html) with
+   a FIXED pixel width per tool column, not minmax(_, 1fr) - 1fr tracks
+   inside a row sized by width:max-content resolve independently per row
+   based on that row's own longest cell, which visibly broke column
+   alignment between rows (each row ended up a different total width).
+   Fixed widths make every row's columns identical regardless of content
+   length. flex-shrink:0 (not width:max-content) is what lets a row
+   wider than its container actually overflow into the horizontal
+   scrollbar on .compare-table, instead of being squeezed to fit. */
 .compare-row {
   display: grid;
-  grid-template-columns: 130px repeat(var(--compare-cols, 4), minmax(170px, 1fr));
-  width: max-content;
-  min-width: 100%;
+  flex-shrink: 0;
 }
 
 .compare-row:not(:last-child) { border-bottom: 1px solid var(--border-soft); }
@@ -797,5 +804,4 @@ a:hover { text-decoration: underline; }
   .leaderboard .row { grid-template-columns: 24px 1fr 70px; }
   .leaderboard .delta { display: none; }
   .story-grid, .video-grid { column-count: 1; }
-  .compare-row { grid-template-columns: 90px repeat(var(--compare-cols, 4), minmax(140px, 1fr)); }
 }

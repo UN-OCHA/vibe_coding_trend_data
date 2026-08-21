@@ -274,16 +274,22 @@ function renderCompareTable() {
     ["Watch out for", "watchOut"],
   ];
   const table = document.getElementById("compare-table");
-  table.style.setProperty("--compare-cols", names.length);
+  // Fixed pixel width per column, set directly on each row (not a CSS
+  // custom property, and not minmax(_, 1fr) - a "1fr" track's resolved
+  // width depends on the row's own content under the flex-shrink:0 sizing
+  // .compare-row uses to enable horizontal scroll, which was making each
+  // row a different total width and columns fail to line up between rows).
+  // A flat pixel width is identical for every row regardless of content.
+  const gridCols = `130px repeat(${names.length}, 200px)`;
   const headerCells = names.map((name) => `<div class="compare-cell compare-head" style="--tool-color:${TOOL_PROFILES[name].color}">${name}</div>`).join("");
   const bodyRows = rows.map(([label, key]) => `
-    <div class="compare-row">
+    <div class="compare-row" style="grid-template-columns:${gridCols}">
       <div class="compare-cell compare-row-label">${label}</div>
       ${names.map((name) => `<div class="compare-cell">${TOOL_PROFILES[name][key]}</div>`).join("")}
     </div>
   `).join("");
   table.innerHTML = `
-    <div class="compare-row compare-row-head">
+    <div class="compare-row compare-row-head" style="grid-template-columns:${gridCols}">
       <div class="compare-cell compare-row-label"></div>
       ${headerCells}
     </div>
