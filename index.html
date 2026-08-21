@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vibecode Weekly — trends in AI-assisted coding</title>
-<meta name="description" content="Daily news and trending videos, plus GitHub, Hacker News, Reddit, search-interest, and VS Code install signals tracking the vibe coding movement.">
+<meta name="description" content="Daily news and trending videos, plus GitHub, Hacker News, search-interest, and VS Code install signals tracking the vibe coding movement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -99,7 +99,7 @@
   <section>
     <div class="section-label">This week</div>
     <div class="section-title">Tool signals</div>
-    <div class="section-subtitle">GitHub growth, Hacker News and Reddit buzz, Google Trends interest, and VS Code Marketplace installs, tracked per tool — shown side by side, not blended into one ranking. Sorted here by GitHub repo count.</div>
+    <div class="section-subtitle">GitHub growth, Hacker News buzz, Google Trends interest, and VS Code Marketplace installs, tracked per tool — shown side by side, not blended into one ranking. Sorted here by GitHub repo count.</div>
     <div class="leaderboard" id="leaderboard-preview">
       <div class="row head"><span>Tool</span><span style="text-align:right;">GitHub repos</span><span style="text-align:right;">7-day</span></div>
     </div>
@@ -176,19 +176,6 @@ async function init() {
     const biggestHnMove = withHnGrowth.length
       ? withHnGrowth.reduce((a, b) => (b.hn_growth_pct > a.hn_growth_pct ? b : a))
       : null;
-    // Reddit is the site's other "buzz" signal alongside HN (see
-    // compute_signals.py's docstring) - compete the two for the hero-sub
-    // slot below rather than always favoring HN, same reasoning as
-    // GitHub-vs-VS-Code for the headline.
-    const withRedditGrowth = signals.filter((s) => s.reddit_growth_pct != null);
-    const biggestRedditMove = withRedditGrowth.length
-      ? withRedditGrowth.reduce((a, b) => (b.reddit_growth_pct > a.reddit_growth_pct ? b : a))
-      : null;
-    const biggestBuzzMove = biggestRedditMove && (!biggestHnMove || biggestRedditMove.reddit_growth_pct > biggestHnMove.hn_growth_pct)
-      ? { name: biggestRedditMove.name, pct: biggestRedditMove.reddit_growth_pct, source: "Reddit mentions" }
-      : biggestHnMove
-        ? { name: biggestHnMove.name, pct: biggestHnMove.hn_growth_pct, source: "Hacker News mentions" }
-        : null;
     // VS Code installs is a direct usage count, not a proxy, so a big
     // install swing is as headline-worthy as a GitHub repo swing - compete
     // the two for the same "biggest single-signal move" slot below rather
@@ -212,9 +199,9 @@ async function init() {
     }
     document.getElementById("hero-headline").textContent = headline;
 
-    document.getElementById("hero-sub").textContent = biggestBuzzMove
-      ? `${biggestBuzzMove.name} saw the biggest jump in ${biggestBuzzMove.source} this week, ${biggestBuzzMove.pct >= 0 ? "+" : ""}${biggestBuzzMove.pct}%.`
-      : "Tracking GitHub growth, Hacker News and Reddit buzz, and search interest across the vibe coding tools below.";
+    document.getElementById("hero-sub").textContent = biggestHnMove
+      ? `${biggestHnMove.name} saw the biggest jump in Hacker News mentions this week, ${biggestHnMove.hn_growth_pct >= 0 ? "+" : ""}${biggestHnMove.hn_growth_pct}%.`
+      : "Tracking GitHub growth, Hacker News buzz, and search interest across the vibe coding tools below.";
 
     // Decorative hero graphic: combined GitHub repo count across every
     // GitHub-tracked tool, not any one tool's line - avoids visually

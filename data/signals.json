@@ -7,9 +7,7 @@
     "hn_growth_pct": -10.4,
     "trends_interest": 32.0,
     "vscode_installs": 23646403.0,
-    "vscode_growth_pct": null,
-    "reddit_mentions": null,
-    "reddit_growth_pct": null
+    "vscode_growth_pct": null
   },
   {
     "name": "Codex",
@@ -19,9 +17,7 @@
     "hn_growth_pct": -24.2,
     "trends_interest": 39.0,
     "vscode_installs": null,
-    "vscode_growth_pct": null,
-    "reddit_mentions": null,
-    "reddit_growth_pct": null
+    "vscode_growth_pct": null
   },
   {
     "name": "Cursor",
@@ -31,9 +27,7 @@
     "hn_growth_pct": 25.0,
     "trends_interest": null,
     "vscode_installs": null,
-    "vscode_growth_pct": null,
-    "reddit_mentions": null,
-    "reddit_growth_pct": null
+    "vscode_growth_pct": null
   },
   {
     "name": "GitHub Copilot",
@@ -43,9 +37,7 @@
     "hn_growth_pct": 116.7,
     "trends_interest": 24.0,
     "vscode_installs": 74417943.0,
-    "vscode_growth_pct": null,
-    "reddit_mentions": null,
-    "reddit_growth_pct": null
+    "vscode_growth_pct": null
   },
   {
     "name": "Windsurf",
@@ -55,9 +47,7 @@
     "hn_growth_pct": null,
     "trends_interest": 13.0,
     "vscode_installs": null,
-    "vscode_growth_pct": null,
-    "reddit_mentions": null,
-    "reddit_growth_pct": null
+    "vscode_growth_pct": null
   },
   {
     "name": "Replit Agent",
@@ -67,9 +57,7 @@
     "hn_growth_pct": null,
     "trends_interest": 25.0,
     "vscode_installs": null,
-    "vscode_growth_pct": null,
-    "reddit_mentions": null,
-    "reddit_growth_pct": null
+    "vscode_growth_pct": null
   },
   {
     "name": "Devin",
@@ -79,9 +67,7 @@
     "hn_growth_pct": null,
     "trends_interest": 3.0,
     "vscode_installs": null,
-    "vscode_growth_pct": null,
-    "reddit_mentions": null,
-    "reddit_growth_pct": null
+    "vscode_growth_pct": null
   },
   {
     "name": "Lovable",
@@ -91,8 +77,6 @@
     "hn_growth_pct": null,
     "trends_interest": 56.0,
     "vscode_installs": null,
-    "vscode_growth_pct": null,
-    "reddit_mentions": null,
-    "reddit_growth_pct": null
+    "vscode_growth_pct": null
   }
 ]

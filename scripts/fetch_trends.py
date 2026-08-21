@@ -25,28 +25,12 @@ Sources:
                      VS Code's own client calls, not an official public API -
                      see fetch_vscode_marketplace_installs() for the same
                      kind of "inferred, not documented" caveat as Trends.
-  5. Reddit        - post mention counts per search term, past 7 days, via
-                     Reddit's official OAuth API (oauth.reddit.com), using
-                     an app-only "client_credentials" token - no Reddit user
-                     account tied to it, just the script app's own
-                     credentials (REDDIT_CLIENT_ID/REDDIT_CLIENT_SECRET).
-                     This is the signal that closes the gap GitHub/VS Code
-                     leave open: it's the second metric (after Hacker News)
-                     that every tracked tool gets, including the four with
-                     no public GitHub ecosystem or VS Code extension.
-                     This started out unauthenticated (reddit.com/search.json)
-                     and got 403-blocked on every single request in
-                     production (all 8 terms, first real run) - Reddit
-                     rejects unauthenticated automated requests from
-                     data-center IPs, GitHub Actions runners included, and
-                     that wasn't a fluke worth retrying around. OAuth fixes
-                     that specific problem. One caveat OAuth does NOT fix:
-                     the count is still capped at one page (100 results) per
-                     get_reddit_access_token()/fetch_reddit_mentions() call,
-                     unlike HN's true total, so it plateaus instead of
-                     distinguishing "busy week" from "huge week" past that
-                     cap - fixing that would mean paginating with `after`,
-                     not done here to keep this at one request per term.
+A Reddit signal (post mentions per term, via OAuth) was tried and removed
+again - Reddit's June 2026 "Responsible Builder Policy" gates API app
+creation behind a pre-approval step with no guaranteed outcome or
+timeline, which isn't something this project can build a scheduled
+pipeline on top of. If that changes, see this file's git history around
+"Add Reddit mention counts" for the working implementation to bring back.
 
 Idempotency: this script is safe to run more than once on the same day
 (e.g. a manual trigger on top of the scheduled run). Before writing, it
@@ -94,16 +78,6 @@ TRENDS_TERMS = [
     "windsurf editor", "replit agent", "devin ai", "lovable ai",
 ]  # Cursor deliberately excluded - "cursor" alone is too generic to track cleanly even qualified
 
-# Deliberately the exact same phrases as HN_TERMS - Reddit's search doesn't
-# need different disambiguation than HN's does, and keeping the two lists
-# identical means compute_signals.py's TOOLS dict can point both signals at
-# the same underlying term per tool. Kept as its own constant (not literally
-# "= HN_TERMS") so the two can diverge later without it being surprising.
-REDDIT_TERMS = [
-    "vibe coding", "github copilot", "claude code", "chatgpt codex", "cursor ai",
-    "windsurf editor", "replit agent", "devin ai", "lovable ai",
-]
-
 # Maps a display name to its exact Marketplace item ID (the "itemName="
 # value in a marketplace.visualstudio.com/items?itemName=... URL, i.e.
 # "Publisher.extension-name"). All three below were confirmed by hand
@@ -128,8 +102,6 @@ CSV_HEADERS = ["date", "source", "metric", "value"]
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 TRENDS_MCP_API_KEY = os.environ.get("TRENDS_MCP_API_KEY", "")
-REDDIT_CLIENT_ID = os.environ.get("REDDIT_CLIENT_ID", "")
-REDDIT_CLIENT_SECRET = os.environ.get("REDDIT_CLIENT_SECRET", "")
 
 
 def today_str():
@@ -359,88 +331,6 @@ def fetch_vscode_marketplace_installs():
 
 
 # ---------------------------------------------------------------------------
-# 5. Reddit - post mention counts per term, last 7 days -> counts_trends.csv
-# ---------------------------------------------------------------------------
-
-# A descriptive, honest User-Agent, as Reddit's API guidance asks for.
-REDDIT_HEADERS = {"User-Agent": "vibecode-weekly-trends-bot/1.0 (github.com/UN-OCHA/vibe_coding_trend_data)"}
-
-
-def get_reddit_access_token():
-    """App-only OAuth token via the "client_credentials" grant - no Reddit
-    user account tied to it, just this script's own app credentials. This
-    replaced a plain unauthenticated reddit.com/search.json call that got
-    403-blocked on every single request in production (all 8 terms, first
-    real run) - see the module docstring. Returns None (never raises) if
-    the credentials aren't set or the token request fails in any way,
-    same graceful-degradation convention as every other fetch function
-    here; fetch_reddit_mentions() treats a None token as "skip Reddit
-    entirely this run", not a partial failure."""
-    if not REDDIT_CLIENT_ID or not REDDIT_CLIENT_SECRET:
-        print("  WARNING: REDDIT_CLIENT_ID/REDDIT_CLIENT_SECRET not set, skipping Reddit fetch.")
-        return None
-    try:
-        resp = requests.post(
-            "https://www.reddit.com/api/v1/access_token",
-            auth=(REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET),
-            data={"grant_type": "client_credentials"},
-            headers=REDDIT_HEADERS,
-            timeout=30,
-        )
-    except Exception as e:
-        print(f"  WARNING: Reddit OAuth token request failed: {e}")
-        return None
-    if resp.status_code != 200:
-        print(f"  WARNING: Reddit OAuth token request returned {resp.status_code}: {resp.text[:200]}")
-        return None
-    try:
-        return resp.json()["access_token"]
-    except (KeyError, TypeError, ValueError) as e:
-        print(f"  WARNING: unexpected Reddit OAuth token response shape: {e}")
-        return None
-
-
-def fetch_reddit_mentions():
-    print("Fetching Reddit mention counts...")
-    token = get_reddit_access_token()
-    if not token:
-        return  # already warned in get_reddit_access_token()
-
-    # oauth.reddit.com, not www.reddit.com - the OAuth-authenticated host
-    # is a separate endpoint from the public unauthenticated one.
-    headers = {**REDDIT_HEADERS, "Authorization": f"Bearer {token}"}
-    url = "https://oauth.reddit.com/search"
-
-    for term in REDDIT_TERMS:
-        metric_name = term.replace(" ", "_")
-        # t=week asks Reddit's own search to restrict to the past 7 days,
-        # same window HN and Trends use - no client-side date filtering
-        # needed like fetch_hn_mentions() does. limit=100 is still the
-        # practical ceiling per request even with OAuth - see the module
-        # docstring for why that cap is unrelated to the auth fix.
-        params = {"q": term, "sort": "new", "t": "week", "limit": 100}
-        try:
-            resp = requests.get(url, headers=headers, params=params, timeout=30)
-        except Exception as e:
-            print(f"  WARNING: request failed for '{term}': {e}")
-            time.sleep(1)
-            continue
-        if resp.status_code != 200:
-            print(f"  WARNING: Reddit returned {resp.status_code} for '{term}': {resp.text[:200]}")
-            time.sleep(1)
-            continue
-        try:
-            children = resp.json()["data"]["children"]
-        except (KeyError, TypeError, ValueError) as e:
-            print(f"  WARNING: unexpected Reddit response shape for '{term}': {e}")
-            time.sleep(1)
-            continue
-
-        stage_row(COUNTS_CSV_PATH, "reddit", f"weekly_mentions_{metric_name}", len(children))
-        time.sleep(1)
-
-
-# ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
 
@@ -451,7 +341,6 @@ def main():
     fetch_hn_mentions()
     fetch_google_trends()
     fetch_vscode_marketplace_installs()
-    fetch_reddit_mentions()
     flush_staged()
     print("Done.")
 
