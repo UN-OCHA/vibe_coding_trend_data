@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tool signals — Vibecode Weekly</title>
-<meta name="description" content="GitHub growth, Hacker News buzz, and Google Trends interest for every AI coding tool this site tracks, shown side by side.">
+<meta name="description" content="GitHub growth, Hacker News and Reddit buzz, Google Trends interest, and VS Code installs for every AI coding tool this site tracks, shown side by side.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -24,10 +24,10 @@
     <div class="section-label" style="text-align:left;">This week</div>
     <div class="section-title" style="text-align:left; font-size:32px;">Tool signals</div>
     <p class="section-subtitle" style="text-align:left;">
-      GitHub repo growth, Hacker News buzz, and Google Trends search interest, tracked per tool. These used to
-      be blended into one weekly "momentum score" - that's gone (see the note below for why); each signal is
-      shown on its own now, so you can judge for yourself rather than trust a single number to have judged for
-      you. Click a column to sort by it.
+      GitHub repo growth, Hacker News and Reddit buzz, Google Trends search interest, and VS Code Marketplace
+      installs, tracked per tool. These used to be blended into one weekly "momentum score" - that's gone (see
+      the note below for why); each signal is shown on its own now, so you can judge for yourself rather than
+      trust a single number to have judged for you. Click a column to sort by it.
     </p>
     <p class="freshness-note" id="freshness-note"></p>
   </header>
@@ -39,18 +39,22 @@
   <p class="method-note">
     Every number here is a raw, unblended measurement - no formula, no weighting, no ranking. GitHub repos =
     count of repos tagged with that tool's topic, via the GitHub API. HN comments = Hacker News comment volume
-    this week, via the Algolia HN Search API. Trends interest = Google's 0–100 relative search-interest index,
-    via a third-party proxy - treat this one as the least reliable column; see the README for the reliability
-    caveat and a confirmed case of it silently missing a week's data point. VS Code installs = the extension's
-    total install count from the VS Code Marketplace's own public API - the one number on this page that's a
-    direct usage count rather than a proxy for one. 7-day columns compare each week's snapshot against whichever
-    earlier snapshot is closest to 7 days prior, not just the previous row, so an off-schedule manual run doesn't
-    get compared against a too-recent point. A dash means that signal genuinely isn't tracked for that tool
-    (Cursor has no Trends coverage - "Cursor" is too generic a search term to track cleanly; Replit Agent, Devin,
-    and Lovable have no GitHub signal - none of them are tools people build a public GitHub ecosystem of
-    extensions/example repos around; only tools that ship an actual VS Code extension have install counts at
-    all - Cursor and Windsurf are standalone forked editors, and Replit Agent, Devin, and Lovable are
-    browser-only) - never a fabricated zero.
+    this week, via the Algolia HN Search API. Reddit mentions = post count for that tool's search term over the
+    past week, via Reddit's own (unauthenticated) search - treat this as the least reliable column on the page,
+    less reliable even than Trends: reddit.com commonly rate-limits or blocks unauthenticated requests outright,
+    and the count is capped at 100 results rather than a true total, so a very active week can look identical to
+    a merely busy one. Trends interest = Google's 0–100 relative search-interest index, via a third-party proxy -
+    see the README for the reliability caveat and a confirmed case of it silently missing a week's data point.
+    VS Code installs = the extension's total install count from the VS Code Marketplace's own public API - the
+    one number on this page that's a direct usage count rather than a proxy for one. 7-day columns compare each
+    week's snapshot against whichever earlier snapshot is closest to 7 days prior, not just the previous row, so
+    an off-schedule manual run doesn't get compared against a too-recent point. A dash means that signal
+    genuinely isn't tracked for that tool (Cursor has no Trends coverage - "Cursor" is too generic a search term
+    to track cleanly; Replit Agent, Devin, and Lovable have no GitHub signal - none of them are tools people
+    build a public GitHub ecosystem of extensions/example repos around; only tools that ship an actual VS Code
+    extension have install counts at all - Cursor and Windsurf are standalone forked editors, and Replit Agent,
+    Devin, and Lovable are browser-only; Hacker News and Reddit are the two signals every tool here has) - never
+    a fabricated zero.
   </p>
 
   <section>
@@ -64,6 +68,10 @@
       <div class="chart-card">
         <div class="chart-label">Hacker News comments/week, indexed (first week = 100)</div>
         <svg id="hn-trend-chart" style="width:100%; height:200px; display:block;"></svg>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Reddit mentions/week, indexed (first week = 100)</div>
+        <svg id="reddit-trend-chart" style="width:100%; height:200px; display:block;"></svg>
       </div>
       <div class="chart-card">
         <div class="chart-label">Search interest, weekly (0–100)</div>
@@ -101,6 +109,8 @@ const COLUMNS = [
   { key: "github_growth_pct", label: "GitHub, 7d", numeric: true, pct: true },
   { key: "hn_comments", label: "HN comments", numeric: true },
   { key: "hn_growth_pct", label: "HN, 7d", numeric: true, pct: true },
+  { key: "reddit_mentions", label: "Reddit mentions", numeric: true },
+  { key: "reddit_growth_pct", label: "Reddit, 7d", numeric: true, pct: true },
   { key: "trends_interest", label: "Trends interest", numeric: true },
   { key: "vscode_installs", label: "VS Code installs", numeric: true },
   { key: "vscode_growth_pct", label: "VS Code, 7d", numeric: true, pct: true },
@@ -137,6 +147,8 @@ function renderSignalsTable(signals) {
       ${cell(tool.github_growth_pct, true)}
       ${cell(tool.hn_comments)}
       ${cell(tool.hn_growth_pct, true)}
+      ${cell(tool.reddit_mentions)}
+      ${cell(tool.reddit_growth_pct, true)}
       ${cell(tool.trends_interest)}
       ${cell(tool.vscode_installs)}
       ${cell(tool.vscode_growth_pct, true)}
@@ -223,6 +235,16 @@ async function init() {
       "Codex": "vscode_installs_codex",
       "GitHub Copilot": "vscode_installs_github_copilot",
     };
+    const TOOL_REDDIT_METRIC = {
+      "Claude Code": "weekly_mentions_claude_code",
+      "Codex": "weekly_mentions_chatgpt_codex",
+      "Cursor": "weekly_mentions_cursor_ai",
+      "GitHub Copilot": "weekly_mentions_github_copilot",
+      "Windsurf": "weekly_mentions_windsurf_editor",
+      "Replit Agent": "weekly_mentions_replit_agent",
+      "Devin": "weekly_mentions_devin_ai",
+      "Lovable": "weekly_mentions_lovable_ai",
+    };
 
     function indexedSeries(metricMap, source) {
       const out = {};
@@ -250,6 +272,12 @@ async function init() {
     const hnChartEl = document.getElementById("hn-trend-chart");
     onScrollIntoView(hnChartEl.closest(".chart-card"), () => {
       const lines = renderTrendChart(hnChartEl, indexedSeries(TOOL_HN_METRIC, counts), weekLabels, { colors: TREND_COLORS });
+      animateLinesIn(lines);
+    });
+
+    const redditChartEl = document.getElementById("reddit-trend-chart");
+    onScrollIntoView(redditChartEl.closest(".chart-card"), () => {
+      const lines = renderTrendChart(redditChartEl, indexedSeries(TOOL_REDDIT_METRIC, counts), weekLabels, { colors: TREND_COLORS });
       animateLinesIn(lines);
     });
 

@@ -1,8 +1,8 @@
 # Vibecode Weekly Reporting
 
 A GitHub Pages site tracking vibe coding trends: weekly growth signals
-(GitHub, Hacker News, Google Trends, VS Code Marketplace installs) plus a
-daily feed of news and YouTube videos, sourced from a Google Sheet a
+(GitHub, Hacker News, Reddit, Google Trends, VS Code Marketplace installs)
+plus a daily feed of news and YouTube videos, sourced from a Google Sheet a
 non-technical person can edit directly. No backend — everything renders
 client-side against static CSV/JSON files committed by two scheduled
 GitHub Actions workflows.
@@ -59,9 +59,11 @@ Set these under Settings → Secrets and variables → Actions:
 | `YOUTUBE_API_KEY` | daily workflow | YouTube Data API v3 key, free tier |
 | `GEMINI_API_KEY` | daily workflow | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py` (both run keyword-only if unset, capped at 30 calls/run each - see `MAX_GEMINI_CALLS_PER_RUN`), and powers the auto-written digest in `generate_digest.py`. That script runs daily but self-limits to writing a new digest roughly once a week (`MIN_DAYS_BETWEEN_DIGESTS`); skipped entirely, leaving any prior digest in place, if unset |
 
-The VS Code Marketplace signal (`fetch_vscode_marketplace_installs()` in
-`scripts/fetch_trends.py`) needs no secret at all - it's an unauthenticated
-public endpoint, so there's nothing to add here for it.
+The VS Code Marketplace and Reddit signals (`fetch_vscode_marketplace_installs()`
+and `fetch_reddit_mentions()` in `scripts/fetch_trends.py`) need no secret at
+all - both are unauthenticated public endpoints, so there's nothing to add
+here for either. Reddit's reliability is the tradeoff for that - see the
+caveat below.
 
 ## What each data source measures
 
@@ -91,6 +93,23 @@ ship an actual VS Code extension (Cursor and Windsurf are standalone forked
 editors, not extensions; Replit Agent, Devin, and Lovable are browser-only,
 so they have no extension to count installs for either).
 
+**Reddit** — post mentions per search term, past 7 days, via Reddit's own
+public search endpoint (`reddit.com/search.json`), unauthenticated. This is
+the second signal (after Hacker News) that every tracked tool gets — added
+specifically to give Replit Agent, Devin, Lovable, and Windsurf's VS Code
+gap a real second data point instead of relying on Hacker News alone.
+**Treat this as the least reliable signal on the site, less reliable than
+Trends**: unauthenticated requests to reddit.com are commonly rate-limited
+or blocked outright from data-center IPs, GitHub Actions runners included,
+so a run can come back with several tools silently missing this week — and
+even a clean response is capped at 100 results (one unauthenticated page),
+not a true total, so a very active week and a merely busy one can look
+identical past that cap. If this proves too unreliable in practice, an
+OAuth "script" app (Reddit's free API tier) would fix both the blocking and
+the 100-result cap, at the cost of adding `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET`
+secrets — not done here to keep this signal's overhead at zero, matching
+VS Code Marketplace.
+
 **News (RSS)** — headline, link, date per configured feed. Feeds only, not
 scraping — scraping is fragile and often against a site's terms of service.
 
@@ -114,15 +133,15 @@ data points) never made the result more *accurate*. It made it harder to
 momentum or one of those known failure modes, and the weighting itself was
 never validated against anything, just picked as a starting point.
 
-`scripts/compute_signals.py` now writes each tool's four signals as
+`scripts/compute_signals.py` now writes each tool's five signals as
 separate fields in `data/signals.json` - honestly `null` where a signal
 genuinely isn't tracked for that tool - and does not rank tools against
 each other. `leaderboard.html` shows them as a sortable table (click a
 column to sort by it) instead of a leaderboard; `compare.html`'s radar
-chart plots the four signals as four independent axes, not blended into a
-fifth "momentum" axis.
+chart plots the five signals as five independent axes, not blended into a
+sixth "momentum" axis.
 
-Not every tool gets all four signals. Cursor has no Trends coverage
+Not every tool gets all five signals. Cursor has no Trends coverage
 ("Cursor" is too generic a search term to track cleanly). Replit Agent,
 Devin, and Lovable have no GitHub signal at all - none of them are tools
 people build a public GitHub ecosystem of extensions/example repos around
@@ -131,7 +150,11 @@ Agent/Lovable - usage mostly stays on the vendor's own hosted platform) or
 actively misleading (Devin - "devin" is also just a common first name).
 Only Claude Code, Codex, and GitHub Copilot have a VS Code install count -
 Cursor and Windsurf are standalone forked editors rather than VS Code
-extensions, and Replit Agent, Devin, and Lovable are browser-only. A
+extensions, and Replit Agent, Devin, and Lovable are browser-only.
+Hacker News and Reddit are the two signals every tracked tool has - Reddit
+was added specifically so the four tools without a GitHub or VS Code
+signal (Replit Agent, Devin, Lovable, and Windsurf for VS Code) still get
+a second real data point instead of resting on Hacker News alone. A
 missing signal shows as a dash on the site, never a fabricated zero.
 
 ## Adding a tool
@@ -140,15 +163,16 @@ Edit the `TOOLS` dict at the top of `scripts/compute_signals.py` — map a
 display name to the matching metric names already being tracked in the two
 CSVs. Set `"github"`, `"trends"`, or `"vscode"` to `None` if that signal
 genuinely isn't trackable for this tool (see "Signals, not a score" above)
-- `"hn"` is the one every tool is expected to have, since Hacker News needs
-no topic tag, Trends term, or Marketplace listing to configure first. If
-the tool isn't tracked yet, add it to the
-`GITHUB_TOPICS`/`HN_TERMS`/`TRENDS_TERMS` lists in `scripts/fetch_trends.py`
-first (skip `GITHUB_TOPICS` if you're setting `"github": None`), and to
-`VSCODE_EXTENSIONS` (same file) with its exact Marketplace extension ID if
-it ships a VS Code extension. Also add it to `assets/tool-profiles.js`
-(compare.html's hand-curated facts) and to `TOOL_MATCHERS` in `compare.html`
-if you want it picked up by the "recent mentions" count there.
+- `"hn"` and `"reddit"` are the two every tool is expected to have, since
+neither needs a topic tag, Trends term, or Marketplace listing to configure
+first. If the tool isn't tracked yet, add it to the
+`GITHUB_TOPICS`/`HN_TERMS`/`TRENDS_TERMS`/`REDDIT_TERMS` lists in
+`scripts/fetch_trends.py` first (skip `GITHUB_TOPICS` if you're setting
+`"github": None`), and to `VSCODE_EXTENSIONS` (same file) with its exact
+Marketplace extension ID if it ships a VS Code extension. Also add it to
+`assets/tool-profiles.js` (compare.html's hand-curated facts) and to
+`TOOL_MATCHERS` in `compare.html` if you want it picked up by the "recent
+mentions" count there.
 
 ## Hosting
 
@@ -169,3 +193,8 @@ private while setting the *published site* to public visibility.
 - `data/news.json` ships with a handful of placeholder rows so the site
   isn't empty on first load — delete them once the daily workflow has run
   for real.
+- The Reddit signal is unauthenticated and may get rate-limited or blocked
+  from GitHub Actions' IPs in practice, not just in theory — watch the
+  first few weekly runs' logs for `WARNING: Reddit returned...` before
+  trusting it. See "What each data source measures" above for the fix if
+  it turns out to be unreliable (an OAuth "script" app).

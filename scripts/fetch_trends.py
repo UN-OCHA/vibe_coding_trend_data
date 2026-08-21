@@ -25,6 +25,21 @@ Sources:
                      VS Code's own client calls, not an official public API -
                      see fetch_vscode_marketplace_installs() for the same
                      kind of "inferred, not documented" caveat as Trends.
+  5. Reddit        - post mention counts per search term, past 7 days
+                     (reddit.com/search.json, unauthenticated). This is the
+                     signal that closes the gap GitHub/VS Code leave open:
+                     it's the second metric (after Hacker News) that every
+                     tracked tool gets, including the four with no public
+                     GitHub ecosystem or VS Code extension. Two caveats
+                     worth knowing, both covered in fetch_reddit_mentions():
+                     unauthenticated requests to reddit.com are commonly
+                     rate-limited or blocked outright from data-center IPs
+                     (GitHub Actions runners included) - treat this as at
+                     least as unreliable as the Trends signal, maybe more -
+                     and the count is capped at one page (100 results),
+                     unlike HN's true total, so it plateaus instead of
+                     distinguishing "busy week" from "huge week" past that
+                     cap.
 
 Idempotency: this script is safe to run more than once on the same day
 (e.g. a manual trigger on top of the scheduled run). Before writing, it
@@ -71,6 +86,16 @@ TRENDS_TERMS = [
     "vibe coding", "github copilot", "claude code", "chatgpt codex",
     "windsurf editor", "replit agent", "devin ai", "lovable ai",
 ]  # Cursor deliberately excluded - "cursor" alone is too generic to track cleanly even qualified
+
+# Deliberately the exact same phrases as HN_TERMS - Reddit's search doesn't
+# need different disambiguation than HN's does, and keeping the two lists
+# identical means compute_signals.py's TOOLS dict can point both signals at
+# the same underlying term per tool. Kept as its own constant (not literally
+# "= HN_TERMS") so the two can diverge later without it being surprising.
+REDDIT_TERMS = [
+    "vibe coding", "github copilot", "claude code", "chatgpt codex", "cursor ai",
+    "windsurf editor", "replit agent", "devin ai", "lovable ai",
+]
 
 # Maps a display name to its exact Marketplace item ID (the "itemName="
 # value in a marketplace.visualstudio.com/items?itemName=... URL, i.e.
@@ -327,6 +352,55 @@ def fetch_vscode_marketplace_installs():
 
 
 # ---------------------------------------------------------------------------
+# 5. Reddit - post mention counts per term, last 7 days -> counts_trends.csv
+# ---------------------------------------------------------------------------
+
+# A descriptive, honest User-Agent, as Reddit's API guidance asks for -
+# doesn't avoid the rate-limiting/blocking risk described in the module
+# docstring, but an unlabeled default requests User-Agent gets blocked even
+# more readily.
+REDDIT_HEADERS = {"User-Agent": "vibecode-weekly-trends-bot/1.0 (github.com/UN-OCHA/vibe_coding_trend_data)"}
+
+
+def fetch_reddit_mentions():
+    print("Fetching Reddit mention counts...")
+    url = "https://www.reddit.com/search.json"
+
+    for term in REDDIT_TERMS:
+        metric_name = term.replace(" ", "_")
+        # t=week asks Reddit's own search to restrict to the past 7 days,
+        # same window HN and Trends use - no client-side date filtering
+        # needed like fetch_hn_mentions() does. limit=100 is the practical
+        # ceiling for a single unauthenticated request; see the module
+        # docstring for why that's a real cap, not just a safety margin.
+        params = {"q": term, "sort": "new", "t": "week", "limit": 100}
+        try:
+            resp = requests.get(url, headers=REDDIT_HEADERS, params=params, timeout=30)
+        except Exception as e:
+            print(f"  WARNING: request failed for '{term}': {e}")
+            time.sleep(2)
+            continue
+        if resp.status_code != 200:
+            print(f"  WARNING: Reddit returned {resp.status_code} for '{term}' - this commonly means "
+                  f"reddit.com rate-limited or blocked this request rather than the query itself being "
+                  f"wrong (see the module docstring): {resp.text[:200]}")
+            time.sleep(2)
+            continue
+        try:
+            children = resp.json()["data"]["children"]
+        except (KeyError, TypeError, ValueError) as e:
+            # A block/CAPTCHA page returns HTML or a differently-shaped
+            # JSON body, not the search listing - .json() itself can raise
+            # here too (ValueError covers requests' JSONDecodeError).
+            print(f"  WARNING: unexpected Reddit response shape for '{term}' (often means a block page instead of real results): {e}")
+            time.sleep(2)
+            continue
+
+        stage_row(COUNTS_CSV_PATH, "reddit", f"weekly_mentions_{metric_name}", len(children))
+        time.sleep(2)
+
+
+# ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
 
@@ -337,6 +411,7 @@ def main():
     fetch_hn_mentions()
     fetch_google_trends()
     fetch_vscode_marketplace_installs()
+    fetch_reddit_mentions()
     flush_staged()
     print("Done.")
 

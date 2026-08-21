@@ -505,7 +505,7 @@ a:hover { text-decoration: underline; }
 
 .signals-row {
   display: grid;
-  grid-template-columns: 170px repeat(7, 130px);
+  grid-template-columns: 170px repeat(9, 130px);
   flex-shrink: 0;
 }
 
@@ -679,10 +679,16 @@ a:hover { text-decoration: underline; }
   margin: 0;
 }
 
+/* 3 columns, not 5 - a tool card is only ~230px wide (see .tool-hero-grid's
+   minmax), so 5 stats in one row squeezed each one to illegible width and
+   overflowed the card. 5 items auto-flow into 3-then-2 across two rows
+   instead - still no fixed row count to hardcode/get stale as stats are
+   added or removed, same reasoning as leaderboard.html's .signals-row fix. */
 .tool-stats-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 14px;
+  column-gap: 8px;
   padding: 12px 0;
   border-top: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid rgba(255,255,255,0.08);

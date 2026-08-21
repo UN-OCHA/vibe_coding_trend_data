@@ -161,6 +161,10 @@ function renderToolCards(signalsByName, mentionsByTool) {
             <div class="tool-stat-value">${m.vscode_installs != null ? formatCompact(m.vscode_installs) : "—"}</div>
             <div class="tool-stat-label">VS Code installs</div>
           </div>
+          <div class="tool-stat">
+            <div class="tool-stat-value">${m.reddit_mentions ?? "—"}</div>
+            <div class="tool-stat-label">Reddit mentions</div>
+          </div>
         </div>
         <p class="tool-best-for"><strong>Best for:</strong> ${profile.bestFor}</p>
         ${latest ? `<a class="tool-latest" href="${latest.url}" target="_blank" rel="noopener">Latest: ${latest.title}</a>` : ""}
@@ -196,9 +200,9 @@ function renderRadar(signalsByName) {
   const names = [...allNames]
     .sort((a, b) => (signalsByName[b]?.hn_comments || 0) - (signalsByName[a]?.hn_comments || 0))
     .slice(0, RADAR_TOOL_COUNT);
-  // Four axes - the four raw signals tracked everywhere else on the site
+  // Five axes - the five raw signals tracked everywhere else on the site
   // (see leaderboard.html), no composite "momentum" axis.
-  const axisLabels = ["GitHub growth", "HN growth", "Trends interest", "VS Code growth"];
+  const axisLabels = ["GitHub growth", "HN growth", "Reddit growth", "Trends interest", "VS Code growth"];
 
   // Each axis is ranked only among tools that actually HAVE that signal -
   // a null value (not tracked, see compute_signals.py's TOOLS dict) folded
@@ -229,20 +233,26 @@ function renderRadar(signalsByName) {
     const v = signalsByName[n]?.vscode_growth_pct;
     return v !== undefined && v !== null ? v : null;
   });
+  const redditValues = names.map((n) => {
+    const v = signalsByName[n]?.reddit_growth_pct;
+    return v !== undefined && v !== null ? v : null;
+  });
   const githubRanks = rankWithGaps(githubValues);
   const hnRanks = rankWithGaps(hnValues);
   const interestRanks = rankWithGaps(trendsValues);
   const vscodeRanks = rankWithGaps(vscodeValues);
+  const redditRanks = rankWithGaps(redditValues);
 
   const seriesByTool = {};
   const noDataAxes = {};
   names.forEach((name, i) => {
-    seriesByTool[name] = [githubRanks[i], hnRanks[i], interestRanks[i], vscodeRanks[i]];
+    seriesByTool[name] = [githubRanks[i], hnRanks[i], redditRanks[i], interestRanks[i], vscodeRanks[i]];
     const gaps = [];
     if (githubValues[i] === null) gaps.push(0);
     if (hnValues[i] === null) gaps.push(1);
-    if (trendsValues[i] === null) gaps.push(2);
-    if (vscodeValues[i] === null) gaps.push(3);
+    if (redditValues[i] === null) gaps.push(2);
+    if (trendsValues[i] === null) gaps.push(3);
+    if (vscodeValues[i] === null) gaps.push(4);
     if (gaps.length) noDataAxes[name] = gaps;
   });
 
@@ -270,7 +280,7 @@ function renderRadar(signalsByName) {
     : "";
   document.getElementById("radar-caption").textContent =
     "Each axis plots RANK among the tools shown, on that one raw signal (last place closest to center, first " +
-    "place at the outer edge) - not magnitude, and not blended with the other three. The actual numbers are in " +
+    "place at the outer edge) - not magnitude, and not blended with the other four. The actual numbers are in " +
     "the stat cards above and the full table below. A tool with no data for a signal gets an explicit \"no " +
     "data\" marker on that axis rather than a fabricated rank." + cappedNote;
 }
