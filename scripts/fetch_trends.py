@@ -15,6 +15,16 @@ Sources:
   3. Google Trends - search interest via Trends MCP (api.trendsmcp.ai), a
                      third-party managed proxy. See README for the full
                      reliability caveat.
+  4. VS Code       - install count per extension, via the Marketplace's
+     Marketplace     Extension Gallery API (marketplace.visualstudio.com).
+                     Unlike the other three, this is a direct usage count,
+                     not a proxy for one - the tradeoff is that only tools
+                     shipping an actual VS Code extension have one at all
+                     (see VSCODE_EXTENSIONS below). No API key needed, but
+                     it's the same undocumented-for-third-party-use endpoint
+                     VS Code's own client calls, not an official public API -
+                     see fetch_vscode_marketplace_installs() for the same
+                     kind of "inferred, not documented" caveat as Trends.
 
 Idempotency: this script is safe to run more than once on the same day
 (e.g. a manual trigger on top of the scheduled run). Before writing, it
@@ -61,6 +71,25 @@ TRENDS_TERMS = [
     "vibe coding", "github copilot", "claude code", "chatgpt codex",
     "windsurf editor", "replit agent", "devin ai", "lovable ai",
 ]  # Cursor deliberately excluded - "cursor" alone is too generic to track cleanly even qualified
+
+# Maps a display name to its exact Marketplace item ID (the "itemName="
+# value in a marketplace.visualstudio.com/items?itemName=... URL, i.e.
+# "Publisher.extension-name"). ONLY "GitHub Copilot" has been checked
+# against a real, well-known listing - the rest are a best effort, since
+# this sandbox has no live internet access to open the Marketplace and
+# confirm them. That's a safe kind of wrong, not a misleading one: a
+# mistaken ID just returns zero matching extensions (handled as "not
+# found" below), not a real count attributed to the wrong product - but
+# double-check each of these against the live Marketplace before trusting
+# the numbers. Cursor and Windsurf aren't here at all: both are standalone
+# forked editors, not something installed as a VS Code extension, so
+# there's nothing to look up for them. Replit Agent, Devin, and Lovable
+# are browser-only hosted platforms - same reasoning.
+VSCODE_EXTENSIONS = {
+    "GitHub Copilot": "GitHub.copilot",
+    "Claude Code": "Anthropic.claude-code",  # UNVERIFIED - confirm the exact ID
+    "Codex": "openai.chatgpt",  # UNVERIFIED - confirm the exact ID
+}
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 COUNTS_CSV_PATH = os.path.join(DATA_DIR, "counts_trends.csv")
@@ -246,6 +275,58 @@ def fetch_google_trends():
 
 
 # ---------------------------------------------------------------------------
+# 4. VS Code Marketplace - install count per extension -> counts_trends.csv
+# ---------------------------------------------------------------------------
+
+def fetch_vscode_marketplace_installs():
+    print("Fetching VS Code Marketplace install counts...")
+    url = "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery"
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json;api-version=3.0-preview.1",
+    }
+
+    for tool_name, extension_id in VSCODE_EXTENSIONS.items():
+        body = {
+            "filters": [{"criteria": [{"filterType": 7, "value": extension_id}]}],  # 7 = exact extension name
+            "flags": 914,  # includes install/rating statistics in the response
+        }
+        try:
+            resp = requests.post(url, headers=headers, json=body, timeout=30)
+        except Exception as e:
+            print(f"  WARNING: request failed for '{extension_id}': {e}")
+            time.sleep(1)
+            continue
+        if resp.status_code != 200:
+            print(f"  WARNING: Marketplace API returned {resp.status_code} for '{extension_id}': {resp.text[:200]}")
+            time.sleep(1)
+            continue
+
+        try:
+            extensions = resp.json()["results"][0]["extensions"]
+        except (KeyError, IndexError, TypeError) as e:
+            print(f"  WARNING: unexpected Marketplace response shape for '{extension_id}': {e}")
+            time.sleep(1)
+            continue
+
+        if not extensions:
+            print(f"  WARNING: no extension found for '{extension_id}' - check this ID against the live Marketplace listing")
+            time.sleep(1)
+            continue
+
+        stats = extensions[0].get("statistics", [])
+        install_count = next((s["value"] for s in stats if s.get("statisticName") == "install"), None)
+        if install_count is None:
+            print(f"  WARNING: no install-count statistic in response for '{extension_id}'")
+            time.sleep(1)
+            continue
+
+        metric_name = f"vscode_installs_{tool_name.lower().replace(' ', '_')}"
+        stage_row(COUNTS_CSV_PATH, "vscode_marketplace", metric_name, int(install_count))
+        time.sleep(1)
+
+
+# ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
 
@@ -255,6 +336,7 @@ def main():
     fetch_github_topic_counts()
     fetch_hn_mentions()
     fetch_google_trends()
+    fetch_vscode_marketplace_installs()
     flush_staged()
     print("Done.")
 

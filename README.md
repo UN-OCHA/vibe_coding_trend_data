@@ -1,10 +1,11 @@
 # Vibecode Weekly Reporting
 
 A GitHub Pages site tracking vibe coding trends: weekly growth signals
-(GitHub, Hacker News, Google Trends) plus a daily feed of news and YouTube
-videos, sourced from a Google Sheet a non-technical person can edit
-directly. No backend — everything renders client-side against static
-CSV/JSON files committed by two scheduled GitHub Actions workflows.
+(GitHub, Hacker News, Google Trends, VS Code Marketplace installs) plus a
+daily feed of news and YouTube videos, sourced from a Google Sheet a
+non-technical person can edit directly. No backend — everything renders
+client-side against static CSV/JSON files committed by two scheduled
+GitHub Actions workflows.
 
 ## How it fits together
 
@@ -58,6 +59,10 @@ Set these under Settings → Secrets and variables → Actions:
 | `YOUTUBE_API_KEY` | daily workflow | YouTube Data API v3 key, free tier |
 | `GEMINI_API_KEY` | daily workflow | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py` (both run keyword-only if unset, capped at 30 calls/run each - see `MAX_GEMINI_CALLS_PER_RUN`), and powers the auto-written digest in `generate_digest.py`. That script runs daily but self-limits to writing a new digest roughly once a week (`MIN_DAYS_BETWEEN_DIGESTS`); skipped entirely, leaving any prior digest in place, if unset |
 
+The VS Code Marketplace signal (`fetch_vscode_marketplace_installs()` in
+`scripts/fetch_trends.py`) needs no secret at all - it's an unauthenticated
+public endpoint, so there's nothing to add here for it.
+
 ## What each data source measures
 
 **GitHub** — repo count per configured topic tag. Official API, no auth
@@ -73,6 +78,18 @@ term list stays short. Treat this as the least stable link in the
 pipeline; a manual CSV export or a paid alternative (SerpApi, Apify) are
 the fallbacks if it breaks. See `scripts/fetch_trends.py` for the parsing
 details, since the response schema is inferred, not officially documented.
+
+**VS Code Marketplace** — total install count per extension, via the
+Marketplace's own public Extension Gallery API
+(`marketplace.visualstudio.com/_apis/public/gallery/extensionquery`). No
+auth or API key required, and it's undocumented for third-party use but is
+Microsoft's own endpoint (the same one the VS Code client itself queries),
+queried by exact extension ID (`VSCODE_EXTENSIONS` in
+`scripts/fetch_trends.py`). This is the one signal here that's a *direct*
+usage count rather than a proxy for one — but it only exists for tools that
+ship an actual VS Code extension (Cursor and Windsurf are standalone forked
+editors, not extensions; Replit Agent, Devin, and Lovable are browser-only,
+so they have no extension to count installs for either).
 
 **News (RSS)** — headline, link, date per configured feed. Feeds only, not
 scraping — scraping is fragile and often against a site's terms of service.
@@ -97,36 +114,41 @@ data points) never made the result more *accurate*. It made it harder to
 momentum or one of those known failure modes, and the weighting itself was
 never validated against anything, just picked as a starting point.
 
-`scripts/compute_signals.py` now writes each tool's three signals as
+`scripts/compute_signals.py` now writes each tool's four signals as
 separate fields in `data/signals.json` - honestly `null` where a signal
 genuinely isn't tracked for that tool - and does not rank tools against
 each other. `leaderboard.html` shows them as a sortable table (click a
 column to sort by it) instead of a leaderboard; `compare.html`'s radar
-chart plots the three signals as three independent axes, not blended into
-a fourth "momentum" axis.
+chart plots the four signals as four independent axes, not blended into a
+fifth "momentum" axis.
 
-Not every tool gets all three signals. Cursor has no Trends coverage
+Not every tool gets all four signals. Cursor has no Trends coverage
 ("Cursor" is too generic a search term to track cleanly). Replit Agent,
 Devin, and Lovable have no GitHub signal at all - none of them are tools
 people build a public GitHub ecosystem of extensions/example repos around
 the way an IDE or CLI tool is, so a repo count would be thin (Replit
 Agent/Lovable - usage mostly stays on the vendor's own hosted platform) or
-actively misleading (Devin - "devin" is also just a common first name). A
+actively misleading (Devin - "devin" is also just a common first name).
+Only Claude Code, Codex, and GitHub Copilot have a VS Code install count -
+Cursor and Windsurf are standalone forked editors rather than VS Code
+extensions, and Replit Agent, Devin, and Lovable are browser-only. A
 missing signal shows as a dash on the site, never a fabricated zero.
 
 ## Adding a tool
 
 Edit the `TOOLS` dict at the top of `scripts/compute_signals.py` — map a
 display name to the matching metric names already being tracked in the two
-CSVs. Set `"github"` or `"trends"` to `None` if that signal genuinely isn't
-trackable for this tool (see "Signals, not a score" above) - `"hn"` is the
-one every tool is expected to have, since Hacker News needs no topic tag or
-Trends term to configure first. If the tool isn't tracked yet, add it to the
+CSVs. Set `"github"`, `"trends"`, or `"vscode"` to `None` if that signal
+genuinely isn't trackable for this tool (see "Signals, not a score" above)
+- `"hn"` is the one every tool is expected to have, since Hacker News needs
+no topic tag, Trends term, or Marketplace listing to configure first. If
+the tool isn't tracked yet, add it to the
 `GITHUB_TOPICS`/`HN_TERMS`/`TRENDS_TERMS` lists in `scripts/fetch_trends.py`
-first (skip `GITHUB_TOPICS` if you're setting `"github": None`). Also add it
-to `assets/tool-profiles.js` (compare.html's hand-curated facts) and to
-`TOOL_MATCHERS` in `compare.html` if you want it picked up by the "recent
-mentions" count there.
+first (skip `GITHUB_TOPICS` if you're setting `"github": None`), and to
+`VSCODE_EXTENSIONS` (same file) with its exact Marketplace extension ID if
+it ships a VS Code extension. Also add it to `assets/tool-profiles.js`
+(compare.html's hand-curated facts) and to `TOOL_MATCHERS` in `compare.html`
+if you want it picked up by the "recent mentions" count there.
 
 ## Hosting
 

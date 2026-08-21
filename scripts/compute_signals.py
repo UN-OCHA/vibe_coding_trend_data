@@ -43,10 +43,16 @@ Two things still worth knowing about the growth comparison:
 
 A tool can be missing GitHub coverage (Replit Agent, Devin, Lovable - not
 tools people build a public GitHub ecosystem of extensions/example repos
-around) or Trends coverage (Cursor - "Cursor" is too generic a search term
-to track cleanly) - every tracked tool needs at least a real Hacker News
+around), Trends coverage (Cursor - "Cursor" is too generic a search term
+to track cleanly), or VS Code Marketplace coverage (only tools that ship
+an actual VS Code extension have one - Cursor and Windsurf are standalone
+forked editors, not extensions; Replit Agent, Devin, and Lovable are
+browser-only) - every tracked tool needs at least a real Hacker News
 signal, since that's the one metric every tool here gets by default (no
-GitHub topic tag or Trends term to configure first).
+GitHub topic tag, Trends term, or Marketplace listing to configure first).
+VS Code installs is the one signal here that's a direct usage count
+rather than a proxy for one - see fetch_trends.py's
+fetch_vscode_marketplace_installs().
 
 Run this after fetch_trends.py, on the same weekly schedule.
 """
@@ -64,20 +70,22 @@ SIGNALS_JSON_PATH = os.path.join(DATA_DIR, "signals.json")
 STATUS_JSON_PATH = os.path.join(DATA_DIR, "status.json")
 
 # Maps a display name to the metric-name fragments used across both CSVs.
-# Edit this dict (not the CSVs) to add a tool to the site. "github" and
-# "trends" may both be None if that signal genuinely isn't trackable for a
-# tool (see the module docstring) - "hn" is the one metric every tool here
-# is expected to have.
+# Edit this dict (not the CSVs) to add a tool to the site. "github",
+# "trends", and "vscode" may each be None if that signal genuinely isn't
+# trackable for a tool (see the module docstring) - "hn" is the one metric
+# every tool here is expected to have.
 TOOLS = {
-    "Claude Code": {"github": "repo_count_claude-code", "hn": "claude_code", "trends": "interest_claude_code"},
-    "Codex": {"github": "repo_count_codex", "hn": "chatgpt_codex", "trends": "interest_chatgpt_codex"},
-    "Cursor": {"github": "repo_count_cursor-ide", "hn": "cursor_ai", "trends": None},
-    "GitHub Copilot": {"github": "repo_count_github-copilot", "hn": "github_copilot", "trends": "interest_github_copilot"},
-    "Windsurf": {"github": "repo_count_windsurf-ide", "hn": "windsurf_editor", "trends": "interest_windsurf_editor"},
-    # No "github" for these three - see the module docstring.
-    "Replit Agent": {"github": None, "hn": "replit_agent", "trends": "interest_replit_agent"},
-    "Devin": {"github": None, "hn": "devin_ai", "trends": "interest_devin_ai"},
-    "Lovable": {"github": None, "hn": "lovable_ai", "trends": "interest_lovable_ai"},
+    "Claude Code": {"github": "repo_count_claude-code", "hn": "claude_code", "trends": "interest_claude_code", "vscode": "vscode_installs_claude_code"},
+    "Codex": {"github": "repo_count_codex", "hn": "chatgpt_codex", "trends": "interest_chatgpt_codex", "vscode": "vscode_installs_codex"},
+    "Cursor": {"github": "repo_count_cursor-ide", "hn": "cursor_ai", "trends": None, "vscode": None},
+    "GitHub Copilot": {"github": "repo_count_github-copilot", "hn": "github_copilot", "trends": "interest_github_copilot", "vscode": "vscode_installs_github_copilot"},
+    "Windsurf": {"github": "repo_count_windsurf-ide", "hn": "windsurf_editor", "trends": "interest_windsurf_editor", "vscode": None},
+    # No "github" for these three - see the module docstring. No "vscode"
+    # for any of Cursor/Windsurf/Replit Agent/Devin/Lovable either - see
+    # VSCODE_EXTENSIONS in fetch_trends.py.
+    "Replit Agent": {"github": None, "hn": "replit_agent", "trends": "interest_replit_agent", "vscode": None},
+    "Devin": {"github": None, "hn": "devin_ai", "trends": "interest_devin_ai", "vscode": None},
+    "Lovable": {"github": None, "hn": "lovable_ai", "trends": "interest_lovable_ai", "vscode": None},
 }
 
 
@@ -154,6 +162,7 @@ def main():
         github_growth = pct_growth(counts, metrics["github"])
         hn_growth = pct_growth(counts, f"weekly_comments_{metrics['hn']}")
         trends_value = latest_value(interest, metrics["trends"])
+        vscode_growth = pct_growth(counts, metrics["vscode"])
 
         results.append({
             "name": name,
@@ -162,6 +171,8 @@ def main():
             "hn_comments": latest_value(counts, f"weekly_comments_{metrics['hn']}"),
             "hn_growth_pct": round(hn_growth * 100, 1) if hn_growth is not None else None,
             "trends_interest": trends_value,
+            "vscode_installs": latest_value(counts, metrics["vscode"]),
+            "vscode_growth_pct": round(vscode_growth * 100, 1) if vscode_growth is not None else None,
         })
 
     with open(SIGNALS_JSON_PATH, "w") as f:
@@ -173,7 +184,8 @@ def main():
         gh = f"{r['github_growth_pct']}%" if r['github_growth_pct'] is not None else "n/a"
         hn = f"{r['hn_growth_pct']}%" if r['hn_growth_pct'] is not None else "n/a"
         ti = r['trends_interest'] if r['trends_interest'] is not None else "n/a"
-        print(f"  {r['name']}: GitHub {gh}, HN {hn}, Trends {ti}")
+        vs = f"{r['vscode_installs']:,.0f}" if r['vscode_installs'] is not None else "n/a"
+        print(f"  {r['name']}: GitHub {gh}, HN {hn}, Trends {ti}, VS Code installs {vs}")
 
 
 if __name__ == "__main__":

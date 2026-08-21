@@ -41,12 +41,16 @@
     count of repos tagged with that tool's topic, via the GitHub API. HN comments = Hacker News comment volume
     this week, via the Algolia HN Search API. Trends interest = Google's 0–100 relative search-interest index,
     via a third-party proxy - treat this one as the least reliable column; see the README for the reliability
-    caveat and a confirmed case of it silently missing a week's data point. 7-day columns compare each week's
-    snapshot against whichever earlier snapshot is closest to 7 days prior, not just the previous row, so an
-    off-schedule manual run doesn't get compared against a too-recent point. A dash means that signal genuinely
-    isn't tracked for that tool (Cursor has no Trends coverage - "Cursor" is too generic a search term to track
-    cleanly; Replit Agent, Devin, and Lovable have no GitHub signal - none of them are tools people build a
-    public GitHub ecosystem of extensions/example repos around) - never a fabricated zero.
+    caveat and a confirmed case of it silently missing a week's data point. VS Code installs = the extension's
+    total install count from the VS Code Marketplace's own public API - the one number on this page that's a
+    direct usage count rather than a proxy for one. 7-day columns compare each week's snapshot against whichever
+    earlier snapshot is closest to 7 days prior, not just the previous row, so an off-schedule manual run doesn't
+    get compared against a too-recent point. A dash means that signal genuinely isn't tracked for that tool
+    (Cursor has no Trends coverage - "Cursor" is too generic a search term to track cleanly; Replit Agent, Devin,
+    and Lovable have no GitHub signal - none of them are tools people build a public GitHub ecosystem of
+    extensions/example repos around; only tools that ship an actual VS Code extension have install counts at
+    all - Cursor and Windsurf are standalone forked editors, and Replit Agent, Devin, and Lovable are
+    browser-only) - never a fabricated zero.
   </p>
 
   <section>
@@ -64,6 +68,10 @@
       <div class="chart-card">
         <div class="chart-label">Search interest, weekly (0–100)</div>
         <svg id="interest-trend-chart" style="width:100%; height:200px; display:block;"></svg>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">VS Code installs, indexed (first week = 100)</div>
+        <svg id="vscode-trend-chart" style="width:100%; height:200px; display:block;"></svg>
       </div>
     </div>
   </section>
@@ -94,6 +102,8 @@ const COLUMNS = [
   { key: "hn_comments", label: "HN comments", numeric: true },
   { key: "hn_growth_pct", label: "HN, 7d", numeric: true, pct: true },
   { key: "trends_interest", label: "Trends interest", numeric: true },
+  { key: "vscode_installs", label: "VS Code installs", numeric: true },
+  { key: "vscode_growth_pct", label: "VS Code, 7d", numeric: true, pct: true },
 ];
 
 let sortKey = "github_repo_count";
@@ -128,6 +138,8 @@ function renderSignalsTable(signals) {
       ${cell(tool.hn_comments)}
       ${cell(tool.hn_growth_pct, true)}
       ${cell(tool.trends_interest)}
+      ${cell(tool.vscode_installs)}
+      ${cell(tool.vscode_growth_pct, true)}
     </div>
   `).join("");
 
@@ -206,6 +218,11 @@ async function init() {
       "Devin": "interest_devin_ai",
       "Lovable": "interest_lovable_ai",
     };
+    const TOOL_VSCODE_METRIC = {
+      "Claude Code": "vscode_installs_claude_code",
+      "Codex": "vscode_installs_codex",
+      "GitHub Copilot": "vscode_installs_github_copilot",
+    };
 
     function indexedSeries(metricMap, source) {
       const out = {};
@@ -244,6 +261,12 @@ async function init() {
     const interestChartEl = document.getElementById("interest-trend-chart");
     onScrollIntoView(interestChartEl.closest(".chart-card"), () => {
       const lines = renderTrendChart(interestChartEl, interestSeries, weekLabels, { colors: TREND_COLORS, yDomain: [0, 100] });
+      animateLinesIn(lines);
+    });
+
+    const vscodeChartEl = document.getElementById("vscode-trend-chart");
+    onScrollIntoView(vscodeChartEl.closest(".chart-card"), () => {
+      const lines = renderTrendChart(vscodeChartEl, indexedSeries(TOOL_VSCODE_METRIC, counts), weekLabels, { colors: TREND_COLORS });
       animateLinesIn(lines);
     });
   } catch (e) {

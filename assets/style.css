@@ -505,7 +505,7 @@ a:hover { text-decoration: underline; }
 
 .signals-row {
   display: grid;
-  grid-template-columns: 170px repeat(5, 130px);
+  grid-template-columns: 170px repeat(7, 130px);
   flex-shrink: 0;
 }
 
@@ -681,7 +681,7 @@ a:hover { text-decoration: underline; }
 
 .tool-stats-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   padding: 12px 0;
   border-top: 1px solid rgba(255,255,255,0.08);

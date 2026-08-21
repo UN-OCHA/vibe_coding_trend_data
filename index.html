@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vibecode Weekly — trends in AI-assisted coding</title>
-<meta name="description" content="Daily news and trending videos, plus GitHub, Hacker News, and search-interest signals tracking the vibe coding movement.">
+<meta name="description" content="Daily news and trending videos, plus GitHub, Hacker News, search-interest, and VS Code install signals tracking the vibe coding movement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
@@ -99,7 +99,7 @@
   <section>
     <div class="section-label">This week</div>
     <div class="section-title">Tool signals</div>
-    <div class="section-subtitle">GitHub growth, Hacker News buzz, and Google Trends interest, tracked per tool — shown side by side, not blended into one ranking. Sorted here by GitHub repo count.</div>
+    <div class="section-subtitle">GitHub growth, Hacker News buzz, Google Trends interest, and VS Code Marketplace installs, tracked per tool — shown side by side, not blended into one ranking. Sorted here by GitHub repo count.</div>
     <div class="leaderboard" id="leaderboard-preview">
       <div class="row head"><span>Tool</span><span style="text-align:right;">GitHub repos</span><span style="text-align:right;">7-day</span></div>
     </div>
@@ -176,12 +176,22 @@ async function init() {
     const biggestHnMove = withHnGrowth.length
       ? withHnGrowth.reduce((a, b) => (b.hn_growth_pct > a.hn_growth_pct ? b : a))
       : null;
+    // VS Code installs is a direct usage count, not a proxy, so a big
+    // install swing is as headline-worthy as a GitHub repo swing - compete
+    // the two for the same "biggest single-signal move" slot below rather
+    // than always favoring GitHub.
+    const withVscodeGrowth = signals.filter((s) => s.vscode_growth_pct != null);
+    const biggestVscodeMove = withVscodeGrowth.length
+      ? withVscodeGrowth.reduce((a, b) => (b.vscode_growth_pct > a.vscode_growth_pct ? b : a))
+      : null;
 
     const totalRepos = signals.reduce((sum, s) => sum + (s.github_repo_count || 0), 0);
 
     let headline;
     if (milestoneHeadline) {
       headline = milestoneHeadline;
+    } else if (biggestVscodeMove && (!biggestGithubMove || biggestVscodeMove.vscode_growth_pct > biggestGithubMove.github_growth_pct) && biggestVscodeMove.vscode_growth_pct >= 15) {
+      headline = `${biggestVscodeMove.name} posts the week's biggest VS Code install gain, up ${biggestVscodeMove.vscode_growth_pct}%.`;
     } else if (biggestGithubMove && biggestGithubMove.github_growth_pct >= 15) {
       headline = `${biggestGithubMove.name} posts the week's biggest GitHub gain, up ${biggestGithubMove.github_growth_pct}%.`;
     } else {
