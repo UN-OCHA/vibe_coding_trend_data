@@ -1,5 +1,31 @@
 [
   {
+    "title": "Spline rebuilt its entire 3D editor. Then it handed the keys to Claude Code.",
+    "url": "https://thenewstack.io/spline-v2-mcp-agents/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/05/30be87ed-daniel-lee-zhpam5xxvwk-unsplash-1024x745.jpg",
+    "excerpt": "Spline released V2 on Thursday, a complete rebuild of its 3D editor that enables external coding agents to work directly The post Spline rebuilt its entire 3D\u2026",
+    "date": "2026-08-21",
+    "fetched_at": "2026-08-22"
+  },
+  {
+    "title": "Most coding agent benchmarks skip large-scale refactoring. Not this one.",
+    "url": "https://thenewstack.io/ai-agents-refactoring-benchmarks/",
+    "source": "The New Stack",
+    "categories": [
+      "Research"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/08/2bd0685f-paris-bilal-9w7tpcva0xk-unsplash-1024x768.jpg",
+    "excerpt": "AI coding agents still struggle with large-scale refactoring, with the best model achieving only a 41.2% resolve rate on a The post Most coding agent\u2026",
+    "date": "2026-08-21",
+    "fetched_at": "2026-08-22"
+  },
+  {
     "title": "Google\u2019s AI coding agent just escaped its own IDE",
     "url": "https://thenewstack.io/google-antigravity-ide-extensions/",
     "source": "The New Stack",
