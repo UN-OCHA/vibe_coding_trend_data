@@ -172,7 +172,7 @@ function renderToolCards(signalsByName, mentionsByTool) {
         <div class="tool-stats-row">
           <div class="tool-stat">
             <div class="tool-stat-value ${hasGrowth ? (m.github_growth_pct >= 0 ? "up" : "down") : ""}">${hasGrowth ? (m.github_growth_pct >= 0 ? "▲" : "▼") + " " + Math.abs(m.github_growth_pct) + "%" : "—"}</div>
-            <div class="tool-stat-label">GitHub, 7d</div>
+            <div class="tool-stat-label">GitHub, 7 days</div>
           </div>
           <div class="tool-stat">
             <div class="tool-stat-value">${m.hn_comments ?? "—"}</div>
@@ -180,7 +180,7 @@ function renderToolCards(signalsByName, mentionsByTool) {
           </div>
           <div class="tool-stat">
             <div class="tool-stat-value">${mentions.length}</div>
-            <div class="tool-stat-label">Mentions, 30d</div>
+            <div class="tool-stat-label">Mentions, 30 days</div>
           </div>
           <div class="tool-stat">
             <div class="tool-stat-value">${m.vscode_installs != null ? formatCompact(m.vscode_installs) : "—"}</div>
