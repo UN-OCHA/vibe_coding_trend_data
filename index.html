@@ -16,7 +16,7 @@
     <a href="index.html" style="font-weight:600;">Vibecode Weekly</a>
     <div class="links">
       <a href="compare.html">Compare</a>
-      <a href="leaderboard.html">Leaderboard →</a>
+      <a href="leaderboard.html">Signals →</a>
     </div>
   </nav>
 
@@ -31,6 +31,7 @@
     <div class="eyebrow">◆ Featured · Tools</div>
     <h1 id="hero-headline">Agentic coding crosses into the mainstream.</h1>
     <p id="hero-sub">Loading the latest numbers…</p>
+    <a class="hero-cta" id="hero-cta" href="compare.html">Compare all tools →</a>
   </section>
 
   <div class="stat-band-heading" id="stat-band-heading">This week, across the tools we track</div>
@@ -131,6 +132,18 @@ const TREND_COLORS = {
 // to the plain gradient placeholder instead of a broken-image icon.
 const TRANSPARENT_GIF = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBTAA7";
 
+// Stable per calendar day (UTC) - every visitor sees the same phrasing
+// on a given day, and it changes at midnight UTC rather than being
+// randomized per page load, which would just make reloads flicker
+// instead of the page actually feeling different day to day. The
+// underlying data.signals.json only refreshes weekly, so this is what
+// keeps the banner from reading identically for 7 straight days even
+// though nothing about the number itself is new.
+function dayIndex() {
+  const now = new Date();
+  return Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) / 86400000);
+}
+
 async function init() {
   // ---- stat band + hero, from the trends CSVs + signals.json ----
   try {
@@ -158,6 +171,16 @@ async function init() {
     // GitHub repo-count milestone crossed by any tracked tool (a real,
     // countable, unambiguous event) beats a plain growth-rate callout,
     // which beats a generic ecosystem-wide fallback if nothing stood out.
+    // Each fact below has a few different phrasings rather than one fixed
+    // string - which one's picked rotates daily (see dayIndex()), so the
+    // banner reads differently through the week even on the 6 days between
+    // Monday's data refresh where the underlying fact hasn't changed. The
+    // fact itself is never varied, only how it's worded.
+    const MILESTONE_PHRASINGS = [
+      (name, n) => `${name} crosses ${n.toLocaleString()} repos on GitHub.`,
+      (name, n) => `Milestone: ${name} just passed ${n.toLocaleString()} repos on GitHub.`,
+      (name, n) => `${name} now has ${n.toLocaleString()}+ repos on GitHub.`,
+    ];
     const MILESTONES = [500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000];
     let milestoneHeadline = null;
     for (const [name, metric] of Object.entries(TOOL_GITHUB_METRIC)) {
@@ -165,7 +188,10 @@ async function init() {
       if (!pts || pts.length < 2) continue;
       const prev = pts[pts.length - 2].value, latest = pts[pts.length - 1].value;
       const crossed = MILESTONES.find((m) => prev < m && latest >= m);
-      if (crossed) { milestoneHeadline = `${name} crosses ${crossed.toLocaleString()} repos on GitHub.`; break; }
+      if (crossed) {
+        milestoneHeadline = MILESTONE_PHRASINGS[dayIndex() % MILESTONE_PHRASINGS.length](name, crossed);
+        break;
+      }
     }
 
     const withGithubGrowth = signals.filter((s) => s.github_growth_pct != null);
@@ -186,22 +212,47 @@ async function init() {
       : null;
 
     const totalRepos = signals.reduce((sum, s) => sum + (s.github_repo_count || 0), 0);
+    const di = dayIndex();
+
+    const VSCODE_PHRASINGS = [
+      (name, pct) => `${name} posts the week's biggest VS Code install gain, up ${pct}%.`,
+      (name, pct) => `VS Code installs for ${name} are up ${pct}% this week - the biggest mover.`,
+    ];
+    const GITHUB_PHRASINGS = [
+      (name, pct) => `${name} posts the week's biggest GitHub gain, up ${pct}%.`,
+      (name, pct) => `GitHub activity for ${name} is up ${pct}% this week - the biggest mover.`,
+    ];
+    const FALLBACK_PHRASINGS = [
+      (n, total) => `${n} tools tracked, ${total.toLocaleString()}+ combined GitHub repos this week.`,
+      (n, total) => `Tracking ${n} AI coding tools and ${total.toLocaleString()}+ GitHub repos between them.`,
+    ];
 
     let headline;
     if (milestoneHeadline) {
       headline = milestoneHeadline;
     } else if (biggestVscodeMove && (!biggestGithubMove || biggestVscodeMove.vscode_growth_pct > biggestGithubMove.github_growth_pct) && biggestVscodeMove.vscode_growth_pct >= 15) {
-      headline = `${biggestVscodeMove.name} posts the week's biggest VS Code install gain, up ${biggestVscodeMove.vscode_growth_pct}%.`;
+      headline = VSCODE_PHRASINGS[di % VSCODE_PHRASINGS.length](biggestVscodeMove.name, biggestVscodeMove.vscode_growth_pct);
     } else if (biggestGithubMove && biggestGithubMove.github_growth_pct >= 15) {
-      headline = `${biggestGithubMove.name} posts the week's biggest GitHub gain, up ${biggestGithubMove.github_growth_pct}%.`;
+      headline = GITHUB_PHRASINGS[di % GITHUB_PHRASINGS.length](biggestGithubMove.name, biggestGithubMove.github_growth_pct);
     } else {
-      headline = `${signals.length} tools tracked, ${totalRepos.toLocaleString()}+ combined GitHub repos this week.`;
+      headline = FALLBACK_PHRASINGS[di % FALLBACK_PHRASINGS.length](signals.length, totalRepos);
     }
     document.getElementById("hero-headline").textContent = headline;
 
     document.getElementById("hero-sub").textContent = biggestHnMove
       ? `${biggestHnMove.name} saw the biggest jump in Hacker News mentions this week, ${biggestHnMove.hn_growth_pct >= 0 ? "+" : ""}${biggestHnMove.hn_growth_pct}%.`
       : "Tracking GitHub growth, Hacker News buzz, and search interest across the vibe coding tools below.";
+
+    // CTA alternates between the two deep-dive pages daily too, tied to
+    // the same day index so it's stable within a day.
+    const ctaEl = document.getElementById("hero-cta");
+    if (di % 2 === 0) {
+      ctaEl.href = "compare.html";
+      ctaEl.textContent = "Compare all tools →";
+    } else {
+      ctaEl.href = "leaderboard.html";
+      ctaEl.textContent = "See every signal →";
+    }
 
     // Decorative hero graphic: combined GitHub repo count across every
     // GitHub-tracked tool, not any one tool's line - avoids visually

@@ -147,6 +147,26 @@ a:hover { text-decoration: underline; }
   margin: 0;
 }
 
+.hero-cta {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 18px;
+  border: 1px solid var(--amber);
+  border-radius: 3px;
+  color: var(--amber);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.hero-cta:hover {
+  background: var(--amber);
+  color: #17140f;
+}
+
 /* -------------------- stat band -------------------- */
 
 .stat-band-heading {
@@ -592,7 +612,10 @@ a:hover { text-decoration: underline; }
 
 .chart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* 480px min forces 2 per row at this site's ~1032px content width
+     (3 * 480 > 1032) instead of 3 cramped ones, while still collapsing
+     to 1 column on narrow viewports. */
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
