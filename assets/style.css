@@ -147,16 +147,25 @@ a:hover { text-decoration: underline; }
   margin: 0;
 }
 
-.hero-cta {
+/* Puts hero-sub and hero-cta on the same line, CTA pinned to the right
+   edge - a plain flex row nested inside .hero's own column layout, so
+   .hero's flex-direction:column stacks (graphic/eyebrow/headline/this
+   row) while this row itself lays its two children out horizontally. */
+.hero-bottom-row {
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hero-bottom-row p { margin: 0; }
+
+.hero-cta {
   display: inline-block;
-  /* .hero is a column flex container, whose children default to
-     align-items:stretch - without this, the button (despite being
-     inline-block) stretched to the hero's full width instead of sizing
-     to its own text. */
-  align-self: flex-start;
-  margin-top: 20px;
+  flex-shrink: 0;
   padding: 10px 18px;
   border: 1px solid var(--amber);
   border-radius: 3px;
@@ -165,6 +174,7 @@ a:hover { text-decoration: underline; }
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
+  white-space: nowrap;
   transition: background 0.15s, color 0.15s;
 }
 
@@ -891,6 +901,36 @@ a:hover { text-decoration: underline; }
   font-size: 11px;
   color: var(--paper-text-muted);
   margin: 0 0 8px;
+}
+
+.compare-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.compare-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--tool-color, var(--border-soft));
+  background: transparent;
+  color: var(--paper-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.compare-filter-pill:hover { color: var(--paper-text); }
+
+.compare-filter-pill.active {
+  background: var(--tool-color, var(--amber));
+  border-color: var(--tool-color, var(--amber));
+  color: #17140f;
 }
 
 @media (max-width: 900px) {

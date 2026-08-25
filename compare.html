@@ -48,6 +48,7 @@
   <section>
     <div class="section-label">Feature by feature</div>
     <div class="section-title" style="font-size:22px;">Full comparison</div>
+    <div class="compare-filter" id="compare-filter"></div>
     <p class="compare-scroll-hint" id="compare-scroll-hint"></p>
     <div class="compare-table" id="compare-table"></div>
     <p class="verified-note" id="verified-note"></p>
@@ -113,6 +114,7 @@ async function init() {
 
     renderToolCards(signalsByName, mentionsByTool);
     renderRadar(signalsByName);
+    renderCompareFilter();
     renderCompareTable();
 
     const dates = [status.news, status.youtube, status.trends].filter(Boolean);
@@ -280,8 +282,40 @@ function renderRadar(signalsByName) {
     "Each axis ranks tools by that signal alone (center = lowest, edge = highest)." + cappedNote;
 }
 
+// Which tools show as columns in the full comparison table - starts as
+// everyone, narrowed by clicking pills in #compare-filter. Kept as
+// module-level state (not re-derived from the DOM) so toggling one pill
+// doesn't need to re-read every other pill's state to know what's on.
+let compareSelected = new Set(Object.keys(TOOL_PROFILES));
+
+function renderCompareFilter() {
+  const allNames = Object.keys(TOOL_PROFILES);
+  const filterEl = document.getElementById("compare-filter");
+  filterEl.innerHTML = allNames.map((name) => `
+    <button class="compare-filter-pill ${compareSelected.has(name) ? "active" : ""}" data-name="${name}" style="--tool-color:${TOOL_PROFILES[name].color}">
+      ${name}
+    </button>
+  `).join("");
+  filterEl.querySelectorAll(".compare-filter-pill").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const name = btn.dataset.name;
+      // Never let the table go to zero columns - toggling the last
+      // selected pill off would leave nothing to compare.
+      if (compareSelected.has(name)) {
+        if (compareSelected.size === 1) return;
+        compareSelected.delete(name);
+      } else {
+        compareSelected.add(name);
+      }
+      renderCompareFilter();
+      renderCompareTable();
+    });
+  });
+}
+
 function renderCompareTable() {
-  const names = Object.keys(TOOL_PROFILES);
+  const allNames = Object.keys(TOOL_PROFILES);
+  const names = allNames.filter((n) => compareSelected.has(n));
   const rows = [
     ["Pricing", "pricing"],
     ["Platform", "platform"],
@@ -312,7 +346,9 @@ function renderCompareTable() {
     ${bodyRows}
   `;
 
-  document.getElementById("compare-scroll-hint").textContent = `Scroll to see all ${names.length} tools →`;
+  document.getElementById("compare-scroll-hint").textContent = names.length < allNames.length
+    ? `Showing ${names.length} of ${allNames.length} tools - click a pill above to add or remove one.`
+    : `Scroll to see all ${names.length} tools →`;
 
   const oldestVerified = names.map((n) => TOOL_PROFILES[n].verified).sort()[0];
   const d = new Date(oldestVerified);
