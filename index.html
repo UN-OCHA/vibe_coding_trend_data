@@ -116,17 +116,17 @@
   </section>
 
   <footer class="site-footer" id="disclosure">
-    <div class="disclosure-block">
-      <div class="disclosure-title">About this proof of concept</div>
+    <details class="disclosure-block">
+      <summary class="disclosure-title">About this proof of concept</summary>
       <dl class="disclosure-list">
         <dt>Human owner</dt>
-        <dd><span class="disclosure-todo">[Add name and role]</span></dd>
+        <dd>Andrej Verity (UNOCHA)</dd>
 
         <dt>Purpose</dt>
         <dd>A proof-of-concept dashboard tracking public signals (GitHub, Hacker News, Google Trends, VS Code Marketplace) and news/video mentions for AI-assisted coding tools, to explore what an automated trend-tracking pipeline could look like. It is not meant to serve as a source of truth for product, investment, or strategic decisions.</dd>
 
         <dt>Data sources</dt>
-        <dd>Figures are pulled from public APIs (GitHub, Hacker News/Algolia, a third-party Google Trends proxy, the VS Code Marketplace) - none are synthetic or estimated by design, though some third-party sources have known reliability gaps (see the notes on the Signals and Compare pages). News/video sources are configured in a <span class="disclosure-todo">[Google Sheet - add link]</span> maintained by hand, not in code. Full source and methodology: <a href="https://github.com/UN-OCHA/vibe_coding_trend_data" target="_blank" rel="noopener">the project's GitHub repo</a>.</dd>
+        <dd>Figures are pulled from public APIs (GitHub, Hacker News/Algolia, a third-party Google Trends proxy, the VS Code Marketplace) - none are synthetic or estimated by design, though some third-party sources have known reliability gaps (see the notes on the Signals and Compare pages). News/video sources are configured in a <a href="https://docs.google.com/spreadsheets/d/1EYDeWW4HbBqZSze_riyWssYhKMPdMFvS5IY1tG8cBcA/edit?usp=sharing" target="_blank" rel="noopener">Google Sheet</a> maintained by hand, not in code. Full source and methodology: <a href="https://github.com/UN-OCHA/vibe_coding_trend_data" target="_blank" rel="noopener">the project's GitHub repo</a>.</dd>
 
         <dt>AI involvement</dt>
         <dd>This site's code, copy, and design were built with AI assistance (Claude). Tool pricing/platform facts in the comparison table are hand-curated, not AI-generated. Article/video relevance tagging optionally uses an LLM (Gemini) as a second opinion on top of keyword-based rules.</dd>
@@ -134,7 +134,7 @@
         <dt>Limitations</dt>
         <dd>Every signal here is a narrow proxy (e.g. GitHub topic-tag counts, comment volume on one forum), not a validated usage or market-share metric, and none are blended into a single score or ranking. Nothing on this site has been independently audited. Treat it as illustrative, not authoritative.</dd>
       </dl>
-    </div>
+    </details>
     Data refreshed weekly (trends, signals) and daily (news, video). Sources and topics are configured in a shared Google Sheet, not in this code.
   </footer>
 </div>
