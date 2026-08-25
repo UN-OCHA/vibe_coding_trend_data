@@ -37,6 +37,14 @@ function renderTrendChart(svgEl, seriesByName, weekLabels, opts = {}) {
     defaultColor = "#9a8f7f",
     yFormatter = (v) => String(Math.round(v)),
     yDomain = null, // [min, max] override; otherwise auto from data
+    // ISO date strings aligned with weekLabels, one per week in the full
+    // timeline. A tool tracked for fewer weeks than the others (e.g. one
+    // added partway through) has a shorter points array - without this,
+    // its points were positioned by their OWN array index (0, 1, ...)
+    // instead of their real place in the timeline, squashing them
+    // against the chart's left edge as if they were the earliest weeks
+    // instead of the most recent ones.
+    weekDates = null,
   } = opts;
 
   const width = 600, height = 200;
@@ -92,9 +100,18 @@ function renderTrendChart(svgEl, seriesByName, weekLabels, opts = {}) {
   const labelInfos = [];
   const svgNS = "http://www.w3.org/2000/svg";
 
+  // Resolves a point's real position in the full timeline by matching
+  // its date, falling back to its own array index if there's no
+  // weekDates to match against (or the date isn't found in it).
+  const idxFor = (p, localI) => {
+    if (!weekDates) return localI;
+    const found = weekDates.indexOf(p.date);
+    return found === -1 ? localI : found;
+  };
+
   Object.entries(seriesByName).forEach(([name, points]) => {
     const color = colors[name] || defaultColor;
-    const coords = points.map((p, i) => [x(i), y(p.value)]);
+    const coords = points.map((p, i) => [x(idxFor(p, i)), y(p.value)]);
 
     // Each series lives in its own <g> so hover-highlight (style.css:
     // .chart-card svg:has(.trend-series:hover) dims the rest) and the
@@ -120,7 +137,7 @@ function renderTrendChart(svgEl, seriesByName, weekLabels, opts = {}) {
       c.setAttribute("r", 3);
       c.setAttribute("fill", color);
       const title = document.createElementNS(svgNS, "title");
-      title.textContent = `${name} — ${weekLabels[i]}: ${yFormatter(points[i].value)}`;
+      title.textContent = `${name} — ${weekLabels[idxFor(points[i], i)]}: ${yFormatter(points[i].value)}`;
       c.appendChild(title);
       g.appendChild(c);
     });

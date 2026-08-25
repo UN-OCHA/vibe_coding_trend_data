@@ -151,10 +151,16 @@ a:hover { text-decoration: underline; }
   position: relative;
   z-index: 1;
   display: inline-block;
+  /* .hero is a column flex container, whose children default to
+     align-items:stretch - without this, the button (despite being
+     inline-block) stretched to the hero's full width instead of sizing
+     to its own text. */
+  align-self: flex-start;
   margin-top: 20px;
   padding: 10px 18px;
   border: 1px solid var(--amber);
   border-radius: 3px;
+  background: rgba(232, 168, 106, 0.16);
   color: var(--amber);
   font-size: 13px;
   font-weight: 600;
