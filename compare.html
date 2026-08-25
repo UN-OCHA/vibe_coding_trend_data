@@ -11,6 +11,12 @@
 </head>
 <body>
 
+<div class="disclaimer-banner">
+  <div class="disclaimer-banner-inner">
+    <strong>DISCLAIMER:</strong> This is a proof of concept and not to be used for decision making. <a href="#disclosure">See footer for details.</a>
+  </div>
+</div>
+
 <div class="wrap">
   <nav class="site-nav">
     <a href="index.html" style="font-weight:600;">Vibecode Weekly</a>
@@ -48,13 +54,33 @@
   <section>
     <div class="section-label">Feature by feature</div>
     <div class="section-title" style="font-size:22px;">Full comparison</div>
+    <p class="compare-filter-label">Filter tools — click to show or hide</p>
     <div class="compare-filter" id="compare-filter"></div>
     <p class="compare-scroll-hint" id="compare-scroll-hint"></p>
     <div class="compare-table" id="compare-table"></div>
     <p class="verified-note" id="verified-note"></p>
   </section>
 
-  <footer class="site-footer">
+  <footer class="site-footer" id="disclosure">
+    <div class="disclosure-block">
+      <div class="disclosure-title">About this proof of concept</div>
+      <dl class="disclosure-list">
+        <dt>Human owner</dt>
+        <dd><span class="disclosure-todo">[Add name and role]</span></dd>
+
+        <dt>Purpose</dt>
+        <dd>A proof-of-concept dashboard tracking public signals (GitHub, Hacker News, Google Trends, VS Code Marketplace) and news/video mentions for AI-assisted coding tools, to explore what an automated trend-tracking pipeline could look like. It is not meant to serve as a source of truth for product, investment, or strategic decisions.</dd>
+
+        <dt>Data sources</dt>
+        <dd>Figures are pulled from public APIs (GitHub, Hacker News/Algolia, a third-party Google Trends proxy, the VS Code Marketplace) - none are synthetic or estimated by design, though some third-party sources have known reliability gaps (see the notes on the Signals and Compare pages). News/video sources are configured in a <span class="disclosure-todo">[Google Sheet - add link]</span> maintained by hand, not in code. Full source and methodology: <a href="https://github.com/UN-OCHA/vibe_coding_trend_data" target="_blank" rel="noopener">the project's GitHub repo</a>.</dd>
+
+        <dt>AI involvement</dt>
+        <dd>This site's code, copy, and design were built with AI assistance (Claude). Tool pricing/platform facts in the comparison table are hand-curated, not AI-generated. Article/video relevance tagging optionally uses an LLM (Gemini) as a second opinion on top of keyword-based rules.</dd>
+
+        <dt>Limitations</dt>
+        <dd>Every signal here is a narrow proxy (e.g. GitHub topic-tag counts, comment volume on one forum), not a validated usage or market-share metric, and none are blended into a single score or ranking. Nothing on this site has been independently audited. Treat it as illustrative, not authoritative.</dd>
+      </dl>
+    </div>
     Growth and mention stats update automatically. Pricing and feature details are maintained by hand —
     verify against each vendor before making a purchase decision.
   </footer>
@@ -291,11 +317,14 @@ let compareSelected = new Set(Object.keys(TOOL_PROFILES));
 function renderCompareFilter() {
   const allNames = Object.keys(TOOL_PROFILES);
   const filterEl = document.getElementById("compare-filter");
-  filterEl.innerHTML = allNames.map((name) => `
-    <button class="compare-filter-pill ${compareSelected.has(name) ? "active" : ""}" data-name="${name}" style="--tool-color:${TOOL_PROFILES[name].color}">
-      ${name}
-    </button>
-  `).join("");
+  filterEl.innerHTML = allNames.map((name) => {
+    const active = compareSelected.has(name);
+    return `
+      <button class="compare-filter-pill ${active ? "active" : ""}" data-name="${name}" style="--tool-color:${TOOL_PROFILES[name].color}">
+        <span class="compare-filter-pill-icon">${active ? "✓" : "+"}</span>${name}
+      </button>
+    `;
+  }).join("");
   filterEl.querySelectorAll(".compare-filter-pill").forEach((btn) => {
     btn.addEventListener("click", () => {
       const name = btn.dataset.name;

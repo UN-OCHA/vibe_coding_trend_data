@@ -686,6 +686,80 @@ a:hover { text-decoration: underline; }
   margin-top: 20px;
 }
 
+/* -------------------- disclaimer banner + footer disclosure -------------------- */
+
+.disclaimer-banner {
+  background: var(--ink);
+  border-bottom: 1px solid var(--amber-deep);
+}
+
+.disclaimer-banner-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 8px 24px;
+  font-size: 12px;
+  color: var(--dark-text-secondary);
+  text-align: center;
+}
+
+.disclaimer-banner-inner strong {
+  color: var(--amber);
+  letter-spacing: 0.5px;
+}
+
+.disclaimer-banner-inner a {
+  color: var(--amber);
+  text-decoration: underline;
+}
+
+.disclosure-block {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.disclosure-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--paper-text);
+  margin: 0 0 14px;
+}
+
+.disclosure-list {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 12px 16px;
+  margin: 0;
+}
+
+.disclosure-list dt {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--paper-text-muted);
+  font-weight: 600;
+}
+
+.disclosure-list dd {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--paper-text-secondary);
+}
+
+.disclosure-list a { color: var(--amber-deep); }
+
+.disclosure-todo {
+  color: var(--amber-deep);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .disclosure-list { grid-template-columns: 1fr; gap: 4px 0; }
+  .disclosure-list dt { margin-top: 10px; }
+}
+
 /* -------------------- compare page -------------------- */
 
 .tool-hero-grid {
@@ -903,31 +977,55 @@ a:hover { text-decoration: underline; }
   margin: 0 0 8px;
 }
 
+.compare-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--paper-text-muted);
+  margin: 0 0 8px;
+}
+
 .compare-filter {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 6px;
 }
 
 .compare-filter-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 12px;
+  padding: 5px 12px 5px 10px;
   border-radius: 20px;
-  border: 1px solid var(--tool-color, var(--border-soft));
+  border: 1px dashed var(--tool-color, var(--border-soft));
   background: transparent;
   color: var(--paper-text-secondary);
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, border-style 0.15s;
 }
 
 .compare-filter-pill:hover { color: var(--paper-text); }
 
+.compare-filter-pill-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  font-size: 10px;
+  line-height: 1;
+}
+
 .compare-filter-pill.active {
+  border-style: solid;
   background: var(--tool-color, var(--amber));
   border-color: var(--tool-color, var(--amber));
   color: #17140f;
