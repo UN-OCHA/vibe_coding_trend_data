@@ -90,7 +90,6 @@
       <button class="filter-pill" data-filter="Industry">Industry</button>
       <button class="filter-pill" data-filter="Risks">Risks</button>
       <button class="filter-pill" data-filter="Research">Research</button>
-      <button class="filter-pill humanitarian" data-filter="humanitarian">Relevant to our work</button>
     </div>
     <div class="story-grid" id="story-grid">
       <div class="empty-state">Loading stories…</div>
@@ -442,7 +441,7 @@ async function init() {
       const mostRecent = dates.sort().at(-1);
       const d = new Date(mostRecent);
       document.getElementById("freshness-note").textContent =
-        `As of ${d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`;
+        d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
     }
   } catch (e) {
     console.error("Failed to load status", e);
@@ -476,9 +475,7 @@ function renderStories(stories, filter) {
   const grid = document.getElementById("story-grid");
   const filtered = filter === "all"
     ? stories
-    : filter === "humanitarian"
-      ? stories.filter((s) => s.humanitarian_relevant)
-      : stories.filter((s) => (s.categories || []).includes(filter));
+    : stories.filter((s) => (s.categories || []).includes(filter));
 
   if (!filtered.length) {
     grid.innerHTML = '<div class="empty-state">No stories in this filter yet.</div>';

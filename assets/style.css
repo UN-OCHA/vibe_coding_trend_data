@@ -322,16 +322,6 @@ a:hover { text-decoration: underline; }
   border-bottom-color: var(--ink);
 }
 
-.filter-pill.humanitarian {
-  color: var(--success-deep);
-}
-
-.filter-pill.humanitarian.active {
-  background: transparent;
-  color: var(--success-deep);
-  border-bottom-color: var(--success);
-}
-
 /* -------------------- story grid + video grid -------------------- */
 /* True masonry, not a uniform grid: CSS multi-column layout, each card's
    image kept at its own natural aspect ratio (a real <img>, not a

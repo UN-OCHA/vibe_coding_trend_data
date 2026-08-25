@@ -148,7 +148,7 @@ async function init() {
       const mostRecent = dates.sort().at(-1);
       const d = new Date(mostRecent);
       document.getElementById("freshness-note").textContent =
-        `As of ${d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`;
+        d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
     }
   } catch (e) {
     console.error("Failed to load comparison data", e);

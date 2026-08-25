@@ -306,7 +306,7 @@ async function init() {
     if (status.trends) {
       const d = new Date(status.trends);
       document.getElementById("freshness-note").textContent =
-        `As of ${d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`;
+        d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
     }
   } catch (e) {
     console.error("Failed to load status", e);
