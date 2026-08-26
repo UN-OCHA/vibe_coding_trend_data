@@ -104,7 +104,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="ph-section">
     <div class="section-label">Product Hunt</div>
     <div class="section-title">New in vibe coding</div>
     <div class="section-subtitle">Recent launches from Product Hunt's own "vibe-coding" category. Unlike every other signal on this page, a tool can show up here the same week it launches — before it has enough GitHub or Hacker News activity to register anywhere else on this site.</div>
@@ -539,28 +539,40 @@ function renderVideos(videos) {
 // silently indistinguishable from a tool already covered everywhere else
 // on the site. This is the whole point of this section: surfacing what
 // isn't tracked yet, not just what is.
-function isTrackedTool(name) {
+// Returns the matched tracked tool's own brand color (same one used on
+// compare.html/leaderboard.html) if this launch's name matches something
+// in TOOL_PROFILES, or null if it doesn't - color on this site always
+// means a specific tool's identity, never a decorative choice, so an
+// untracked launch deliberately does NOT get an arbitrary color of its
+// own here; it gets the site's standard amber highlight instead (see
+// phCard()), the same accent used elsewhere for "this deserves attention".
+function trackedToolColor(name) {
   const lower = name.toLowerCase();
-  return Object.keys(TOOL_PROFILES).some((known) => {
+  const match = Object.keys(TOOL_PROFILES).find((known) => {
     const k = known.toLowerCase();
     return lower.includes(k) || k.includes(lower);
   });
+  return match ? TOOL_PROFILES[match].color : null;
 }
 
-// Shared by renderProductHunt (recent launches, left slot = launch date)
-// and renderProductHuntTop (all-time top-voted, left slot = star rating) -
-// same card shape, different meta line.
-function phCard(p, leftSlotHtml) {
+// Shared by renderProductHunt (recent launches, right slot = launch date)
+// and renderProductHuntTop (all-time top-voted, right slot = star rating) -
+// same card shape, different meta line. Styled like compare.html's
+// .tool-card (dark ink, colored top border, italic tagline) so this
+// section reads as part of the same visual system instead of a bolted-on
+// light-paper card among it.
+function phCard(p, rightSlotHtml) {
+  const color = trackedToolColor(p.name);
   return `
-    <div class="ph-card">
+    <div class="ph-card" style="--tool-color:${color || "var(--amber)"}">
       <div class="ph-card-head">
         <div class="ph-card-name"><a href="${p.producthunt_url}" target="_blank" rel="noopener">${p.name}</a></div>
-        <div class="ph-card-votes">▲ ${p.votes}</div>
+        ${color ? "" : '<span class="ph-badge-new">Not yet tracked</span>'}
       </div>
       <p class="ph-card-tagline">${p.tagline}</p>
       <div class="ph-card-foot">
-        <span class="ph-card-date">${leftSlotHtml}</span>
-        ${isTrackedTool(p.name) ? "" : '<span class="ph-badge-new">Not yet tracked</span>'}
+        <span class="ph-card-votes">▲ ${p.votes}</span>
+        <span class="ph-card-meta">${rightSlotHtml}</span>
       </div>
     </div>
   `;

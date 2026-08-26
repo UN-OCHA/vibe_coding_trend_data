@@ -440,78 +440,105 @@ a:hover { text-decoration: underline; }
 }
 
 /* -------------------- Product Hunt launches -------------------- */
+/* Styled like compare.html's .tool-card (dark ink, colored top border,
+   italic tagline) rather than the light .story-card treatment used
+   elsewhere on this page - this section is fundamentally about tools, the
+   same subject as the dark .leaderboard/.tool-card blocks, not articles,
+   so it reads as part of that system instead of a third, unrelated card
+   style competing with both. */
+
+#ph-section {
+  margin-bottom: 44px;
+}
 
 .ph-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
   margin-bottom: 8px;
 }
 
 .ph-card {
-  border: 1px solid var(--border-soft);
-  border-radius: 8px;
-  padding: 16px 18px;
-  background: var(--cream-card);
+  background: var(--ink);
+  border-radius: 4px;
+  padding: 18px 20px 16px;
+  border-top: 3px solid var(--tool-color, var(--amber));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.ph-card:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.12);
 }
 
 .ph-card-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 8px;
 }
 
 .ph-card-name {
   font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 16.5px;
 }
 
 .ph-card-name a {
-  color: var(--paper-text);
+  color: var(--dark-text);
   text-decoration: none;
 }
 
 .ph-card-name a:hover { text-decoration: underline; }
 
-.ph-card-votes {
-  font-size: 12px;
-  color: var(--paper-text-muted);
-  white-space: nowrap;
-  padding-top: 2px;
-}
-
 .ph-card-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--paper-text-secondary);
-  margin: 0 0 12px;
+  color: var(--dark-text-secondary);
+  margin: 0;
 }
 
 .ph-card-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  padding-top: 10px;
+  margin-top: auto;
 }
 
-.ph-card-date {
+.ph-card-votes {
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--tool-color, var(--amber));
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ph-card-meta {
   font-size: 11px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: var(--paper-text-muted);
+  letter-spacing: 0.3px;
+  color: var(--dark-text-muted);
+  white-space: nowrap;
 }
 
 .ph-badge-new {
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  padding: 3px 9px;
+  padding: 3px 8px;
   border-radius: 20px;
-  background: #e8a86a;
-  color: #4a2e10;
+  background: rgba(232, 168, 106, 0.16);
+  color: var(--amber);
+  border: 1px solid rgba(232, 168, 106, 0.4);
+  white-space: nowrap;
 }
 
 .empty-state {
