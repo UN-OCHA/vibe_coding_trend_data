@@ -577,8 +577,15 @@ function phCard(p, rightSlotHtml) {
   const color = trackedToolColor(p.name);
   return `
     <div class="ph-card" style="--tool-color:${color || "var(--amber)"}">
-      <div class="ph-card-name"><a href="${p.producthunt_url}" target="_blank" rel="noopener">${p.name}</a></div>
-      <p class="ph-card-tagline">${p.tagline}</p>
+      <div class="ph-card-head">
+        <div class="ph-card-icon-wrap ${p.thumbnail ? "" : "ph-card-icon-placeholder"}">
+          ${p.thumbnail ? `<img class="ph-card-icon" src="${p.thumbnail}" alt="" onerror="this.parentElement.classList.add('ph-card-icon-placeholder');this.remove();">` : ""}
+        </div>
+        <div class="ph-card-head-text">
+          <div class="ph-card-name"><a href="${p.producthunt_url}" target="_blank" rel="noopener">${p.name}</a></div>
+          <p class="ph-card-tagline">${p.tagline}</p>
+        </div>
+      </div>
       <div class="ph-card-foot">
         <span class="ph-card-votes">▲ ${p.votes} <span class="ph-card-votes-unit">upvotes</span></span>
         <span class="ph-card-meta">${rightSlotHtml}</span>

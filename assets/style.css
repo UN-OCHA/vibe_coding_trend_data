@@ -527,6 +527,45 @@ a:hover { text-decoration: underline; }
   filter: brightness(1.12);
 }
 
+.ph-card-head {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* The color/gradient lives on this wrapper, never on the <img> itself -
+   an <img> doesn't reliably composite a transparent source over its own
+   CSS background in every rendering environment, so phCard() removes the
+   <img> outright on a load failure (see its onerror handler) rather than
+   swapping its src to a transparent placeholder image, which would only
+   work if that compositing behaved as expected. */
+.ph-card-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--tool-color, var(--amber));
+}
+
+.ph-card-icon-wrap.ph-card-icon-placeholder {
+  background: linear-gradient(135deg, var(--tool-color, var(--amber)), var(--ink) 130%);
+}
+
+.ph-card-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ph-card-head-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .ph-card-name {
   font-family: var(--font-display);
   font-weight: 600;

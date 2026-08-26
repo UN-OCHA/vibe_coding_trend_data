@@ -85,6 +85,17 @@ have any yet. TOP_QUERY below keeps them anyway (harmless, and honestly
 better than assuming they can never be non-zero) - the site already hides
 the rating line whenever it's falsy (see index.html's renderProductHuntTop).
 
+Both queries also request `thumbnail { url }` - unlike reviewsRating/
+category, this is core, universally-used Product Hunt functionality
+(every post has a thumbnail image shown all over their own site), so
+confidence here is meaningfully higher than the two disproven guesses
+above - but it's still unverified against the live schema (same sandbox
+limitation noted throughout this file), so if a run ever comes back
+empty unexpectedly, check this field first via the error message before
+assuming something else broke. The site treats a missing/failed
+thumbnail as a normal, expected case either way (see index.html's
+phCard() - falls back to a colored placeholder, not an error).
+
 Configuration:
   PRODUCTHUNT_API_KEY  - env var, a developer_token from the API dashboard.
                           Skipped entirely (not a failure) if unset.
@@ -130,6 +141,9 @@ query VibeCodingLaunches($cursor: String) {
         website
         votesCount
         createdAt
+        thumbnail {
+          url
+        }
       }
     }
     pageInfo {
@@ -159,6 +173,9 @@ query VibeCodingTopPosts($cursor: String) {
         reviewsRating
         reviewsCount
         createdAt
+        thumbnail {
+          url
+        }
       }
     }
     pageInfo {
@@ -248,6 +265,7 @@ def to_item(p):
     (None/0) on recent-launches items, since RECENT_QUERY doesn't request
     them, and in practice also 0 on TOP_QUERY items - see this file's
     docstring for why that's Product Hunt's real data, not a bug here."""
+    thumbnail = p.get("thumbnail") or {}
     return {
         "id": p["id"],
         "name": p.get("name", ""),
@@ -257,6 +275,7 @@ def to_item(p):
         "votes": p.get("votesCount", 0),
         "rating": p.get("reviewsRating"),
         "review_count": p.get("reviewsCount", 0),
+        "thumbnail": thumbnail.get("url", ""),
         "launched": p.get("createdAt", ""),
     }
 
