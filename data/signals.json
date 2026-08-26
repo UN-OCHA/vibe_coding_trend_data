@@ -1,23 +1,23 @@
 [
   {
     "name": "Claude Code",
-    "github_repo_count": 64292.0,
-    "github_growth_pct": 6.1,
+    "github_repo_count": 64301.0,
+    "github_growth_pct": 6.2,
     "hn_comments": 610.0,
     "hn_growth_pct": -1.6,
-    "trends_interest": 32.0,
-    "vscode_installs": 24049727.0,
-    "vscode_growth_pct": 1.5
+    "trends_interest": 31.0,
+    "vscode_installs": 24071636.0,
+    "vscode_growth_pct": 1.6
   },
   {
     "name": "Codex",
-    "github_repo_count": 26527.0,
+    "github_repo_count": 26528.0,
     "github_growth_pct": 8.6,
     "hn_comments": 55.0,
     "hn_growth_pct": -8.3,
-    "trends_interest": 42.0,
-    "vscode_installs": 13511152.0,
-    "vscode_growth_pct": 1.3
+    "trends_interest": 41.0,
+    "vscode_installs": 13493100.0,
+    "vscode_growth_pct": 1.2
   },
   {
     "name": "Cursor",
@@ -31,12 +31,12 @@
   },
   {
     "name": "GitHub Copilot",
-    "github_repo_count": 2876.0,
-    "github_growth_pct": 4.7,
-    "hn_comments": 27.0,
-    "hn_growth_pct": 12.5,
+    "github_repo_count": 2877.0,
+    "github_growth_pct": 4.8,
+    "hn_comments": 28.0,
+    "hn_growth_pct": 16.7,
     "trends_interest": 27.0,
-    "vscode_installs": 77817803.0,
+    "vscode_installs": 77818604.0,
     "vscode_growth_pct": 0.1
   },
   {
@@ -73,9 +73,9 @@
     "name": "Lovable",
     "github_repo_count": null,
     "github_growth_pct": null,
-    "hn_comments": 19.0,
-    "hn_growth_pct": 216.7,
-    "trends_interest": 63.0,
+    "hn_comments": 24.0,
+    "hn_growth_pct": 300.0,
+    "trends_interest": 64.0,
     "vscode_installs": null,
     "vscode_growth_pct": null
   }
