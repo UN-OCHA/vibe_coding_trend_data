@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "id": "1221775",
+    "name": "Design systems for vibe coding",
+    "tagline": "100+ free design systems for any AI code or design tool",
+    "producthunt_url": "https://www.producthunt.com/products/visily?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/T3XPKCMPEQGOAC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 9,
+    "rating": 4.68,
+    "review_count": 34,
+    "thumbnail": "https://ph-files.imgix.net/fae7c507-7ee0-48c8-873e-a956951fc069.png?auto=format",
+    "launched": "2026-08-13T07:01:00Z"
+  },
+  {
+    "id": "1215082",
+    "name": "Vibe Block",
+    "tagline": "Prompt any feature into your website",
+    "producthunt_url": "https://www.producthunt.com/products/tilda-publishing/launches/vibe-block?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/54O5NSY4DR6WOO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 7,
+    "rating": 4.64,
+    "review_count": 14,
+    "thumbnail": "https://ph-files.imgix.net/a139c979-9ab6-41fa-b8c1-5f047edc86af.png?auto=format",
+    "launched": "2026-08-06T07:01:00Z"
+  },
+  {
+    "id": "1218390",
+    "name": "Scape",
+    "tagline": "Build tools to automate your work & give them to your agents",
+    "producthunt_url": "https://www.producthunt.com/products/scape-3/launches/scape-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/DODN25WBPIPSWR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 4,
+    "rating": 5.0,
+    "review_count": 9,
+    "thumbnail": "https://ph-files.imgix.net/0372d005-5af0-4e21-b686-1c8481f88efd.svg?auto=format",
+    "launched": "2026-08-10T07:01:00Z"
+  },
+  {
+    "id": "1223338",
+    "name": "Make it RAIN",
+    "tagline": "Find who may pay before you automate a guess",
+    "producthunt_url": "https://www.producthunt.com/products/make-it-rain-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/NBTPVXUJ7GEE4O?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 13,
+    "rating": 5.0,
+    "review_count": 2,
+    "thumbnail": "https://ph-files.imgix.net/81770848-1c97-4bf1-bcfb-0d8a972fa354.png?auto=format",
+    "launched": "2026-08-16T07:01:00Z"
+  },
+  {
+    "id": "1219521",
+    "name": "Appinvento",
+    "tagline": "Invent your next product",
+    "producthunt_url": "https://www.producthunt.com/products/build-your-backend-at-lightning-speed/launches/appinvento-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/6XHYID6HQAD53C?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 4,
+    "rating": 5.0,
+    "review_count": 2,
+    "thumbnail": "https://ph-files.imgix.net/874be944-afb9-4677-a1b4-417352c7e91e.png?auto=format",
+    "launched": "2026-08-12T07:01:00Z"
+  },
+  {
+    "id": "1227198",
+    "name": "Knack MCP Server",
+    "tagline": "The HIPAA-compliant backend for AI builders",
+    "producthunt_url": "https://www.producthunt.com/products/knack?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/CDIFP6FEYGNTYR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 80,
+    "rating": 5.0,
+    "review_count": 1,
+    "thumbnail": "https://ph-files.imgix.net/cf4557e1-ab1e-4ef8-9552-b0210a1b28fe.png?auto=format",
+    "launched": "2026-08-26T07:01:00Z"
+  }
+]

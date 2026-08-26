@@ -5,7 +5,7 @@
     "tagline": "Lovable for iPhone apps. From idea to App Store",
     "producthunt_url": "https://www.producthunt.com/products/x1-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/HRIWQ6DBNJOZ7W?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 368,
+    "votes": 372,
     "rating": 0.0,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/24e5fd64-645c-4346-825a-ee9fa5905236.png?auto=format",
@@ -65,7 +65,7 @@
     "tagline": "See what any page is built with and how much of it is AI",
     "producthunt_url": "https://www.producthunt.com/products/loupekit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/ZBRDLU2AEVLCXD?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 92,
+    "votes": 93,
     "rating": 0.0,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/484e06f1-1bb3-405f-b101-10d5edb3d31a.png?auto=format",
@@ -132,18 +132,6 @@
     "launched": "2026-08-20T07:01:00Z"
   },
   {
-    "id": "1221775",
-    "name": "Design systems for vibe coding",
-    "tagline": "100+ free design systems for any AI code or design tool",
-    "producthunt_url": "https://www.producthunt.com/products/visily?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/T3XPKCMPEQGOAC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 9,
-    "rating": 4.68,
-    "review_count": 34,
-    "thumbnail": "https://ph-files.imgix.net/fae7c507-7ee0-48c8-873e-a956951fc069.png?auto=format",
-    "launched": "2026-08-13T07:01:00Z"
-  },
-  {
     "id": "1221969",
     "name": "Bendstack",
     "tagline": "Lovable but No Code plus Instant Deployment",
@@ -156,16 +144,16 @@
     "launched": "2026-08-18T07:01:00Z"
   },
   {
-    "id": "1208958",
-    "name": "Scanvify",
-    "tagline": "Is your AI-built website actually ready to launch?",
-    "producthunt_url": "https://www.producthunt.com/products/scanvify/launches/scanvify?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/HGVFZ4WPH6AGV5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 8,
-    "rating": 0.0,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/cff6caa2-cd32-46ee-a6bc-df89d14c5d1a.svg?auto=format",
-    "launched": "2026-07-29T07:01:00Z"
+    "id": "1221775",
+    "name": "Design systems for vibe coding",
+    "tagline": "100+ free design systems for any AI code or design tool",
+    "producthunt_url": "https://www.producthunt.com/products/visily?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/T3XPKCMPEQGOAC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 9,
+    "rating": 4.68,
+    "review_count": 34,
+    "thumbnail": "https://ph-files.imgix.net/fae7c507-7ee0-48c8-873e-a956951fc069.png?auto=format",
+    "launched": "2026-08-13T07:01:00Z"
   },
   {
     "id": "1219193",
@@ -190,6 +178,18 @@
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/b771cbdd-f1cc-4d07-98bd-499ad6c8eb83.png?auto=format",
     "launched": "2026-08-03T07:01:00Z"
+  },
+  {
+    "id": "1208958",
+    "name": "Scanvify",
+    "tagline": "Is your AI-built website actually ready to launch?",
+    "producthunt_url": "https://www.producthunt.com/products/scanvify/launches/scanvify?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/HGVFZ4WPH6AGV5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 8,
+    "rating": 0.0,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/cff6caa2-cd32-46ee-a6bc-df89d14c5d1a.svg?auto=format",
+    "launched": "2026-07-29T07:01:00Z"
   },
   {
     "id": "1225822",
