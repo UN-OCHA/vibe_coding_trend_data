@@ -482,7 +482,7 @@ function renderStories(stories, filter) {
     return;
   }
 
-  grid.innerHTML = filtered.slice(0, 9).map((s) => `
+  grid.innerHTML = filtered.slice(0, 12).map((s) => `
     <a class="story-card" href="${s.url}" target="_blank" rel="noopener">
       <img class="thumb ${s.image ? "" : "thumb-placeholder"}" src="${s.image || TRANSPARENT_GIF}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${TRANSPARENT_GIF}';this.classList.add('thumb-placeholder');">
       <div class="story-meta">
