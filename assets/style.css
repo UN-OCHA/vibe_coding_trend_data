@@ -576,6 +576,11 @@ a:hover { text-decoration: underline; }
   white-space: nowrap;
 }
 
+.ph-card-votes-unit {
+  font-weight: 400;
+  color: var(--dark-text-muted);
+}
+
 .ph-card-meta {
   font-size: 11px;
   letter-spacing: 0.3px;
