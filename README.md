@@ -58,6 +58,7 @@ Set these under Settings → Secrets and variables → Actions:
 | `SHEET_CSV_URL` | daily workflow | the published-CSV URL of the sources Sheet |
 | `YOUTUBE_API_KEY` | daily workflow | YouTube Data API v3 key, free tier |
 | `GEMINI_API_KEY` | daily workflow | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py` (both run keyword-only if unset, capped at 30 calls/run each - see `MAX_GEMINI_CALLS_PER_RUN`), and powers the auto-written digest in `generate_digest.py`. That script runs daily but self-limits to writing a new digest roughly once a week (`MIN_DAYS_BETWEEN_DIGESTS`); skipped entirely, leaving any prior digest in place, if unset |
+| `PRODUCTHUNT_API_KEY` | weekly workflow | optional. A non-expiring `developer_token` from your Product Hunt account's API dashboard (`producthunt.com/v2/oauth/applications`) - see the Product Hunt section below. Skipped (not a failure) if unset |
 
 The VS Code Marketplace signal (`fetch_vscode_marketplace_installs()` in
 `scripts/fetch_trends.py`) needs no secret at all - it's an unauthenticated
@@ -97,6 +98,21 @@ scraping — scraping is fragile and often against a site's terms of service.
 **YouTube** — recent videos (last 7 days) per configured search topic,
 ranked by views-per-day-since-published as a proxy for "gaining
 popularity," since there's no official trending-by-niche endpoint.
+
+**Product Hunt** — recent launches (last 90 days) from Product Hunt's own
+"vibe-coding" category, via their v2 GraphQL API
+(`api.producthunt.com/v2/api/graphql`), authenticated with a
+`developer_token` (see `PRODUCTHUNT_API_KEY` above) - no OAuth flow needed
+for a script like this one. Unlike every other source here, this one isn't
+tied to a pre-configured list of tools at all: it's this project's answer
+to "how would we notice a brand-new tool before someone manually adds it to
+`TOOLS`/`GITHUB_TOPICS`/etc." - see `scripts/fetch_producthunt.py`'s
+docstring. The site cross-references each launch's name against
+`assets/tool-profiles.js` client-side and flags anything not already
+tracked. Two terms from Product Hunt's own API docs worth knowing if this
+data is ever used beyond this proof of concept: it must not be used for
+commercial purposes without contacting them, and they ask for attribution
+linking back to Product Hunt (see each page's footer disclosure).
 
 ## Signals, not a score
 

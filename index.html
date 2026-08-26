@@ -105,6 +105,15 @@
   </section>
 
   <section>
+    <div class="section-label">Product Hunt</div>
+    <div class="section-title">New in vibe coding</div>
+    <div class="section-subtitle">Recent launches from Product Hunt's own "vibe-coding" category. Unlike every other signal on this page, a tool can show up here the same week it launches — before it has enough GitHub or Hacker News activity to register anywhere else on this site.</div>
+    <div class="ph-grid" id="ph-grid">
+      <div class="empty-state">Loading launches…</div>
+    </div>
+  </section>
+
+  <section>
     <div class="section-label">This week</div>
     <div class="section-title">Tool signals</div>
     <div class="section-subtitle">GitHub growth, Hacker News buzz, Google Trends interest, and VS Code Marketplace installs, tracked per tool — shown side by side, not blended into one ranking.</div>
@@ -132,7 +141,7 @@
         <dd>A proof-of-concept dashboard tracking public signals (GitHub, Hacker News, Google Trends, VS Code Marketplace) and news/video mentions for AI-assisted coding tools, to explore what an automated trend-tracking pipeline could look like. It is not meant to serve as a source of truth for product, investment, or strategic decisions.</dd>
 
         <dt>Data sources</dt>
-        <dd>Figures are pulled from public APIs (GitHub, Hacker News/Algolia, a third-party Google Trends proxy, the VS Code Marketplace) - none are synthetic or estimated by design, though some third-party sources have known reliability gaps (see the notes on the Signals and Compare pages). News/video sources are configured in a <a href="https://docs.google.com/spreadsheets/d/1EYDeWW4HbBqZSze_riyWssYhKMPdMFvS5IY1tG8cBcA/edit?usp=sharing" target="_blank" rel="noopener">Google Sheet</a> maintained by hand, not in code. Full source and methodology: <a href="https://github.com/UN-OCHA/vibe_coding_trend_data" target="_blank" rel="noopener">the project's GitHub repo</a>.</dd>
+        <dd>Figures are pulled from public APIs (GitHub, Hacker News/Algolia, a third-party Google Trends proxy, the VS Code Marketplace, and <a href="https://www.producthunt.com/categories/vibe-coding" target="_blank" rel="noopener">Product Hunt's "vibe-coding" category</a>) - none are synthetic or estimated by design, though some third-party sources have known reliability gaps (see the notes on the Signals and Compare pages). News/video sources are configured in a <a href="https://docs.google.com/spreadsheets/d/1EYDeWW4HbBqZSze_riyWssYhKMPdMFvS5IY1tG8cBcA/edit?usp=sharing" target="_blank" rel="noopener">Google Sheet</a> maintained by hand, not in code. Full source and methodology: <a href="https://github.com/UN-OCHA/vibe_coding_trend_data" target="_blank" rel="noopener">the project's GitHub repo</a>.</dd>
 
         <dt>AI involvement</dt>
         <dd>Article/video relevance tagging optionally uses an LLM (Gemini) as a second opinion on top of keyword-based rules. This site was vibe-coded with Claude Code.</dd>
@@ -146,6 +155,7 @@
 </div>
 
 <script src="assets/app.js"></script>
+<script src="assets/tool-profiles.js"></script>
 <script src="assets/trend-chart.js"></script>
 <script>
 const TREND_COLORS = {
@@ -447,6 +457,15 @@ async function init() {
     document.getElementById("video-grid").innerHTML = '<div class="empty-state">No videos yet. The daily pipeline runs once the Google Sheet has active YouTube topics.</div>';
   }
 
+  // ---- Product Hunt launches, from producthunt.json (see fetch_producthunt.py) ----
+  try {
+    const launches = await fetchJson("data/producthunt.json");
+    renderProductHunt(launches);
+  } catch (e) {
+    console.error("Failed to load Product Hunt launches", e);
+    document.getElementById("ph-grid").innerHTML = '<div class="empty-state">No launches yet. This pipeline needs a PRODUCTHUNT_API_KEY configured to start collecting - see README.</div>';
+  }
+
   // ---- weekly digest, from digest.json (optional - see generate_digest.py) ----
   // Stays hidden (its default markup state) if the file is missing or a
   // week hasn't produced one yet - this is Gemini-written and optional,
@@ -464,7 +483,7 @@ async function init() {
   // ---- "as of" freshness indicator, from status.json ----
   try {
     const status = await fetchJson("data/status.json");
-    const dates = [status.news, status.youtube, status.trends].filter(Boolean);
+    const dates = [status.news, status.youtube, status.trends, status.producthunt].filter(Boolean);
     if (dates.length) {
       const mostRecent = dates.sort().at(-1);
       const d = new Date(mostRecent);
@@ -497,6 +516,47 @@ function renderVideos(videos) {
       <p class="byline">${v.channel} · ${formatCompact(v.views)} views</p>
     </a>
   `).join("");
+}
+
+// TOOL_PROFILES (assets/tool-profiles.js) is this site's hand-maintained
+// list of tools it actually tracks elsewhere - a launch whose name doesn't
+// match any of those (in either direction, so "Windsurf" matches "Windsurf
+// Editor" and vice versa) gets a "not yet tracked" badge instead of being
+// silently indistinguishable from a tool already covered everywhere else
+// on the site. This is the whole point of this section: surfacing what
+// isn't tracked yet, not just what is.
+function isTrackedTool(name) {
+  const lower = name.toLowerCase();
+  return Object.keys(TOOL_PROFILES).some((known) => {
+    const k = known.toLowerCase();
+    return lower.includes(k) || k.includes(lower);
+  });
+}
+
+function renderProductHunt(launches) {
+  const grid = document.getElementById("ph-grid");
+  if (!launches.length) {
+    grid.innerHTML = '<div class="empty-state">No launches yet. This pipeline needs a PRODUCTHUNT_API_KEY configured to start collecting - see README.</div>';
+    return;
+  }
+
+  grid.innerHTML = launches.slice(0, 6).map((p) => {
+    const d = new Date(p.launched);
+    const dateStr = isNaN(d) ? "" : d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    return `
+      <div class="ph-card">
+        <div class="ph-card-head">
+          <div class="ph-card-name"><a href="${p.producthunt_url}" target="_blank" rel="noopener">${p.name}</a></div>
+          <div class="ph-card-votes">▲ ${p.votes}</div>
+        </div>
+        <p class="ph-card-tagline">${p.tagline}</p>
+        <div class="ph-card-foot">
+          <span class="ph-card-date">${dateStr}</span>
+          ${isTrackedTool(p.name) ? "" : '<span class="ph-badge-new">Not yet tracked</span>'}
+        </div>
+      </div>
+    `;
+  }).join("");
 }
 
 function renderStories(stories, filter) {
