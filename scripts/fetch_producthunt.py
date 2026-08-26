@@ -47,6 +47,18 @@ garbage - check that message against the schema explorer at
 api.producthunt.com/v2/docs first if a run ever comes back empty
 unexpectedly.
 
+Also writes data/producthunt_top.json - the all-time top-voted posts in the
+same topic (order: VOTES, no recency cutoff), for a "top reviewed" section
+distinct from "New in vibe coding" (which is deliberately recency-only, so
+a tool that launched well and has stayed popular for a year wouldn't show
+up there). This query additionally requests `reviewsRating`/`reviewsCount`,
+which TOP_QUERY carries separately from the recent-launches query above
+rather than adding to it - both fields are even less certain (not
+cross-checked against the docs pasted into this project's chat history the
+way the rest of this query was) than the rest of the schema, so if they've
+drifted, only the new top-rated fetch fails (WARNING, empty file), not the
+already-working recent-launches one.
+
 Configuration:
   PRODUCTHUNT_API_KEY  - env var, a developer_token from the API dashboard.
                           Skipped entirely (not a failure) if unset.
@@ -62,6 +74,7 @@ import requests
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 PRODUCTHUNT_JSON_PATH = os.path.join(DATA_DIR, "producthunt.json")
+PRODUCTHUNT_TOP_JSON_PATH = os.path.join(DATA_DIR, "producthunt_top.json")
 STATUS_JSON_PATH = os.path.join(DATA_DIR, "status.json")
 
 API_URL = "https://api.producthunt.com/v2/api/graphql"
@@ -75,7 +88,11 @@ MAX_PAGES = 3        # 20 posts/page - caps a single run at 60 posts, well
                       # inside "fair use" even if the topic suddenly gets busy
 MAX_TOTAL_ITEMS_KEPT = 200  # trim the archive so producthunt.json doesn't grow forever
 
-QUERY = """
+TOP_MAX_PAGES = 1     # top-voted list is a small, always-fresh snapshot, not
+                       # an accumulating archive - see main()
+TOP_MAX_ITEMS_KEPT = 20
+
+RECENT_QUERY = """
 query VibeCodingLaunches($cursor: String) {
   posts(topic: "%s", order: NEWEST, first: 20, after: $cursor) {
     edges {
@@ -97,11 +114,42 @@ query VibeCodingLaunches($cursor: String) {
 }
 """ % TOPIC_SLUG
 
+# Separate from RECENT_QUERY (not just RECENT_QUERY + more fields) so a
+# schema mismatch on reviewsRating/reviewsCount - the two least-certain
+# field names here, see this file's docstring - can only break this fetch,
+# never the already-working recent-launches one above.
+TOP_QUERY = """
+query VibeCodingTopPosts($cursor: String) {
+  posts(topic: "%s", order: VOTES, first: 20, after: $cursor) {
+    edges {
+      node {
+        id
+        name
+        tagline
+        url
+        website
+        votesCount
+        reviewsRating
+        reviewsCount
+        createdAt
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+""" % TOPIC_SLUG
 
-def fetch_posts():
-    """Returns a list of raw post dicts from the vibe-coding topic, newest
-    first, stopping once a page's oldest post falls outside LOOKBACK_DAYS
-    or MAX_PAGES is hit - whichever comes first."""
+
+def fetch_posts(query, max_pages, cutoff=None):
+    """Returns a list of raw post dicts for the given query, paginating up
+    to max_pages. If cutoff is set, stops as soon as a page's post is older
+    than it (for the recency-ordered recent-launches query); pass None for
+    a query that isn't date-ordered (e.g. top-by-votes), where "older than
+    cutoff" wouldn't mean "we've seen everything newer" the way it does for
+    a NEWEST-ordered feed."""
     if not PRODUCTHUNT_API_KEY:
         print("  WARNING: PRODUCTHUNT_API_KEY not set, skipping Product Hunt fetch.")
         return []
@@ -110,15 +158,14 @@ def fetch_posts():
         "Authorization": f"Bearer {PRODUCTHUNT_API_KEY}",
         "Content-Type": "application/json",
     }
-    cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=LOOKBACK_DAYS)
 
     posts = []
     cursor = None
-    for page in range(MAX_PAGES):
+    for page in range(max_pages):
         try:
             resp = requests.post(
                 API_URL, headers=headers, timeout=30,
-                json={"query": QUERY, "variables": {"cursor": cursor}},
+                json={"query": query, "variables": {"cursor": cursor}},
             )
         except Exception as e:
             print(f"  WARNING: Product Hunt request failed: {e}")
@@ -142,10 +189,11 @@ def fetch_posts():
         hit_cutoff = False
         for edge in edges:
             node = edge.get("node") or {}
-            created_at = node.get("createdAt")
-            if created_at and datetime.datetime.fromisoformat(created_at.replace("Z", "+00:00")) < cutoff:
-                hit_cutoff = True
-                break
+            if cutoff is not None:
+                created_at = node.get("createdAt")
+                if created_at and datetime.datetime.fromisoformat(created_at.replace("Z", "+00:00")) < cutoff:
+                    hit_cutoff = True
+                    break
             posts.append(node)
 
         print(f"  page {page + 1}: {len(edges)} post(s)")
@@ -161,11 +209,28 @@ def fetch_posts():
     return posts
 
 
-def load_existing():
-    if not os.path.exists(PRODUCTHUNT_JSON_PATH):
+def load_existing(path):
+    if not os.path.exists(path):
         return []
-    with open(PRODUCTHUNT_JSON_PATH) as f:
+    with open(path) as f:
         return json.load(f)
+
+
+def to_item(p):
+    """Shared shape for both files - rating/review_count are simply absent
+    (None/0) on recent-launches items, since RECENT_QUERY doesn't request
+    them."""
+    return {
+        "id": p["id"],
+        "name": p.get("name", ""),
+        "tagline": p.get("tagline", ""),
+        "producthunt_url": p.get("url", ""),
+        "website": p.get("website", ""),
+        "votes": p.get("votesCount", 0),
+        "rating": p.get("reviewsRating"),
+        "review_count": p.get("reviewsCount", 0),
+        "launched": p.get("createdAt", ""),
+    }
 
 
 def update_status():
@@ -182,31 +247,40 @@ def update_status():
 
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
+
     print(f"Fetching Product Hunt '{TOPIC_SLUG}' topic launches (last {LOOKBACK_DAYS} days)...")
-    raw_posts = fetch_posts()
+    cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=LOOKBACK_DAYS)
+    raw_recent = fetch_posts(RECENT_QUERY, MAX_PAGES, cutoff=cutoff)
+    recent_items = [to_item(p) for p in raw_recent if p.get("id")]
 
-    items = [{
-        "id": p["id"],
-        "name": p.get("name", ""),
-        "tagline": p.get("tagline", ""),
-        "producthunt_url": p.get("url", ""),
-        "website": p.get("website", ""),
-        "votes": p.get("votesCount", 0),
-        "launched": p.get("createdAt", ""),
-    } for p in raw_posts if p.get("id")]
-
-    existing = load_existing()
-    seen_ids = {item["id"] for item in items}
-    merged = items + [item for item in existing if item.get("id") not in seen_ids]
+    existing = load_existing(PRODUCTHUNT_JSON_PATH)
+    seen_ids = {item["id"] for item in recent_items}
+    merged = recent_items + [item for item in existing if item.get("id") not in seen_ids]
     merged.sort(key=lambda x: x.get("launched", ""), reverse=True)
     merged = merged[:MAX_TOTAL_ITEMS_KEPT]
 
     with open(PRODUCTHUNT_JSON_PATH, "w") as f:
         json.dump(merged, f, indent=2)
-    update_status()
 
     print(f"Wrote {len(merged)} Product Hunt launch(es) to {PRODUCTHUNT_JSON_PATH} "
-          f"({len(items)} new this run).")
+          f"({len(recent_items)} new this run).")
+
+    # Top-voted, all time - a fresh snapshot each run (order: VOTES already
+    # gives us the current ranking), not merged with a growing archive like
+    # the recent-launches file above: an item that's since been overtaken
+    # shouldn't linger in a "top" list just because it was fetched once.
+    print(f"Fetching top-voted Product Hunt '{TOPIC_SLUG}' posts (all time)...")
+    raw_top = fetch_posts(TOP_QUERY, TOP_MAX_PAGES, cutoff=None)
+    top_items = [to_item(p) for p in raw_top if p.get("id")]
+    top_items.sort(key=lambda x: x.get("votes", 0), reverse=True)
+    top_items = top_items[:TOP_MAX_ITEMS_KEPT]
+
+    with open(PRODUCTHUNT_TOP_JSON_PATH, "w") as f:
+        json.dump(top_items, f, indent=2)
+
+    print(f"Wrote {len(top_items)} top-voted Product Hunt post(s) to {PRODUCTHUNT_TOP_JSON_PATH}.")
+
+    update_status()
 
 
 if __name__ == "__main__":

@@ -109,7 +109,11 @@ to "how would we notice a brand-new tool before someone manually adds it to
 `TOOLS`/`GITHUB_TOPICS`/etc." - see `scripts/fetch_producthunt.py`'s
 docstring. The site cross-references each launch's name against
 `assets/tool-profiles.js` client-side and flags anything not already
-tracked. Two terms from Product Hunt's own API docs worth knowing if this
+tracked. The same script also writes `data/producthunt_top.json` - an
+always-fresh (not accumulating) snapshot of the category's all-time
+top-voted posts, including Product Hunt's own rating/review count where
+available, for the site's separate "Top reviewed, all time" list. Two
+terms from Product Hunt's own API docs worth knowing if this
 data is ever used beyond this proof of concept: it must not be used for
 commercial purposes without contacting them, and they ask for attribution
 linking back to Product Hunt (see each page's footer disclosure).

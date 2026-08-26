@@ -111,6 +111,11 @@
     <div class="ph-grid" id="ph-grid">
       <div class="empty-state">Loading launches…</div>
     </div>
+
+    <div class="subsection-label" style="margin-top:28px;">Top reviewed, all time</div>
+    <div class="ph-grid" id="ph-top-grid">
+      <div class="empty-state">Loading…</div>
+    </div>
   </section>
 
   <section>
@@ -466,6 +471,15 @@ async function init() {
     document.getElementById("ph-grid").innerHTML = '<div class="empty-state">No launches yet. This pipeline needs a PRODUCTHUNT_API_KEY configured to start collecting - see README.</div>';
   }
 
+  // ---- Product Hunt top-voted, from producthunt_top.json ----
+  try {
+    const top = await fetchJson("data/producthunt_top.json");
+    renderProductHuntTop(top);
+  } catch (e) {
+    console.error("Failed to load top Product Hunt posts", e);
+    document.getElementById("ph-top-grid").innerHTML = '<div class="empty-state">No data yet. This pipeline needs a PRODUCTHUNT_API_KEY configured to start collecting - see README.</div>';
+  }
+
   // ---- weekly digest, from digest.json (optional - see generate_digest.py) ----
   // Stays hidden (its default markup state) if the file is missing or a
   // week hasn't produced one yet - this is Gemini-written and optional,
@@ -533,6 +547,25 @@ function isTrackedTool(name) {
   });
 }
 
+// Shared by renderProductHunt (recent launches, left slot = launch date)
+// and renderProductHuntTop (all-time top-voted, left slot = star rating) -
+// same card shape, different meta line.
+function phCard(p, leftSlotHtml) {
+  return `
+    <div class="ph-card">
+      <div class="ph-card-head">
+        <div class="ph-card-name"><a href="${p.producthunt_url}" target="_blank" rel="noopener">${p.name}</a></div>
+        <div class="ph-card-votes">▲ ${p.votes}</div>
+      </div>
+      <p class="ph-card-tagline">${p.tagline}</p>
+      <div class="ph-card-foot">
+        <span class="ph-card-date">${leftSlotHtml}</span>
+        ${isTrackedTool(p.name) ? "" : '<span class="ph-badge-new">Not yet tracked</span>'}
+      </div>
+    </div>
+  `;
+}
+
 function renderProductHunt(launches) {
   const grid = document.getElementById("ph-grid");
   if (!launches.length) {
@@ -543,19 +576,25 @@ function renderProductHunt(launches) {
   grid.innerHTML = launches.slice(0, 6).map((p) => {
     const d = new Date(p.launched);
     const dateStr = isNaN(d) ? "" : d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
-    return `
-      <div class="ph-card">
-        <div class="ph-card-head">
-          <div class="ph-card-name"><a href="${p.producthunt_url}" target="_blank" rel="noopener">${p.name}</a></div>
-          <div class="ph-card-votes">▲ ${p.votes}</div>
-        </div>
-        <p class="ph-card-tagline">${p.tagline}</p>
-        <div class="ph-card-foot">
-          <span class="ph-card-date">${dateStr}</span>
-          ${isTrackedTool(p.name) ? "" : '<span class="ph-badge-new">Not yet tracked</span>'}
-        </div>
-      </div>
-    `;
+    return phCard(p, dateStr);
+  }).join("");
+}
+
+function renderProductHuntTop(top) {
+  const grid = document.getElementById("ph-top-grid");
+  if (!top.length) {
+    grid.innerHTML = '<div class="empty-state">No data yet. This pipeline needs a PRODUCTHUNT_API_KEY configured to start collecting - see README.</div>';
+    return;
+  }
+
+  // rating/review_count can be missing even once the key is configured -
+  // Product Hunt's own reviewsRating/reviewsCount fields are the least
+  // certain part of this schema (see fetch_producthunt.py's docstring),
+  // so a post with a real vote count but no rating data still gets shown,
+  // just without the star line rather than disappearing.
+  grid.innerHTML = top.slice(0, 6).map((p) => {
+    const ratingStr = p.rating != null ? `★ ${p.rating.toFixed(1)} (${p.review_count})` : "";
+    return phCard(p, ratingStr);
   }).join("");
 }
 
