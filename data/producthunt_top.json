@@ -5,7 +5,7 @@
     "tagline": "Lovable for iPhone apps. From idea to App Store",
     "producthunt_url": "https://www.producthunt.com/products/x1-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/HRIWQ6DBNJOZ7W?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 372,
+    "votes": 377,
     "rating": 0.0,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/24e5fd64-645c-4346-825a-ee9fa5905236.png?auto=format",
@@ -65,7 +65,7 @@
     "tagline": "See what any page is built with and how much of it is AI",
     "producthunt_url": "https://www.producthunt.com/products/loupekit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/ZBRDLU2AEVLCXD?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 93,
+    "votes": 94,
     "rating": 0.0,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/484e06f1-1bb3-405f-b101-10d5edb3d31a.png?auto=format",
@@ -130,6 +130,18 @@
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/48c40654-2dad-476d-894e-8eea864f4396.png?auto=format",
     "launched": "2026-08-20T07:01:00Z"
+  },
+  {
+    "id": "1205857",
+    "name": "AI Code Prep v2",
+    "tagline": "AI Code Prep rewritten from the ground up in Rust for speed",
+    "producthunt_url": "https://www.producthunt.com/products/ai-code-prep-v2/launches/ai-code-prep-v2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/A6ZJU3IFCME76C?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 11,
+    "rating": 0.0,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/efbdc477-26b4-45f0-9062-38438d653206.png?auto=format",
+    "launched": "2026-07-26T07:01:00Z"
   },
   {
     "id": "1221969",
@@ -226,17 +238,5 @@
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/21271617-7223-46a2-91b5-4901a89d80fc.png?auto=format",
     "launched": "2026-08-11T07:01:00Z"
-  },
-  {
-    "id": "1215322",
-    "name": "Vibecademy",
-    "tagline": "AI School for Non-Technical Professionals and Teams",
-    "producthunt_url": "https://www.producthunt.com/products/vibecademy/launches/vibecademy?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/7JGQX3NRYV356X?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 6,
-    "rating": 0.0,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/16cb2dbc-a41f-4171-bfe6-6105475c4c6e.svg?auto=format",
-    "launched": "2026-08-05T07:01:00Z"
   }
 ]

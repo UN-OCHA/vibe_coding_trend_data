@@ -70,5 +70,17 @@
     "review_count": 1,
     "thumbnail": "https://ph-files.imgix.net/cf4557e1-ab1e-4ef8-9552-b0210a1b28fe.png?auto=format",
     "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1206145",
+    "name": "NeoBuild",
+    "tagline": "From idea to a running app.",
+    "producthunt_url": "https://www.producthunt.com/products/neobuild-dev/launches/neobuild?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/63OZ2DJJCS76NO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "rating": 4.0,
+    "review_count": 1,
+    "thumbnail": "https://ph-files.imgix.net/66583da8-2c38-453d-99fa-b2f53340a27e.png?auto=format",
+    "launched": "2026-07-26T07:01:00Z"
   }
 ]
