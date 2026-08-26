@@ -1,1 +1,542 @@
-[]
+[
+  {
+    "id": "1141971",
+    "name": "YappJam",
+    "tagline": "Jam with your mates with Multiplayer AI ",
+    "producthunt_url": "https://www.producthunt.com/products/yappjam?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/CEDISJGFJDPEKQ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1231917",
+    "name": "LoupeKit",
+    "tagline": "See what any page is built with and how much of it is AI",
+    "producthunt_url": "https://www.producthunt.com/products/loupekit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/ZBRDLU2AEVLCXD?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 84,
+    "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1232571",
+    "name": "Woopi \u2014 Rental Agreement Checker",
+    "tagline": "It's not Ai's opinion it's Pure Law ",
+    "producthunt_url": "https://www.producthunt.com/products/toolverse-6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/PPGSCIMVTABBYO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1231551",
+    "name": "x1",
+    "tagline": "Lovable for iPhone apps. From idea to App Store",
+    "producthunt_url": "https://www.producthunt.com/products/x1-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/HRIWQ6DBNJOZ7W?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 252,
+    "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1232212",
+    "name": "Rowly",
+    "tagline": "Security Scanner for Vibe-Codded Apps",
+    "producthunt_url": "https://www.producthunt.com/products/rowly?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/3RR5QPXK6AYRNF?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1231798",
+    "name": "Open-Source Lovable Clone",
+    "tagline": "Open-source Lovable clone: Prompt, build, and host apps free",
+    "producthunt_url": "https://www.producthunt.com/products/open-source-lovable-clone?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/RGONAWVNFKMEMW?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1231666",
+    "name": "StellarFlow",
+    "tagline": "Own your AI coding agent. One purchase, no subscription.",
+    "producthunt_url": "https://www.producthunt.com/products/stellarflow?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/6CUANTYXMHPBZ2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1227198",
+    "name": "Knack MCP Server",
+    "tagline": "The HIPAA-compliant backend for AI builders",
+    "producthunt_url": "https://www.producthunt.com/products/knack?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/CDIFP6FEYGNTYR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 75,
+    "launched": "2026-08-26T07:01:00Z"
+  },
+  {
+    "id": "1225057",
+    "name": "Saggar",
+    "tagline": "A Mac terminal that keeps sessions and attention organized",
+    "producthunt_url": "https://www.producthunt.com/products/saggar?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/4REGZNKUW472QZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-25T07:01:00Z"
+  },
+  {
+    "id": "1206067",
+    "name": "Confluo",
+    "tagline": "Shared Memory for every AI tool you use",
+    "producthunt_url": "https://www.producthunt.com/products/confluo-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/6UUGSP4JBFI3KO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 4,
+    "launched": "2026-08-25T07:01:00Z"
+  },
+  {
+    "id": "1231455",
+    "name": "folyn",
+    "tagline": "One app, all your context",
+    "producthunt_url": "https://www.producthunt.com/products/folyn?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/DIAM4T4ZUHQROJ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-25T07:01:00Z"
+  },
+  {
+    "id": "1231395",
+    "name": "Operon",
+    "tagline": "Multi-agent coding desktop, now on iPhone, Android and web",
+    "producthunt_url": "https://www.producthunt.com/products/operon?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/AHGIINUZAKMYT5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-25T07:01:00Z"
+  },
+  {
+    "id": "1230843",
+    "name": "Divisio",
+    "tagline": "Every coding agent, in one workspace",
+    "producthunt_url": "https://www.producthunt.com/products/divisio-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/YVKA5AZBQKCLSH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-25T07:01:00Z"
+  },
+  {
+    "id": "1229225",
+    "name": "Flare",
+    "tagline": "The graph-first IDE and interactive map for agentic coding",
+    "producthunt_url": "https://www.producthunt.com/products/flare-11?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/Q57SMSGYJL2BXW?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 120,
+    "launched": "2026-08-25T07:01:00Z"
+  },
+  {
+    "id": "1231523",
+    "name": "Netherite",
+    "tagline": "Find vulnerabilities on your vibecoded app and fix them.",
+    "producthunt_url": "https://www.producthunt.com/products/netherite?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/KWIAR4OOSMZPIG?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-25T07:01:00Z"
+  },
+  {
+    "id": "1227531",
+    "name": "Phoenix",
+    "tagline": "AI coding agent built for iOS, macOS app development",
+    "producthunt_url": "https://www.producthunt.com/products/phoenix-10?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/R2WY3CAIXHTVOZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 104,
+    "launched": "2026-08-24T07:01:00Z"
+  },
+  {
+    "id": "1228671",
+    "name": "Knowl",
+    "tagline": "One shared brain. Every AI. Any session. Always current.",
+    "producthunt_url": "https://www.producthunt.com/products/knowl?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/ZJIONUCVL2DLAJ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 0,
+    "launched": "2026-08-23T07:01:00Z"
+  },
+  {
+    "id": "1224449",
+    "name": "Vibedecode",
+    "tagline": "Visualize, Analyze and Understand your Code",
+    "producthunt_url": "https://www.producthunt.com/products/vibedecode-launch?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/O4QPMYW5AWUGRC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 0,
+    "launched": "2026-08-23T07:01:00Z"
+  },
+  {
+    "id": "1229540",
+    "name": "Better Copycat of outbid.lol",
+    "tagline": "Solve puzzles to rank",
+    "producthunt_url": "https://www.producthunt.com/products/better-copycat-of-outbid-lol?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/FHGO5B6IXHYEBN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 0,
+    "launched": "2026-08-23T07:01:00Z"
+  },
+  {
+    "id": "1228444",
+    "name": "VinVAI ",
+    "tagline": "Install Vinv once, give coding agents a verification layer",
+    "producthunt_url": "https://www.producthunt.com/products/vinvai-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/5SJ6RQL2LXPDFX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-22T07:01:00Z"
+  },
+  {
+    "id": "1228145",
+    "name": "Codehoomer AI",
+    "tagline": "AI engineering partner that reasons across your whole repo",
+    "producthunt_url": "https://www.producthunt.com/products/codehoomer-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/WR4Z5JV6YRGK3T?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 0,
+    "launched": "2026-08-21T07:01:00Z"
+  },
+  {
+    "id": "1227735",
+    "name": "Wagglet",
+    "tagline": "Hand off AI coding tasks between teammates instantly",
+    "producthunt_url": "https://www.producthunt.com/products/wagglet?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/7NOFTNNJU33QX3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 0,
+    "launched": "2026-08-21T07:01:00Z"
+  },
+  {
+    "id": "1227460",
+    "name": "The Generational Gap",
+    "tagline": "Compare Ages of Head of state/govt & Nation's median citizen",
+    "producthunt_url": "https://www.producthunt.com/products/the-generational-gap?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/RUSFLF6W5GZYS3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 0,
+    "launched": "2026-08-21T07:01:00Z"
+  },
+  {
+    "id": "1227110",
+    "name": "HyperCode \u2014 Vibe Code Rescue",
+    "tagline": "Your AI wrote 80% of your app. We ship the other 20%.",
+    "producthunt_url": "https://www.producthunt.com/products/hypercode-vibe-code-rescue?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/Z2UMDLBEOVGLZV?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-20T07:01:00Z"
+  },
+  {
+    "id": "1227179",
+    "name": "Hatchable",
+    "tagline": "Build real apps with your AI. We make them work.",
+    "producthunt_url": "https://www.producthunt.com/products/hatchable?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/AP252JH6FQXU5M?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 11,
+    "launched": "2026-08-20T07:01:00Z"
+  },
+  {
+    "id": "1227221",
+    "name": "Tempo Checker API - Fuck Fake Users ",
+    "tagline": "Knockout fake user form your app. Because they ass holes",
+    "producthunt_url": "https://www.producthunt.com/products/tempo-checker-api-fuck-fake-users?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/TKFW3HRV4CX67C?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-20T07:01:00Z"
+  },
+  {
+    "id": "1225822",
+    "name": "Design Corpus",
+    "tagline": "Every AI landing page looks the same. Yours doesn't have to.",
+    "producthunt_url": "https://www.producthunt.com/products/design-corpus?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/EAR6LM2I4Q3SCK?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 7,
+    "launched": "2026-08-19T07:01:00Z"
+  },
+  {
+    "id": "1225818",
+    "name": "Zyntax IDE",
+    "tagline": "Code Editor, Terminal, Git, AI Agent for Android",
+    "producthunt_url": "https://www.producthunt.com/products/zyntax-coding-ide-for-android?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/B2TSE4KWMSO5DO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 76,
+    "launched": "2026-08-19T07:01:00Z"
+  },
+  {
+    "id": "1214259",
+    "name": "Foldabeat",
+    "tagline": "Say what you really feel. With a song.",
+    "producthunt_url": "https://www.producthunt.com/products/foldabeat?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/ZNST3RCDSGQ5GU?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-19T07:01:00Z"
+  },
+  {
+    "id": "1224547",
+    "name": "Yado",
+    "tagline": "Claude Code & Codex on your phone, laptop closed",
+    "producthunt_url": "https://www.producthunt.com/products/yado?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/6J7BDXUTCIAOZH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 14,
+    "launched": "2026-08-19T07:01:00Z"
+  },
+  {
+    "id": "1225928",
+    "name": "Skoora AI",
+    "tagline": "Evaluate startup ideas before you spend weeks building",
+    "producthunt_url": "https://www.producthunt.com/products/skoora-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/DGF77ADUMGPHTS?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-19T07:01:00Z"
+  },
+  {
+    "id": "1225360",
+    "name": "Bloxks",
+    "tagline": "Build an app, Build an empire",
+    "producthunt_url": "https://www.producthunt.com/products/zzz?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/ZRXPAATYNF2RRH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-18T07:01:00Z"
+  },
+  {
+    "id": "1221969",
+    "name": "Bendstack",
+    "tagline": "Lovable but No Code plus Instant Deployment",
+    "producthunt_url": "https://www.producthunt.com/products/bendstack?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/VVV2H6PPHHRNHW?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 9,
+    "launched": "2026-08-18T07:01:00Z"
+  },
+  {
+    "id": "1225454",
+    "name": "DeviLudo",
+    "tagline": "Build a game in 3 days",
+    "producthunt_url": "https://www.producthunt.com/products/deviludo?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/ZCXBXTFQKBCC32?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-18T07:01:00Z"
+  },
+  {
+    "id": "1224407",
+    "name": "Opviva Watch",
+    "tagline": "Error monitoring that ships the fix as a PR",
+    "producthunt_url": "https://www.producthunt.com/products/opviva?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/RW7EWCBWWOYMLS?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-18T07:01:00Z"
+  },
+  {
+    "id": "1225196",
+    "name": "Wave Code",
+    "tagline": "AI Coding Agent for \u20b90. $0. \u20ac0. \u00a30. \u00a50. Forever.",
+    "producthunt_url": "https://www.producthunt.com/products/wave-code?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/VHE66ZW25AN4AX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-18T07:01:00Z"
+  },
+  {
+    "id": "1223338",
+    "name": "Make it RAIN",
+    "tagline": "Find who may pay before you automate a guess",
+    "producthunt_url": "https://www.producthunt.com/products/make-it-rain-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/NBTPVXUJ7GEE4O?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 13,
+    "launched": "2026-08-16T07:01:00Z"
+  },
+  {
+    "id": "1223741",
+    "name": "Vyre IDE",
+    "tagline": "Multiplayer AI IDE for real-time collaborative coding",
+    "producthunt_url": "https://www.producthunt.com/products/vyre-ide?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/EBZR3BZNJQ5AAV?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-16T07:01:00Z"
+  },
+  {
+    "id": "1222273",
+    "name": "CodeSamjho",
+    "tagline": "CodeSamjho: Learn coding by seeing how your code works",
+    "producthunt_url": "https://www.producthunt.com/products/codesamjho?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/Q2UDXCKN22ITJX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-15T07:01:00Z"
+  },
+  {
+    "id": "1223166",
+    "name": "ASE - Agentic Solution Engineering",
+    "tagline": "Manage your madness, get control of your agents.",
+    "producthunt_url": "https://www.producthunt.com/products/ase-agentic-solution-engineering?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/OPCWM5K52P2IT7?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-15T07:01:00Z"
+  },
+  {
+    "id": "1222273",
+    "name": "CodeSamjho",
+    "tagline": "CodeSamjho: Learn coding by seeing how your code works",
+    "producthunt_url": "https://www.producthunt.com/products/codesamjho?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/Q2UDXCKN22ITJX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-15T07:01:00Z"
+  },
+  {
+    "id": "1219289",
+    "name": "Saath.sh",
+    "tagline": "Your AI software team, managed while you watch.",
+    "producthunt_url": "https://www.producthunt.com/products/saath-sh?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/TPAI3JO6RQODJG?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-14T07:01:00Z"
+  },
+  {
+    "id": "1222437",
+    "name": "Wick",
+    "tagline": "Transfer your entire context in one click watch token usage.",
+    "producthunt_url": "https://www.producthunt.com/products/wick-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/4GD7MDKQRAEJD5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "launched": "2026-08-14T07:01:00Z"
+  },
+  {
+    "id": "1222207",
+    "name": "Lex Vocabulary",
+    "tagline": "Learn SAT vocabulary through game-like daily lessons",
+    "producthunt_url": "https://www.producthunt.com/products/lex-vocabulary?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/HR23XMUDLRDRDY?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-14T07:01:00Z"
+  },
+  {
+    "id": "1222066",
+    "name": "Marvel Guru \u2014 Your Marvel Companion",
+    "tagline": "Your all-in-one guide to the entire Marvel universe",
+    "producthunt_url": "https://www.producthunt.com/products/marvel-guru-your-marvel-companion?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/3JF2SD2OEE4F54?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-14T07:01:00Z"
+  },
+  {
+    "id": "1222436",
+    "name": "Hilma",
+    "tagline": "The autonomous alignment layer for the era of vibe coding",
+    "producthunt_url": "https://www.producthunt.com/products/hilma-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/4THWK7TFN42S72?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-14T07:01:00Z"
+  },
+  {
+    "id": "1216484",
+    "name": "Sagewright",
+    "tagline": "Self-hosted control plane for your fleet of coding agents",
+    "producthunt_url": "https://www.producthunt.com/products/sagewright?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/W2GEQTJEKUKWVO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-13T07:01:00Z"
+  },
+  {
+    "id": "1221775",
+    "name": "Design systems for vibe coding",
+    "tagline": "100+ free design systems for any AI code or design tool",
+    "producthunt_url": "https://www.producthunt.com/products/visily?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/T3XPKCMPEQGOAC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 9,
+    "launched": "2026-08-13T07:01:00Z"
+  },
+  {
+    "id": "1220322",
+    "name": "Glow ",
+    "tagline": "Reprogram your mind while you vibe code",
+    "producthunt_url": "https://www.producthunt.com/products/glow-8/launches/glow-85509227-df55-49a2-b708-d897ce6f11e4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/LMSWWILWHI2E2N?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-12T07:01:00Z"
+  },
+  {
+    "id": "1220861",
+    "name": "Skillselion",
+    "tagline": "Ranked directory of Claude Code, Codex, Grok, Cursor skills",
+    "producthunt_url": "https://www.producthunt.com/products/skillselion/launches/skillselion?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/Y6VC6QCJ4L5EM5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-12T07:01:00Z"
+  },
+  {
+    "id": "1220643",
+    "name": "Paste Pen",
+    "tagline": "For AI coding interactions and Trading with charts overlay.",
+    "producthunt_url": "https://www.producthunt.com/products/paste-pen/launches/paste-pen?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/H6Z2WYTTP7DDIP?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-12T07:01:00Z"
+  },
+  {
+    "id": "1220224",
+    "name": "BriefHaven",
+    "tagline": "Client intake & approvals, without the email chaos",
+    "producthunt_url": "https://www.producthunt.com/products/briefhaven/launches/briefhaven?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/TPZ2QP2QZJC72D?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-12T07:01:00Z"
+  },
+  {
+    "id": "1219521",
+    "name": "Appinvento",
+    "tagline": "Invent your next product",
+    "producthunt_url": "https://www.producthunt.com/products/build-your-backend-at-lightning-speed/launches/appinvento-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/6XHYID6HQAD53C?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 4,
+    "launched": "2026-08-12T07:01:00Z"
+  },
+  {
+    "id": "1219896",
+    "name": "Opencodex",
+    "tagline": "Real vibecoding made completely free and easy",
+    "producthunt_url": "https://www.producthunt.com/products/opencodex-2/launches/opencodex-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/HEMKKT2JDHQRZE?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "launched": "2026-08-11T07:01:00Z"
+  },
+  {
+    "id": "1216287",
+    "name": "Bullet",
+    "tagline": "30-60% faster than Claude Code and Codex",
+    "producthunt_url": "https://www.producthunt.com/products/bullet-6/launches/bullet-7?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/UMTDOOSFBWY54H?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 241,
+    "launched": "2026-08-11T07:01:00Z"
+  },
+  {
+    "id": "1216920",
+    "name": "Neck To Choke",
+    "tagline": "Free security scanner for AI-built apps",
+    "producthunt_url": "https://www.producthunt.com/products/neck-to-choke/launches/neck-to-choke?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/I7URNTM6NVFD4H?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-11T07:01:00Z"
+  },
+  {
+    "id": "1217457",
+    "name": "Claude Market",
+    "tagline": "22,000+ skills, MCP servers & plugins for Claude Code",
+    "producthunt_url": "https://www.producthunt.com/products/claude-market/launches/claude-market?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/GDQT4U76K4DLOH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 6,
+    "launched": "2026-08-11T07:01:00Z"
+  },
+  {
+    "id": "1217937",
+    "name": "FileForge",
+    "tagline": "Compress, Convert and Resize your files!",
+    "producthunt_url": "https://www.producthunt.com/products/fileforge-2/launches/fileforge-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/3DVJLHX4K6CNRI?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "launched": "2026-08-11T07:01:00Z"
+  },
+  {
+    "id": "1219193",
+    "name": "Orb & Bloom: Cute AI Usage Limits",
+    "tagline": "Small living monitors for Codex & Claude Code on your Mac",
+    "producthunt_url": "https://www.producthunt.com/products/orb-bloom-cute-ai-usage-limits/launches/orb-bloom-cute-ai-usage-limits?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/4NNF7C36OGU62N?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 8,
+    "launched": "2026-08-11T07:01:00Z"
+  },
+  {
+    "id": "1219217",
+    "name": "Draftly",
+    "tagline": "Turn plain English into editable UI components & designs",
+    "producthunt_url": "https://www.producthunt.com/products/draftly-6/launches/draftly-11?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/BD5WU2FVEMT4GP?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 4,
+    "launched": "2026-08-11T07:01:00Z"
+  }
+]

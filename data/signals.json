@@ -1,43 +1,43 @@
 [
   {
     "name": "Claude Code",
-    "github_repo_count": 63236.0,
-    "github_growth_pct": 4.4,
-    "hn_comments": 652.0,
-    "hn_growth_pct": 5.2,
-    "trends_interest": 31.0,
-    "vscode_installs": 23820966.0,
-    "vscode_growth_pct": 0.5
+    "github_repo_count": 64253.0,
+    "github_growth_pct": 6.1,
+    "hn_comments": 607.0,
+    "hn_growth_pct": -2.1,
+    "trends_interest": 32.0,
+    "vscode_installs": 24047553.0,
+    "vscode_growth_pct": 1.5
   },
   {
     "name": "Codex",
-    "github_repo_count": 25912.0,
-    "github_growth_pct": 6.1,
-    "hn_comments": 67.0,
-    "hn_growth_pct": 11.7,
-    "trends_interest": 41.0,
-    "vscode_installs": 13414035.0,
-    "vscode_growth_pct": 0.6
+    "github_repo_count": 26502.0,
+    "github_growth_pct": 8.5,
+    "hn_comments": 56.0,
+    "hn_growth_pct": -6.7,
+    "trends_interest": 42.0,
+    "vscode_installs": 13499056.0,
+    "vscode_growth_pct": 1.2
   },
   {
     "name": "Cursor",
-    "github_repo_count": 432.0,
-    "github_growth_pct": 2.1,
-    "hn_comments": 22.0,
-    "hn_growth_pct": -4.3,
+    "github_repo_count": 434.0,
+    "github_growth_pct": 2.6,
+    "hn_comments": 15.0,
+    "hn_growth_pct": -34.8,
     "trends_interest": null,
     "vscode_installs": null,
     "vscode_growth_pct": null
   },
   {
     "name": "GitHub Copilot",
-    "github_repo_count": 2841.0,
-    "github_growth_pct": 3.5,
-    "hn_comments": 50.0,
-    "hn_growth_pct": 108.3,
+    "github_repo_count": 2875.0,
+    "github_growth_pct": 4.7,
+    "hn_comments": 26.0,
+    "hn_growth_pct": 8.3,
     "trends_interest": 27.0,
-    "vscode_installs": 77761442.0,
-    "vscode_growth_pct": 0.0
+    "vscode_installs": 77821208.0,
+    "vscode_growth_pct": 0.1
   },
   {
     "name": "Windsurf",
@@ -73,9 +73,9 @@
     "name": "Lovable",
     "github_repo_count": null,
     "github_growth_pct": null,
-    "hn_comments": 14.0,
-    "hn_growth_pct": 133.3,
-    "trends_interest": 67.0,
+    "hn_comments": 24.0,
+    "hn_growth_pct": 300.0,
+    "trends_interest": 63.0,
     "vscode_installs": null,
     "vscode_growth_pct": null
   }
