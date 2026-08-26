@@ -104,7 +104,7 @@ are even fetched. Shorts (<=3 minutes, YouTube's current eligibility
 threshold) are excluded - see `SHORTS_MAX_SECONDS` in `fetch_youtube.py`.
 
 **Product Hunt** — recent launches (last 90 days) from Product Hunt's own
-"vibe-coding" category, via their v2 GraphQL API
+"vibe-coding" topic, via their v2 GraphQL API
 (`api.producthunt.com/v2/api/graphql`), authenticated with a
 `developer_token` (see `PRODUCTHUNT_API_KEY` above) - no OAuth flow needed
 for a script like this one. Unlike every other source here, this one isn't
@@ -115,12 +115,22 @@ docstring. The site cross-references each launch's name against
 `assets/tool-profiles.js` client-side and flags anything not already
 tracked. The same script also writes `data/producthunt_top.json` and
 `data/producthunt_reviewed.json` - always-fresh (not accumulating)
-snapshots of the category's all-time top-voted and top-reviewed posts,
-for the site's "Top voted"/"Top reviewed" lists. Both are derived from
-one shared, broad fetch of the topic (not two separate order-specific
-queries), so a post with few votes but a genuinely high review count
-still gets found - see the module docstring for why that distinction
-matters. `producthunt_reviewed.json` only includes posts with at least
+snapshots of the all-time top-voted and top-reviewed posts, for the site's
+"Top voted"/"Top reviewed" lists. These two pool from FOUR Product Hunt
+topics, not just `vibe-coding` alone (`ai-coding-agents`, `ai-code-editors`,
+and `no-code-app-builder` too) - established tools like Cursor/Lovable/
+Windsurf don't carry the `vibe-coding` tag themselves, so a single-topic
+fetch would never surface them even though they're exactly what a visitor
+comparing against Product Hunt's own site expects to see; see the module
+docstring's CORRECTION paragraph for how that was found. "New launches"
+deliberately stays scoped to `vibe-coding` alone - the other three topics
+are much higher-volume and would flood it with generic AI/coding tools.
+Both all-time files are derived from one shared, broad fetch per topic
+(not two separate order-specific queries), so a post with few votes but a
+genuinely high review count still gets found, and results are deduped by
+post id since a tool can carry more than one of the four topics - see the
+module docstring for why that distinction matters. `producthunt_reviewed.json`
+only includes posts with at least
 one real written review (a separate, less common action than a vote),
 not every post sorted with 0-review ones at the bottom. Two
 terms from Product Hunt's own API docs worth knowing if this

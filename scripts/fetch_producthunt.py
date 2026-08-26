@@ -86,23 +86,25 @@ run - recorded here so nobody re-guesses either one:
    test it in isolation, since one bad field can take the whole query
    down, not just the field itself.
 
-This is now settled for good (not just twice-disproven): the public v2 API
-has NO way to reach Product Hunt's Category/Collection pages at all - this
-was confirmed by reading the actual schema docs (api-v2-docs.producthunt.com),
-not by another live-error guess. The `posts` query's full argument list is
-exactly: after, before, featured, first, last, order, postedAfter,
-postedBefore, topic, twitterUrl, url - `topic` is the only content-scoping
-filter that exists. Collections (producthunt.com/collections/...) ARE a
-real, separate, queryable type, but `Collection` has no `posts` field, and
-the `collections` query only supports a reverse lookup (`postId` - "which
-collections is this one post in", not "which posts are in this collection").
-So even if Cursor/Lovable/Windsurf/v0/bolt.new are in a Collection or
-Category grouping, there is no query shape - guessed or otherwise - that
-walks from that grouping to its member posts. The only way any of those
-tools would ever appear in this pipeline's output is if they are
-individually tagged with the `vibe-coding` TOPIC on Product Hunt, same as
-everything else fetched here - unverified either way, and outside this
-script's control (topic tags are set by whoever posted the tool on PH).
+CORRECTION to an earlier version of this docstring, which claimed the above
+was "settled for good": that was right about the mechanics (no `category`
+argument, `Collection` has no `posts` field, `collections` only supports a
+reverse `postId` lookup) but wrong about the practical conclusion. The
+`posts` query's full argument list really is exactly: after, before,
+featured, first, last, order, postedAfter, postedBefore, topic, twitterUrl,
+url - `topic` really is the only content-scoping filter. But Product Hunt's
+website "Categories" (producthunt.com/categories/<slug>) turn out to be its
+TOPICS under a different URL path, not a separate unreachable taxonomy -
+confirmed because producthunt.com/categories/vibe-coding uses the exact
+slug that `topic: "vibe-coding"` already fetches successfully. Cursor/
+Lovable/Windsurf/v0/bolt.new don't carry the `vibe-coding` topic tag, but
+inspecting their real category pages showed they carry OTHER topic tags
+instead - "AI Coding Agents", "AI Code Editors", "No-Code App Builder".
+FULL_TOPIC_SLUGS below queries all four of those topics (one `posts`
+request per slug, merged and deduped by id) for the votes/reviews rankings,
+which is why those rankings now see tools RECENT_QUERY's narrower single-
+topic scope still won't - "New launches" deliberately stays scoped to just
+`vibe-coding` alone (see FULL_TOPIC_SLUGS' own comment for why).
 
 ANOTHER real bug, also found via the docs (not guessed): the `posts`
 query's `postedAfter` argument "Defaults to 1 month ago to improve
@@ -178,10 +180,22 @@ MAX_PAGES = 3        # 20 posts/page - caps a single run at 60 posts, well
 ALL_TIME_LOOKBACK_DAYS = 3650  # ~10 years - for FULL_TOPIC_QUERY's "all time" rankings
 MAX_TOTAL_ITEMS_KEPT = 200  # trim the archive so producthunt.json doesn't grow forever
 
-FULL_TOPIC_MAX_PAGES = 5   # 20 posts/page - covers up to 100 of the topic's
-                            # posts for the votes/reviews rankings below, not
-                            # just a narrow top-N-by-one-metric slice - see
+FULL_TOPIC_MAX_PAGES = 5   # 20 posts/page - covers up to 100 posts PER TOPIC
+                            # below for the votes/reviews rankings, not just
+                            # a narrow top-N-by-one-metric slice - see
                             # module docstring for why
+
+# The votes/reviews rankings pool from all four of these topics, not just
+# TOPIC_SLUG - found by inspecting producthunt.com/categories/<slug> pages
+# for tools (Cursor, Lovable, Windsurf, v0, bolt.new) that don't carry the
+# `vibe-coding` topic tag themselves; see module docstring's CORRECTION
+# paragraph for the full story. "New launches" (RECENT_QUERY) deliberately
+# stays scoped to TOPIC_SLUG alone - AI Coding Agents/AI Code Editors are
+# much bigger, higher-volume topics, and widening "new launches" to them
+# would flood it with generic AI/coding tools that aren't specifically
+# "vibe coding" - a decision made explicitly, not an oversight.
+FULL_TOPIC_SLUGS = [TOPIC_SLUG, "ai-coding-agents", "ai-code-editors", "no-code-app-builder"]
+
 TOP_MAX_ITEMS_KEPT = 20
 REVIEWED_MAX_ITEMS_KEPT = 20
 
@@ -226,9 +240,13 @@ query VibeCodingLaunches($cursor: String, $postedAfter: DateTime) {
 # proven to work correctly across multiple pages (RECENT_QUERY) - order:
 # VOTES's pagination beyond page 1 was never actually exercised before
 # this rewrite (the original design only ever fetched 1 page of it).
+#
+# $topic is a real GraphQL variable here (unlike RECENT_QUERY's baked-in
+# %s), since this query now runs once per slug in FULL_TOPIC_SLUGS - see
+# main().
 FULL_TOPIC_QUERY = """
-query VibeCodingFullTopic($cursor: String, $postedAfter: DateTime) {
-  posts(topic: "%s", order: NEWEST, first: 20, after: $cursor, postedAfter: $postedAfter) {
+query VibeCodingFullTopic($cursor: String, $postedAfter: DateTime, $topic: String!) {
+  posts(topic: $topic, order: NEWEST, first: 20, after: $cursor, postedAfter: $postedAfter) {
     edges {
       node {
         id
@@ -251,10 +269,10 @@ query VibeCodingFullTopic($cursor: String, $postedAfter: DateTime) {
     }
   }
 }
-""" % TOPIC_SLUG
+"""
 
 
-def fetch_posts(query, max_pages, cutoff=None, posted_after=None):
+def fetch_posts(query, max_pages, cutoff=None, posted_after=None, topic=None):
     """Returns a list of raw post dicts for the given query, paginating up
     to max_pages. If cutoff is set, stops as soon as a page's post is older
     than it (for the recency-ordered recent-launches query); pass None for
@@ -265,7 +283,13 @@ def fetch_posts(query, max_pages, cutoff=None, posted_after=None):
     posted_after is sent as the query's $postedAfter GraphQL variable - it
     must be passed explicitly (as a datetime, not left None) or Product
     Hunt's API silently defaults it to "1 month ago" server-side, no matter
-    how many pages get paginated - see ALL_TIME_LOOKBACK_DAYS above."""
+    how many pages get paginated - see ALL_TIME_LOOKBACK_DAYS above.
+
+    topic is sent as the query's $topic GraphQL variable, for queries that
+    declare it (FULL_TOPIC_QUERY, run once per slug in FULL_TOPIC_SLUGS by
+    main()); left out of the variables payload entirely when None so a
+    query that doesn't declare $topic (RECENT_QUERY, still hardcoded to a
+    single slug via %s) isn't sent an unused variable."""
     if not PRODUCTHUNT_API_KEY:
         print("  WARNING: PRODUCTHUNT_API_KEY not set, skipping Product Hunt fetch.")
         return []
@@ -276,14 +300,18 @@ def fetch_posts(query, max_pages, cutoff=None, posted_after=None):
     }
 
     posted_after_str = posted_after.strftime("%Y-%m-%dT%H:%M:%SZ") if posted_after else None
+    variables = {"cursor": None, "postedAfter": posted_after_str}
+    if topic:
+        variables["topic"] = topic
 
     posts = []
     cursor = None
     for page in range(max_pages):
+        variables["cursor"] = cursor
         try:
             resp = requests.post(
                 API_URL, headers=headers, timeout=30,
-                json={"query": query, "variables": {"cursor": cursor, "postedAfter": posted_after_str}},
+                json={"query": query, "variables": variables},
             )
         except Exception as e:
             print(f"  WARNING: Product Hunt request failed: {e}")
@@ -394,10 +422,19 @@ def main():
     # because it was fetched once. See module docstring for why one
     # shared pool, not order: VOTES for one and a hypothetical order:
     # REVIEWS for the other (which doesn't exist as an option anyway).
-    print(f"Fetching Product Hunt '{TOPIC_SLUG}' topic posts for the votes/reviews rankings...")
+    print(f"Fetching Product Hunt posts across {len(FULL_TOPIC_SLUGS)} topics "
+          f"({', '.join(FULL_TOPIC_SLUGS)}) for the votes/reviews rankings...")
     all_time_posted_after = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=ALL_TIME_LOOKBACK_DAYS)
-    raw_full = fetch_posts(FULL_TOPIC_QUERY, FULL_TOPIC_MAX_PAGES, cutoff=None, posted_after=all_time_posted_after)
-    full_items = [to_item(p) for p in raw_full if p.get("id")]
+    full_items_by_id = {}
+    for slug in FULL_TOPIC_SLUGS:
+        print(f"  topic: {slug}")
+        raw_full = fetch_posts(FULL_TOPIC_QUERY, FULL_TOPIC_MAX_PAGES, cutoff=None,
+                                posted_after=all_time_posted_after, topic=slug)
+        for p in raw_full:
+            item = to_item(p)
+            if item.get("id"):
+                full_items_by_id[item["id"]] = item  # a post can carry more than one of these topics
+    full_items = list(full_items_by_id.values())
 
     top_items = sorted(full_items, key=lambda x: x.get("votes", 0), reverse=True)[:TOP_MAX_ITEMS_KEPT]
     with open(PRODUCTHUNT_TOP_JSON_PATH, "w") as f:
