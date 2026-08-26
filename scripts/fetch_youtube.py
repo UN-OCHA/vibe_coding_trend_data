@@ -1,13 +1,31 @@
 """
-Daily YouTube fetcher - finds recently-published, fast-gaining videos on
-vibe coding subtopics and writes them to data/youtube.json.
+Daily YouTube fetcher - finds popular, long-form videos on vibe coding
+subtopics and writes them to data/youtube.json.
 
 There's no official "trending in this niche" endpoint, so this approximates
-it: for each configured search topic (or channel - see below), pull recent
-videos (published in the last N days) via the YouTube Data API's
-search.list, then fetch view counts via videos.list and rank by
-views-per-day-since-published as a simple proxy for "gaining popularity"
-rather than just "most viewed ever".
+it: for each configured search topic (or channel - see below), pull videos
+published in the last LOOKBACK_DAYS days via the YouTube Data API's
+search.list ordered by view count (not by date - see below), then fetch
+full stats via videos.list and rank the results by views-per-day-since-
+published as a proxy for "gaining popularity" rather than just "most
+viewed ever" favoring only whatever is oldest within the window.
+
+LOOKBACK_DAYS is 60, not 7: a 7-day window meant a video only had a chance
+to appear here the same week it was published, which skewed results toward
+"whatever's newest" over "whatever's actually popular" - a genuinely
+popular video from 3 weeks ago was invisible. Combined with ordering
+search.list by viewCount instead of date, a wider window actually
+surfaces popular videos instead of just recent ones (search.list's
+maxResults cap is applied server-side per call, so without viewCount
+ordering, a wide date window would still get crowded out by whatever
+happens to be newest before stats are even fetched).
+
+Shorts are excluded (see SHORTS_MAX_SECONDS) - this site is about
+substantive coverage of the vibe coding trend, not short-form clips,
+which also make an unfair "views-per-day" comparison against long-form
+content (Shorts get algorithmically pushed far harder by YouTube's own
+feed, so they'd dominate a views-per-day ranking on volume alone, not
+because they're better vibe-coding coverage).
 
 Topics and channels come from the same Google Sheet as the news sources -
 see docs/GOOGLE_SHEET_SCHEMA.md.
@@ -230,9 +248,31 @@ def classify_with_gemini(title, description):
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 YOUTUBE_JSON_PATH = os.path.join(DATA_DIR, "youtube.json")
 STATUS_JSON_PATH = os.path.join(DATA_DIR, "status.json")
-LOOKBACK_DAYS = 7
+LOOKBACK_DAYS = 60  # see module docstring for why this isn't 7
 MAX_RESULTS_PER_TOPIC = 10
 KEEP_TOP_N = 15
+
+# YouTube's official Shorts definition was <=60s for years, extended to
+# <=3 minutes in a 2024 policy change. Using the wider modern threshold so
+# a real Short doesn't slip through just because it's 90 seconds - the
+# tradeoff is a genuinely short piece of long-form content (rare for this
+# topic) would also get excluded.
+SHORTS_MAX_SECONDS = 180
+
+DURATION_RE = re.compile(r"^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$")
+
+
+def duration_seconds(iso_duration):
+    """Parses a YouTube contentDetails.duration string (ISO 8601, e.g.
+    "PT4M13S") into total seconds. Returns None if it doesn't match the
+    expected pattern - callers must treat None as "unknown", not "0
+    seconds", since a video is never actually excluded just because its
+    duration couldn't be parsed (see main())."""
+    m = DURATION_RE.match(iso_duration or "")
+    if not m:
+        return None
+    hours, minutes, seconds = (int(g) if g else 0 for g in m.groups())
+    return hours * 3600 + minutes * 60 + seconds
 
 SHEET_CSV_URL = os.environ.get("SHEET_CSV_URL", "")
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", "")
@@ -325,7 +365,11 @@ def _search_videos(extra_params, error_label):
         "key": YOUTUBE_API_KEY,
         "part": "snippet",
         "type": "video",
-        "order": "date",
+        # viewCount, not date - see module docstring. Within LOOKBACK_DAYS,
+        # this returns the topic's most-viewed videos rather than its
+        # newest ones, which matters because maxResults caps what even
+        # reaches the views-per-day ranking below.
+        "order": "viewCount",
         "publishedAfter": published_after,
         "maxResults": MAX_RESULTS_PER_TOPIC,
     }
@@ -351,7 +395,7 @@ def get_video_stats(video_ids):
         return {}
     resp = requests.get(
         "https://www.googleapis.com/youtube/v3/videos",
-        params={"key": YOUTUBE_API_KEY, "id": ",".join(video_ids), "part": "statistics,snippet"},
+        params={"key": YOUTUBE_API_KEY, "id": ",".join(video_ids), "part": "statistics,snippet,contentDetails"},
         timeout=30,
     )
     if resp.status_code != 200:
@@ -402,11 +446,17 @@ def main():
         print(f"  Filtered out {skipped} off-topic video result(s) before fetching stats.")
 
     all_candidates = []
+    skipped_shorts = 0
     if all_results:
         video_ids = [r["id"]["videoId"] for r in all_results if "videoId" in r.get("id", {})]
         stats = get_video_stats(video_ids)
 
         for vid, data in stats.items():
+            seconds = duration_seconds(data.get("contentDetails", {}).get("duration", ""))
+            if seconds is not None and seconds <= SHORTS_MAX_SECONDS:
+                skipped_shorts += 1
+                continue
+
             published = datetime.datetime.strptime(
                 data["snippet"]["publishedAt"], "%Y-%m-%dT%H:%M:%SZ"
             ).replace(tzinfo=datetime.timezone.utc)
@@ -441,6 +491,9 @@ def main():
                 "categories": categories,
                 "humanitarian_relevant": is_humanitarian_relevant(title),
             })
+
+    if skipped_shorts:
+        print(f"  Filtered out {skipped_shorts} Short(s) (<={SHORTS_MAX_SECONDS}s).")
 
     all_candidates.sort(key=lambda x: x["views_per_day"], reverse=True)
     top = all_candidates[:KEEP_TOP_N]

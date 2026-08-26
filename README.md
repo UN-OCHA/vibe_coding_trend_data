@@ -95,9 +95,13 @@ so they have no extension to count installs for either).
 **News (RSS)** — headline, link, date per configured feed. Feeds only, not
 scraping — scraping is fragile and often against a site's terms of service.
 
-**YouTube** — recent videos (last 7 days) per configured search topic,
+**YouTube** — long-form videos (last 60 days) per configured search topic,
 ranked by views-per-day-since-published as a proxy for "gaining
-popularity," since there's no official trending-by-niche endpoint.
+popularity," since there's no official trending-by-niche endpoint. Search
+results are ordered by view count (not date) within that window so genuinely
+popular videos aren't crowded out by newer, less-watched ones before stats
+are even fetched. Shorts (<=3 minutes, YouTube's current eligibility
+threshold) are excluded - see `SHORTS_MAX_SECONDS` in `fetch_youtube.py`.
 
 **Product Hunt** — recent launches (last 90 days) from Product Hunt's own
 "vibe-coding" category, via their v2 GraphQL API

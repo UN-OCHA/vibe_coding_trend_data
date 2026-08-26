@@ -451,6 +451,32 @@ a:hover { text-decoration: underline; }
   margin-bottom: 44px;
 }
 
+.ph-subhead-block {
+  border-left: 3px solid var(--amber);
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
+
+.ph-subhead-block-spaced {
+  margin-top: 36px;
+}
+
+.ph-subhead {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--paper-text);
+  margin: 0 0 4px;
+}
+
+.ph-subhead-note {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--paper-text-secondary);
+  max-width: 560px;
+  margin: 0;
+}
+
 .ph-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -461,11 +487,11 @@ a:hover { text-decoration: underline; }
 .ph-card {
   background: var(--ink);
   border-radius: 4px;
-  padding: 18px 20px 16px;
+  padding: 16px 18px 14px;
   border-top: 3px solid var(--tool-color, var(--amber));
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   transition: transform 0.15s ease, filter 0.15s ease;
 }
 
@@ -474,17 +500,14 @@ a:hover { text-decoration: underline; }
   filter: brightness(1.12);
 }
 
-.ph-card-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-}
-
 .ph-card-name {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 16.5px;
+  font-size: 15.5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .ph-card-name a {
@@ -497,10 +520,14 @@ a:hover { text-decoration: underline; }
 .ph-card-tagline {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1.5;
   color: var(--dark-text-secondary);
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .ph-card-foot {
@@ -509,15 +536,15 @@ a:hover { text-decoration: underline; }
   justify-content: space-between;
   gap: 8px;
   border-top: 1px dashed rgba(255, 255, 255, 0.12);
-  padding-top: 10px;
+  padding-top: 8px;
   margin-top: auto;
 }
 
 .ph-card-votes {
   font-family: var(--font-display);
-  font-size: 14.5px;
+  font-size: 13.5px;
   font-weight: 600;
-  color: var(--tool-color, var(--amber));
+  color: var(--dark-text);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -526,18 +553,6 @@ a:hover { text-decoration: underline; }
   font-size: 11px;
   letter-spacing: 0.3px;
   color: var(--dark-text-muted);
-  white-space: nowrap;
-}
-
-.ph-badge-new {
-  font-size: 9px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 20px;
-  background: rgba(232, 168, 106, 0.16);
-  color: var(--amber);
-  border: 1px solid rgba(232, 168, 106, 0.4);
   white-space: nowrap;
 }
 

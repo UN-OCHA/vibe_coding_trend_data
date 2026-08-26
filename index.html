@@ -106,13 +106,21 @@
 
   <section id="ph-section">
     <div class="section-label">Product Hunt</div>
-    <div class="section-title">New in vibe coding</div>
-    <div class="section-subtitle">Recent launches from Product Hunt's own "vibe-coding" category. Unlike every other signal on this page, a tool can show up here the same week it launches — before it has enough GitHub or Hacker News activity to register anywhere else on this site.</div>
+    <div class="section-title">Vibe coding on Product Hunt</div>
+    <div class="section-subtitle">Two views of Product Hunt's own "vibe-coding" category, curated by Product Hunt itself rather than by this project - see the two headings below for what each one shows.</div>
+
+    <div class="ph-subhead-block">
+      <h3 class="ph-subhead">New launches</h3>
+      <p class="ph-subhead-note">Most recent first. Unlike every other signal on this page, a tool can show up here the same week it launches — before it has enough GitHub or Hacker News activity to register anywhere else on this site.</p>
+    </div>
     <div class="ph-grid" id="ph-grid">
       <div class="empty-state">Loading launches…</div>
     </div>
 
-    <div class="subsection-label" style="margin-top:28px;">Top reviewed, all time</div>
+    <div class="ph-subhead-block ph-subhead-block-spaced">
+      <h3 class="ph-subhead">Top voted, all time</h3>
+      <p class="ph-subhead-note">Ranked by total Product Hunt upvotes, with no recency limit - a tool that launched a year ago and has stayed popular since will show up here even though it wouldn't in "New launches" above.</p>
+    </div>
     <div class="ph-grid" id="ph-top-grid">
       <div class="empty-state">Loading…</div>
     </div>
@@ -560,15 +568,15 @@ function trackedToolColor(name) {
 // same card shape, different meta line. Styled like compare.html's
 // .tool-card (dark ink, colored top border, italic tagline) so this
 // section reads as part of the same visual system instead of a bolted-on
-// light-paper card among it.
+// light-paper card among it. The top border picks up a matched tool's real
+// brand color as a quiet identity cue (no separate "tracked" label/badge -
+// that read as noisy repeated clutter when almost every card in a batch
+// is untracked, which is the common case for a discovery feed by design).
 function phCard(p, rightSlotHtml) {
   const color = trackedToolColor(p.name);
   return `
     <div class="ph-card" style="--tool-color:${color || "var(--amber)"}">
-      <div class="ph-card-head">
-        <div class="ph-card-name"><a href="${p.producthunt_url}" target="_blank" rel="noopener">${p.name}</a></div>
-        ${color ? "" : '<span class="ph-badge-new">Not yet tracked</span>'}
-      </div>
+      <div class="ph-card-name"><a href="${p.producthunt_url}" target="_blank" rel="noopener">${p.name}</a></div>
       <p class="ph-card-tagline">${p.tagline}</p>
       <div class="ph-card-foot">
         <span class="ph-card-votes">▲ ${p.votes}</span>
@@ -599,13 +607,16 @@ function renderProductHuntTop(top) {
     return;
   }
 
-  // rating/review_count can be missing even once the key is configured -
-  // Product Hunt's own reviewsRating/reviewsCount fields are the least
-  // certain part of this schema (see fetch_producthunt.py's docstring),
-  // so a post with a real vote count but no rating data still gets shown,
-  // just without the star line rather than disappearing.
+  // rating/review_count are commonly absent in practice - in this
+  // category, Product Hunt's reviewsRating/reviewsCount have so far come
+  // back as literal 0 rather than missing/null for every post (not a bug
+  // here - this niche category apparently just doesn't have written
+  // reviews yet, only upvotes), so a falsy check (not just != null) is
+  // needed to actually hide the line instead of showing a meaningless
+  // "★ 0.0 (0)" on every card. A post with a real vote count but no
+  // rating data still gets shown, just without the star line.
   grid.innerHTML = top.slice(0, 6).map((p) => {
-    const ratingStr = p.rating != null ? `★ ${p.rating.toFixed(1)} (${p.review_count})` : "";
+    const ratingStr = p.rating ? `★ ${p.rating.toFixed(1)} (${p.review_count})` : "";
     return phCard(p, ratingStr);
   }).join("");
 }
