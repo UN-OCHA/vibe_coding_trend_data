@@ -134,7 +134,10 @@ async function init() {
     news.forEach((story) => {
       if (new Date(story.date) < cutoff) return;
       for (const [name, re] of Object.entries(TOOL_MATCHERS)) {
-        if (re.test(story.title)) mentionsByTool[name].push(story);
+        // Title-only missed real mentions buried in the body of an article
+        // about several tools at once (e.g. a roundup piece) - excerpt is
+        // matched too now, not just the headline.
+        if (re.test(story.title) || re.test(story.excerpt || "")) mentionsByTool[name].push(story);
       }
     });
 
