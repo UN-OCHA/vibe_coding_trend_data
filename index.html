@@ -121,7 +121,8 @@
       <h3 class="ph-subhead">Top voted, all time</h3>
       <p class="ph-subhead-note">Ranked by total Product Hunt upvotes, with no recency limit - a tool that launched a year ago and has stayed popular since will show up here even though it wouldn't in "New launches" above.</p>
     </div>
-    <div class="ph-grid" id="ph-top-grid">
+    <p class="ph-scroll-hint">Scroll to see more →</p>
+    <div class="ph-grid ph-grid-scroll" id="ph-top-grid">
       <div class="empty-state">Loading…</div>
     </div>
   </section>
@@ -615,7 +616,10 @@ function renderProductHuntTop(top) {
   // needed to actually hide the line instead of showing a meaningless
   // "★ 0.0 (0)" on every card. A post with a real vote count but no
   // rating data still gets shown, just without the star line.
-  grid.innerHTML = top.slice(0, 6).map((p) => {
+  // Higher cap than renderProductHunt's 6 - this list scrolls horizontally
+  // instead of wrapping, so more items are viable without cluttering the
+  // page (TOP_MAX_ITEMS_KEPT in fetch_producthunt.py keeps up to 20).
+  grid.innerHTML = top.slice(0, 12).map((p) => {
     const ratingStr = p.rating ? `★ ${p.rating.toFixed(1)} (${p.review_count})` : "";
     return phCard(p, ratingStr);
   }).join("");

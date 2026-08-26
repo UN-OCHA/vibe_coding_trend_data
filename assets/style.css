@@ -484,8 +484,35 @@ a:hover { text-decoration: underline; }
   margin-bottom: 8px;
 }
 
+.ph-scroll-hint {
+  font-size: 11px;
+  color: var(--paper-text-muted);
+  margin: 0 0 8px;
+}
+
+/* Horizontal carousel for "Top voted, all time" - a single scrollable
+   row reads better than a wrapping grid once there are enough items to
+   need more than one row (see the higher slice cap in renderProductHuntTop). */
+.ph-grid-scroll {
+  display: flex;
+  grid-template-columns: none;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ph-grid-scroll .ph-card {
+  flex: 0 0 240px;
+  scroll-snap-align: start;
+}
+
+.ph-grid-scroll .empty-state {
+  flex: 1 0 100%;
+}
+
 .ph-card {
-  background: var(--ink);
+  background: rgba(23, 20, 15, 0.85);
   border-radius: 4px;
   padding: 16px 18px 14px;
   border-top: 3px solid var(--tool-color, var(--amber));

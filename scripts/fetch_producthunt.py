@@ -48,16 +48,25 @@ api.producthunt.com/v2/docs first if a run ever comes back empty
 unexpectedly.
 
 Also writes data/producthunt_top.json - the all-time top-voted posts in the
-same topic (order: VOTES, no recency cutoff), for a "top reviewed" section
-distinct from "New in vibe coding" (which is deliberately recency-only, so
-a tool that launched well and has stayed popular for a year wouldn't show
-up there). This query additionally requests `reviewsRating`/`reviewsCount`,
-which TOP_QUERY carries separately from the recent-launches query above
-rather than adding to it - both fields are even less certain (not
-cross-checked against the docs pasted into this project's chat history the
-way the rest of this query was) than the rest of the schema, so if they've
-drifted, only the new top-rated fetch fails (WARNING, empty file), not the
-already-working recent-launches one.
+same topic (order: VOTES, no recency cutoff), for a section distinct from
+"New in vibe coding" (which is deliberately recency-only, so a tool that
+launched well and has stayed popular for a year wouldn't show up there).
+
+Review data (rating + count) is requested via a nested `product { ... }`
+selection on each Post, NOT flat fields on Post itself. First attempt put
+reviewsRating/reviewsCount directly on Post - that query succeeded (no
+GraphQL error, so those fields do exist there) but came back 0 for every
+single post in this category, every run. The likely explanation: Product
+Hunt's schema separates a Post (one day's launch, which is what votesCount
+counts) from the persistent Product page the post belongs to - reviews are
+a longer-lived thing associated with the product overall, not one day's
+launch event, so they plausibly live on Product, not Post. This nested
+version is the fix for that hypothesis, still unverified live (see the
+IMPORTANT note above) - if `product` isn't a valid field on Post, or
+reviewsRating/reviewsCount aren't valid on Product, this whole query fails
+(WARNING, empty file) rather than silently reverting to always-0 data. If
+it comes back 0 again even nested this way, that's a stronger signal this
+category genuinely has no review data via this API, not a query mistake.
 
 Configuration:
   PRODUCTHUNT_API_KEY  - env var, a developer_token from the API dashboard.
@@ -129,9 +138,11 @@ query VibeCodingTopPosts($cursor: String) {
         url
         website
         votesCount
-        reviewsRating
-        reviewsCount
         createdAt
+        product {
+          reviewsRating
+          reviewsCount
+        }
       }
     }
     pageInfo {
@@ -219,7 +230,9 @@ def load_existing(path):
 def to_item(p):
     """Shared shape for both files - rating/review_count are simply absent
     (None/0) on recent-launches items, since RECENT_QUERY doesn't request
-    them."""
+    them. For TOP_QUERY items, they come from the nested `product` object,
+    not flat fields on the post itself - see TOP_QUERY's comment above."""
+    product = p.get("product") or {}
     return {
         "id": p["id"],
         "name": p.get("name", ""),
@@ -227,8 +240,8 @@ def to_item(p):
         "producthunt_url": p.get("url", ""),
         "website": p.get("website", ""),
         "votes": p.get("votesCount", 0),
-        "rating": p.get("reviewsRating"),
-        "review_count": p.get("reviewsCount", 0),
+        "rating": product.get("reviewsRating"),
+        "review_count": product.get("reviewsCount", 0),
         "launched": p.get("createdAt", ""),
     }
 
