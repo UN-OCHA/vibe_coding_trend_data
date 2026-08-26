@@ -1,22 +1,22 @@
 [
   {
     "name": "Claude Code",
-    "github_repo_count": 64396.0,
+    "github_repo_count": 64403.0,
     "github_growth_pct": 6.3,
-    "hn_comments": 614.0,
-    "hn_growth_pct": -1.0,
+    "hn_comments": 615.0,
+    "hn_growth_pct": -0.8,
     "trends_interest": 31.0,
-    "vscode_installs": 24071636.0,
-    "vscode_growth_pct": 1.6
+    "vscode_installs": 24024174.0,
+    "vscode_growth_pct": 1.4
   },
   {
     "name": "Codex",
-    "github_repo_count": 26584.0,
-    "github_growth_pct": 8.8,
-    "hn_comments": 58.0,
-    "hn_growth_pct": -3.3,
+    "github_repo_count": 26592.0,
+    "github_growth_pct": 8.9,
+    "hn_comments": 57.0,
+    "hn_growth_pct": -5.0,
     "trends_interest": 40.0,
-    "vscode_installs": 13498719.0,
+    "vscode_installs": 13503139.0,
     "vscode_growth_pct": 1.2
   },
   {
@@ -36,7 +36,7 @@
     "hn_comments": 27.0,
     "hn_growth_pct": 12.5,
     "trends_interest": 27.0,
-    "vscode_installs": 77821208.0,
+    "vscode_installs": 77821748.0,
     "vscode_growth_pct": 0.1
   },
   {
