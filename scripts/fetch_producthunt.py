@@ -86,6 +86,33 @@ run - recorded here so nobody re-guesses either one:
    test it in isolation, since one bad field can take the whole query
    down, not just the field itself.
 
+This is now settled for good (not just twice-disproven): the public v2 API
+has NO way to reach Product Hunt's Category/Collection pages at all - this
+was confirmed by reading the actual schema docs (api-v2-docs.producthunt.com),
+not by another live-error guess. The `posts` query's full argument list is
+exactly: after, before, featured, first, last, order, postedAfter,
+postedBefore, topic, twitterUrl, url - `topic` is the only content-scoping
+filter that exists. Collections (producthunt.com/collections/...) ARE a
+real, separate, queryable type, but `Collection` has no `posts` field, and
+the `collections` query only supports a reverse lookup (`postId` - "which
+collections is this one post in", not "which posts are in this collection").
+So even if Cursor/Lovable/Windsurf/v0/bolt.new are in a Collection or
+Category grouping, there is no query shape - guessed or otherwise - that
+walks from that grouping to its member posts. The only way any of those
+tools would ever appear in this pipeline's output is if they are
+individually tagged with the `vibe-coding` TOPIC on Product Hunt, same as
+everything else fetched here - unverified either way, and outside this
+script's control (topic tags are set by whoever posted the tool on PH).
+
+ANOTHER real bug, also found via the docs (not guessed): the `posts`
+query's `postedAfter` argument "Defaults to 1 month ago to improve
+performance" if omitted. Both queries below now pass it explicitly via the
+$postedAfter GraphQL variable - before this fix, LOOKBACK_DAYS=90 and
+FULL_TOPIC_QUERY's "all time" framing were both silently capped at ~30
+days server-side, regardless of MAX_PAGES/FULL_TOPIC_MAX_PAGES, since the
+client-side cutoff/pagination logic never even saw the posts the server
+had already excluded.
+
 What's left standing, confirmed by an actual successful run: flat
 `reviewsRating`/`reviewsCount` fields directly on Post ARE valid (no
 error), and while most posts in this topic-tagged pool come back 0
@@ -137,6 +164,18 @@ LOOKBACK_DAYS = 90  # a niche topic like this launches sparsely - a 7-day
                      # come back empty most weeks
 MAX_PAGES = 3        # 20 posts/page - caps a single run at 60 posts, well
                       # inside "fair use" even if the topic suddenly gets busy
+
+# IMPORTANT: Product Hunt's `posts` query defaults `postedAfter` to "1 month
+# ago" server-side if it isn't passed explicitly (documented on the `posts`
+# query's own docs page: "Defaults to 1 month ago to improve performance").
+# Both queries below now pass postedAfter explicitly for this reason - found
+# and fixed live, after confirming via the docs that LOOKBACK_DAYS=90 and
+# FULL_TOPIC_QUERY's "all time" framing were both silently being clipped to
+# ~30 days by that server-side default, regardless of how many pages were
+# paginated. ALL_TIME_LOOKBACK_DAYS is a generous bound (not a real "since
+# Product Hunt existed" value) - it only needs to predate anything the
+# vibe-coding topic could plausibly contain.
+ALL_TIME_LOOKBACK_DAYS = 3650  # ~10 years - for FULL_TOPIC_QUERY's "all time" rankings
 MAX_TOTAL_ITEMS_KEPT = 200  # trim the archive so producthunt.json doesn't grow forever
 
 FULL_TOPIC_MAX_PAGES = 5   # 20 posts/page - covers up to 100 of the topic's
@@ -147,8 +186,8 @@ TOP_MAX_ITEMS_KEPT = 20
 REVIEWED_MAX_ITEMS_KEPT = 20
 
 RECENT_QUERY = """
-query VibeCodingLaunches($cursor: String) {
-  posts(topic: "%s", order: NEWEST, first: 20, after: $cursor) {
+query VibeCodingLaunches($cursor: String, $postedAfter: DateTime) {
+  posts(topic: "%s", order: NEWEST, first: 20, after: $cursor, postedAfter: $postedAfter) {
     edges {
       node {
         id
@@ -188,8 +227,8 @@ query VibeCodingLaunches($cursor: String) {
 # VOTES's pagination beyond page 1 was never actually exercised before
 # this rewrite (the original design only ever fetched 1 page of it).
 FULL_TOPIC_QUERY = """
-query VibeCodingFullTopic($cursor: String) {
-  posts(topic: "%s", order: NEWEST, first: 20, after: $cursor) {
+query VibeCodingFullTopic($cursor: String, $postedAfter: DateTime) {
+  posts(topic: "%s", order: NEWEST, first: 20, after: $cursor, postedAfter: $postedAfter) {
     edges {
       node {
         id
@@ -215,13 +254,18 @@ query VibeCodingFullTopic($cursor: String) {
 """ % TOPIC_SLUG
 
 
-def fetch_posts(query, max_pages, cutoff=None):
+def fetch_posts(query, max_pages, cutoff=None, posted_after=None):
     """Returns a list of raw post dicts for the given query, paginating up
     to max_pages. If cutoff is set, stops as soon as a page's post is older
     than it (for the recency-ordered recent-launches query); pass None for
     a query that isn't date-ordered (e.g. top-by-votes), where "older than
     cutoff" wouldn't mean "we've seen everything newer" the way it does for
-    a NEWEST-ordered feed."""
+    a NEWEST-ordered feed.
+
+    posted_after is sent as the query's $postedAfter GraphQL variable - it
+    must be passed explicitly (as a datetime, not left None) or Product
+    Hunt's API silently defaults it to "1 month ago" server-side, no matter
+    how many pages get paginated - see ALL_TIME_LOOKBACK_DAYS above."""
     if not PRODUCTHUNT_API_KEY:
         print("  WARNING: PRODUCTHUNT_API_KEY not set, skipping Product Hunt fetch.")
         return []
@@ -231,13 +275,15 @@ def fetch_posts(query, max_pages, cutoff=None):
         "Content-Type": "application/json",
     }
 
+    posted_after_str = posted_after.strftime("%Y-%m-%dT%H:%M:%SZ") if posted_after else None
+
     posts = []
     cursor = None
     for page in range(max_pages):
         try:
             resp = requests.post(
                 API_URL, headers=headers, timeout=30,
-                json={"query": query, "variables": {"cursor": cursor}},
+                json={"query": query, "variables": {"cursor": cursor, "postedAfter": posted_after_str}},
             )
         except Exception as e:
             print(f"  WARNING: Product Hunt request failed: {e}")
@@ -326,7 +372,7 @@ def main():
 
     print(f"Fetching Product Hunt '{TOPIC_SLUG}' topic launches (last {LOOKBACK_DAYS} days)...")
     cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=LOOKBACK_DAYS)
-    raw_recent = fetch_posts(RECENT_QUERY, MAX_PAGES, cutoff=cutoff)
+    raw_recent = fetch_posts(RECENT_QUERY, MAX_PAGES, cutoff=cutoff, posted_after=cutoff)
     recent_items = [to_item(p) for p in raw_recent if p.get("id")]
 
     existing = load_existing(PRODUCTHUNT_JSON_PATH)
@@ -349,7 +395,8 @@ def main():
     # shared pool, not order: VOTES for one and a hypothetical order:
     # REVIEWS for the other (which doesn't exist as an option anyway).
     print(f"Fetching Product Hunt '{TOPIC_SLUG}' topic posts for the votes/reviews rankings...")
-    raw_full = fetch_posts(FULL_TOPIC_QUERY, FULL_TOPIC_MAX_PAGES, cutoff=None)
+    all_time_posted_after = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=ALL_TIME_LOOKBACK_DAYS)
+    raw_full = fetch_posts(FULL_TOPIC_QUERY, FULL_TOPIC_MAX_PAGES, cutoff=None, posted_after=all_time_posted_after)
     full_items = [to_item(p) for p in raw_full if p.get("id")]
 
     top_items = sorted(full_items, key=lambda x: x.get("votes", 0), reverse=True)[:TOP_MAX_ITEMS_KEPT]
