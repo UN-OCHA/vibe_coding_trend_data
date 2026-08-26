@@ -1,5 +1,18 @@
 [
   {
+    "title": "Shopify\u2019s CEO threatened to ban Claude Code. Anthropic had already closed the feature request.",
+    "url": "https://thenewstack.io/shopify-claude-code-agentsmd/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/08/58ef9a03-logan-voss-rdx4tqbi3wq-unsplash-1024x576.jpg",
+    "excerpt": "Shopify CEO Tobi L\u00fctke is considering banning Claude Code at the company, but not because he thinks Anthropic\u2019s coding agent The post Shopify\u2019s CEO threatened\u2026",
+    "date": "2026-08-25",
+    "fetched_at": "2026-08-26"
+  },
+  {
     "title": "Spline rebuilt its entire 3D editor. Then it handed the keys to Claude Code.",
     "url": "https://thenewstack.io/spline-v2-mcp-agents/",
     "source": "The New Stack",
