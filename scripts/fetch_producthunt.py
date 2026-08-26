@@ -47,41 +47,43 @@ garbage - check that message against the schema explorer at
 api.producthunt.com/v2/docs first if a run ever comes back empty
 unexpectedly.
 
-Also writes data/producthunt_top.json - all-time top posts, for a section
-distinct from "New in vibe coding" (which is deliberately recency-only, so
-a tool that launched well and has stayed popular for a year wouldn't show
-up there).
+Also writes data/producthunt_top.json - all-time top posts (order: VOTES,
+no recency cutoff), for a section distinct from "New in vibe coding"
+(which is deliberately recency-only, so a tool that launched well and has
+stayed popular for a year wouldn't show up there).
 
-Review data (rating + count) is requested via a nested `product { ... }`
-selection on each Post, NOT flat fields on Post itself. First attempt put
-reviewsRating/reviewsCount directly on Post - that query succeeded (no
-GraphQL error, so those fields do exist there) but came back 0 for every
-single post, every run. The likely explanation: Product Hunt's schema
-separates a Post (one day's launch, which is what votesCount counts) from
-the persistent Product page the post belongs to - reviews are a
-longer-lived thing associated with the product overall, so they plausibly
-live on Product, not Post. Confirmed correct: after this fix, real posts
-started showing real non-zero ratings (a handful out of ~20, which makes
-sense - most launches genuinely have no written reviews yet).
+Two things were tried and DISPROVEN by real GraphQL errors from a live
+run - recorded here so nobody re-guesses either one:
 
-TOPIC vs CATEGORY - a second, more consequential distinction. Everything
-above (RECENT_QUERY, and TOP_QUERY below) filters `posts` by
-`topic: "vibe-coding"` - a tag any maker can self-attach to their own
-launch. That's a completely different, much smaller pool than Product
-Hunt's own curated Category page (producthunt.com/categories/vibe-coding),
-which is where major, established tools (Cursor, Lovable, v0, Windsurf,
-bolt.new - hundreds of real reviews each) actually live, confirmed by
-comparing this script's real output against a live screenshot of that
-category page. CATEGORY_QUERY below is a hypothesis for reaching that
-pool instead - `posts(category: "vibe-coding", ...)`, mirroring the
-already-proven `topic:` argument shape on the same root field, since
-that's the most conservative extrapolation from what's confirmed to work
-rather than inventing an unrelated query shape. Still unverified live.
-main() tries it first for the top list and falls back to the
-topic-based TOP_QUERY if it comes back empty (whether from a GraphQL
-error - caught and logged inside fetch_posts - or a genuinely empty
-result), so a wrong guess here degrades to the previous known-working
-behavior instead of leaving the site with no top-posts data at all.
+1. `posts(category: "vibe-coding", ...)` - a hypothesis that Product
+   Hunt's editorially-curated Category page (producthunt.com/categories/
+   vibe-coding, where major tools like Cursor/Lovable/v0 with hundreds of
+   real reviews actually live) might be reachable via a `category:`
+   argument mirroring the working `topic:` one. Confirmed wrong: "Field
+   'posts' doesn't accept argument 'category'" (code: argumentNotAccepted).
+   If that pool is reachable via this API at all, it isn't through this
+   argument - reachable now only by pulling the real schema from Product
+   Hunt's own explorer, not by guessing further from here.
+
+2. A nested `product { reviewsRating reviewsCount }` selection on each
+   Post - a hypothesis that review data lives on the persistent Product a
+   post belongs to, not the post itself. Confirmed wrong: "Field 'product'
+   doesn't exist on type 'Post' (Did you mean `productLinks`?)" (code:
+   undefinedField). Since this field doesn't exist at all, this error
+   also broke the votes-based query that was working fine before it -
+   worth remembering if a future field gets added to TOP_QUERY: test it
+   in isolation, since one bad field can take the whole query down, not
+   just the field itself.
+
+What's left standing, confirmed by an actual successful run: flat
+`reviewsRating`/`reviewsCount` fields directly on Post ARE valid (no
+error) but come back 0 for every post in this topic-tagged pool, every
+time. That's not a wrong-field-name problem - Product Hunt's own review
+feature is written-review-based (a real, separate action from a vote),
+and small self-tagged "vibe-coding" topic launches apparently just don't
+have any yet. TOP_QUERY below keeps them anyway (harmless, and honestly
+better than assuming they can never be non-zero) - the site already hides
+the rating line whenever it's falsy (see index.html's renderProductHuntTop).
 
 Configuration:
   PRODUCTHUNT_API_KEY  - env var, a developer_token from the API dashboard.
@@ -139,9 +141,10 @@ query VibeCodingLaunches($cursor: String) {
 """ % TOPIC_SLUG
 
 # Separate from RECENT_QUERY (not just RECENT_QUERY + more fields) so a
-# schema mismatch on reviewsRating/reviewsCount - the two least-certain
-# field names here, see this file's docstring - can only break this fetch,
-# never the already-working recent-launches one above.
+# schema mismatch on reviewsRating/reviewsCount can only break this fetch,
+# never the already-working recent-launches one above - see this file's
+# docstring for why these are flat fields on Post, not nested under
+# `product` (tried, confirmed invalid by a live GraphQL error).
 TOP_QUERY = """
 query VibeCodingTopPosts($cursor: String) {
   posts(topic: "%s", order: VOTES, first: 20, after: $cursor) {
@@ -153,45 +156,9 @@ query VibeCodingTopPosts($cursor: String) {
         url
         website
         votesCount
+        reviewsRating
+        reviewsCount
         createdAt
-        product {
-          reviewsRating
-          reviewsCount
-        }
-      }
-    }
-    pageInfo {
-      hasNextPage
-      endCursor
-    }
-  }
-}
-""" % TOPIC_SLUG
-
-# Hypothesis query for the real category page's pool of major, established
-# tools (see the docstring's TOPIC vs CATEGORY section) - `category:`
-# mirrors the already-proven `topic:` filter argument on the same `posts`
-# root field. Tried before TOP_QUERY in main(), which falls back to the
-# topic-based query if this comes back empty. Reuses TOPIC_SLUG since
-# Product Hunt's topic and category both happen to use the same slug text,
-# "vibe-coding" (producthunt.com/topics/vibe-coding vs
-# producthunt.com/categories/vibe-coding) - not a naming mistake here.
-CATEGORY_QUERY = """
-query VibeCodingCategoryTopPosts($cursor: String) {
-  posts(category: "%s", order: VOTES, first: 20, after: $cursor) {
-    edges {
-      node {
-        id
-        name
-        tagline
-        url
-        website
-        votesCount
-        createdAt
-        product {
-          reviewsRating
-          reviewsCount
-        }
       }
     }
     pageInfo {
@@ -279,9 +246,8 @@ def load_existing(path):
 def to_item(p):
     """Shared shape for both files - rating/review_count are simply absent
     (None/0) on recent-launches items, since RECENT_QUERY doesn't request
-    them. For TOP_QUERY items, they come from the nested `product` object,
-    not flat fields on the post itself - see TOP_QUERY's comment above."""
-    product = p.get("product") or {}
+    them, and in practice also 0 on TOP_QUERY items - see this file's
+    docstring for why that's Product Hunt's real data, not a bug here."""
     return {
         "id": p["id"],
         "name": p.get("name", ""),
@@ -289,8 +255,8 @@ def to_item(p):
         "producthunt_url": p.get("url", ""),
         "website": p.get("website", ""),
         "votes": p.get("votesCount", 0),
-        "rating": product.get("reviewsRating"),
-        "review_count": product.get("reviewsCount", 0),
+        "rating": p.get("reviewsRating"),
+        "review_count": p.get("reviewsCount", 0),
         "launched": p.get("createdAt", ""),
     }
 
@@ -331,20 +297,8 @@ def main():
     # gives us the current ranking), not merged with a growing archive like
     # the recent-launches file above: an item that's since been overtaken
     # shouldn't linger in a "top" list just because it was fetched once.
-    #
-    # Tries the category-pool hypothesis (CATEGORY_QUERY) first - see the
-    # docstring's TOPIC vs CATEGORY section - and falls back to the
-    # topic-pool query if that comes back empty, so a wrong guess about
-    # the category query's shape degrades to previously-working behavior
-    # instead of leaving this file empty.
-    print(f"Fetching top-voted Product Hunt posts from the '{TOPIC_SLUG}' category (all time)...")
-    raw_top = fetch_posts(CATEGORY_QUERY, TOP_MAX_PAGES, cutoff=None)
-    source = "category"
-    if not raw_top:
-        print(f"  Category query returned nothing - falling back to the '{TOPIC_SLUG}' topic query.")
-        raw_top = fetch_posts(TOP_QUERY, TOP_MAX_PAGES, cutoff=None)
-        source = "topic"
-
+    print(f"Fetching top-voted Product Hunt '{TOPIC_SLUG}' posts (all time)...")
+    raw_top = fetch_posts(TOP_QUERY, TOP_MAX_PAGES, cutoff=None)
     top_items = [to_item(p) for p in raw_top if p.get("id")]
     top_items.sort(key=lambda x: x.get("votes", 0), reverse=True)
     top_items = top_items[:TOP_MAX_ITEMS_KEPT]
@@ -352,7 +306,7 @@ def main():
     with open(PRODUCTHUNT_TOP_JSON_PATH, "w") as f:
         json.dump(top_items, f, indent=2)
 
-    print(f"Wrote {len(top_items)} top-voted Product Hunt post(s) (source: {source}) to {PRODUCTHUNT_TOP_JSON_PATH}.")
+    print(f"Wrote {len(top_items)} top-voted Product Hunt post(s) to {PRODUCTHUNT_TOP_JSON_PATH}.")
 
     update_status()
 
