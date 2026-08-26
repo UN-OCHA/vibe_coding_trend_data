@@ -45,5 +45,6 @@ jobs:
           git add data/counts_trends.csv data/interest_trends.csv data/signals.json data/status.json
           [ -f data/producthunt.json ] && git add data/producthunt.json
           [ -f data/producthunt_top.json ] && git add data/producthunt_top.json
+          [ -f data/producthunt_reviewed.json ] && git add data/producthunt_reviewed.json
           git diff --quiet --cached || git commit -m "Weekly trends update: $(date -u +'%Y-%m-%d')"
           git push

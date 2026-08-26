@@ -47,10 +47,21 @@ garbage - check that message against the schema explorer at
 api.producthunt.com/v2/docs first if a run ever comes back empty
 unexpectedly.
 
-Also writes data/producthunt_top.json - all-time top posts (order: VOTES,
-no recency cutoff), for a section distinct from "New in vibe coding"
-(which is deliberately recency-only, so a tool that launched well and has
-stayed popular for a year wouldn't show up there).
+Also writes data/producthunt_top.json and data/producthunt_reviewed.json -
+"all time" rankings distinct from "New in vibe coding" (which is
+deliberately recency-only, so a tool that launched well and has stayed
+popular for a year wouldn't show up there). Both are derived from ONE
+broad fetch (FULL_TOPIC_QUERY, paginated across FULL_TOPIC_MAX_PAGES
+pages, order: NEWEST with no recency cutoff - walking as much of the
+topic as that page budget covers, not just a small vote-ordered slice)
+rather than two separate order-specific queries: sorting by votes and by
+review count are just two different local sorts of the SAME pool. This
+matters because a single `order: VOTES, first: 20` fetch (the original,
+narrower design) would never surface a post with few votes but a
+surprising number of reviews - it wouldn't be in that top-20-by-votes
+page at all. reviewed_items additionally filters out review_count == 0
+entries entirely (see main()) - a "top reviewed" list padded with
+0-review posts sorted arbitrarily wouldn't be honest.
 
 Two things were tried and DISPROVEN by real GraphQL errors from a live
 run - recorded here so nobody re-guesses either one:
@@ -71,19 +82,21 @@ run - recorded here so nobody re-guesses either one:
    doesn't exist on type 'Post' (Did you mean `productLinks`?)" (code:
    undefinedField). Since this field doesn't exist at all, this error
    also broke the votes-based query that was working fine before it -
-   worth remembering if a future field gets added to TOP_QUERY: test it
-   in isolation, since one bad field can take the whole query down, not
-   just the field itself.
+   worth remembering if a future field gets added to FULL_TOPIC_QUERY:
+   test it in isolation, since one bad field can take the whole query
+   down, not just the field itself.
 
 What's left standing, confirmed by an actual successful run: flat
 `reviewsRating`/`reviewsCount` fields directly on Post ARE valid (no
-error) but come back 0 for every post in this topic-tagged pool, every
-time. That's not a wrong-field-name problem - Product Hunt's own review
-feature is written-review-based (a real, separate action from a vote),
-and small self-tagged "vibe-coding" topic launches apparently just don't
-have any yet. TOP_QUERY below keeps them anyway (harmless, and honestly
-better than assuming they can never be non-zero) - the site already hides
-the rating line whenever it's falsy (see index.html's renderProductHuntTop).
+error), and while most posts in this topic-tagged pool come back 0
+(Product Hunt's own review feature is written-review-based - a real,
+separate action from a vote - and small self-tagged "vibe-coding" topic
+launches mostly don't have any), a real run has shown some non-zero
+(a post with 34 real reviews, others with 1-2) - confirming this field
+is genuinely live data, not permanently stuck at zero. FULL_TOPIC_QUERY
+below keeps requesting them - the site already hides the rating line
+whenever it's falsy (see index.html's renderProductHuntTop /
+renderProductHuntReviewed).
 
 Both queries also request `thumbnail { url }` - unlike reviewsRating/
 category, this is core, universally-used Product Hunt functionality
@@ -112,6 +125,7 @@ import requests
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 PRODUCTHUNT_JSON_PATH = os.path.join(DATA_DIR, "producthunt.json")
 PRODUCTHUNT_TOP_JSON_PATH = os.path.join(DATA_DIR, "producthunt_top.json")
+PRODUCTHUNT_REVIEWED_JSON_PATH = os.path.join(DATA_DIR, "producthunt_reviewed.json")
 STATUS_JSON_PATH = os.path.join(DATA_DIR, "status.json")
 
 API_URL = "https://api.producthunt.com/v2/api/graphql"
@@ -125,9 +139,12 @@ MAX_PAGES = 3        # 20 posts/page - caps a single run at 60 posts, well
                       # inside "fair use" even if the topic suddenly gets busy
 MAX_TOTAL_ITEMS_KEPT = 200  # trim the archive so producthunt.json doesn't grow forever
 
-TOP_MAX_PAGES = 1     # top-voted list is a small, always-fresh snapshot, not
-                       # an accumulating archive - see main()
+FULL_TOPIC_MAX_PAGES = 5   # 20 posts/page - covers up to 100 of the topic's
+                            # posts for the votes/reviews rankings below, not
+                            # just a narrow top-N-by-one-metric slice - see
+                            # module docstring for why
 TOP_MAX_ITEMS_KEPT = 20
+REVIEWED_MAX_ITEMS_KEPT = 20
 
 RECENT_QUERY = """
 query VibeCodingLaunches($cursor: String) {
@@ -159,9 +176,20 @@ query VibeCodingLaunches($cursor: String) {
 # never the already-working recent-launches one above - see this file's
 # docstring for why these are flat fields on Post, not nested under
 # `product` (tried, confirmed invalid by a live GraphQL error).
-TOP_QUERY = """
-query VibeCodingTopPosts($cursor: String) {
-  posts(topic: "%s", order: VOTES, first: 20, after: $cursor) {
+#
+# order: NEWEST, not VOTES - this query's job is to walk as much of the
+# topic as FULL_TOPIC_MAX_PAGES allows so both the votes and reviews
+# rankings in main() are computed over the same broad pool, not order:
+# VOTES's own top-N slice (which would only ever contain what's already
+# vote-heavy, structurally unable to surface a low-vote/high-review post -
+# see module docstring). NEWEST is used here, not because recency matters
+# for this query, but because it's the one pagination pattern already
+# proven to work correctly across multiple pages (RECENT_QUERY) - order:
+# VOTES's pagination beyond page 1 was never actually exercised before
+# this rewrite (the original design only ever fetched 1 page of it).
+FULL_TOPIC_QUERY = """
+query VibeCodingFullTopic($cursor: String) {
+  posts(topic: "%s", order: NEWEST, first: 20, after: $cursor) {
     edges {
       node {
         id
@@ -261,10 +289,11 @@ def load_existing(path):
 
 
 def to_item(p):
-    """Shared shape for both files - rating/review_count are simply absent
-    (None/0) on recent-launches items, since RECENT_QUERY doesn't request
-    them, and in practice also 0 on TOP_QUERY items - see this file's
-    docstring for why that's Product Hunt's real data, not a bug here."""
+    """Shared shape for all three files - rating/review_count are simply
+    absent (None/0) on recent-launches items, since RECENT_QUERY doesn't
+    request them, and often (not always) 0 on FULL_TOPIC_QUERY items -
+    see this file's docstring for why that's Product Hunt's real data,
+    not a bug here."""
     thumbnail = p.get("thumbnail") or {}
     return {
         "id": p["id"],
@@ -312,20 +341,32 @@ def main():
     print(f"Wrote {len(merged)} Product Hunt launch(es) to {PRODUCTHUNT_JSON_PATH} "
           f"({len(recent_items)} new this run).")
 
-    # Top-voted, all time - a fresh snapshot each run (order: VOTES already
-    # gives us the current ranking), not merged with a growing archive like
-    # the recent-launches file above: an item that's since been overtaken
-    # shouldn't linger in a "top" list just because it was fetched once.
-    print(f"Fetching top-voted Product Hunt '{TOPIC_SLUG}' posts (all time)...")
-    raw_top = fetch_posts(TOP_QUERY, TOP_MAX_PAGES, cutoff=None)
-    top_items = [to_item(p) for p in raw_top if p.get("id")]
-    top_items.sort(key=lambda x: x.get("votes", 0), reverse=True)
-    top_items = top_items[:TOP_MAX_ITEMS_KEPT]
+    # Top-voted AND top-reviewed, all time - both derived from ONE broad
+    # fetch (not two separate order-specific queries), fresh each run
+    # (not merged with a growing archive like the recent-launches file
+    # above): an item that's since been overtaken shouldn't linger just
+    # because it was fetched once. See module docstring for why one
+    # shared pool, not order: VOTES for one and a hypothetical order:
+    # REVIEWS for the other (which doesn't exist as an option anyway).
+    print(f"Fetching Product Hunt '{TOPIC_SLUG}' topic posts for the votes/reviews rankings...")
+    raw_full = fetch_posts(FULL_TOPIC_QUERY, FULL_TOPIC_MAX_PAGES, cutoff=None)
+    full_items = [to_item(p) for p in raw_full if p.get("id")]
 
+    top_items = sorted(full_items, key=lambda x: x.get("votes", 0), reverse=True)[:TOP_MAX_ITEMS_KEPT]
     with open(PRODUCTHUNT_TOP_JSON_PATH, "w") as f:
         json.dump(top_items, f, indent=2)
-
     print(f"Wrote {len(top_items)} top-voted Product Hunt post(s) to {PRODUCTHUNT_TOP_JSON_PATH}.")
+
+    # review_count == 0 excluded entirely, not just sorted last - a "top
+    # reviewed" list padded out with posts that have no reviews at all
+    # wouldn't be honest just because there weren't enough real ones to
+    # fill it.
+    reviewed_items = [item for item in full_items if item.get("review_count", 0) > 0]
+    reviewed_items.sort(key=lambda x: (x.get("review_count", 0), x.get("rating") or 0), reverse=True)
+    reviewed_items = reviewed_items[:REVIEWED_MAX_ITEMS_KEPT]
+    with open(PRODUCTHUNT_REVIEWED_JSON_PATH, "w") as f:
+        json.dump(reviewed_items, f, indent=2)
+    print(f"Wrote {len(reviewed_items)} reviewed Product Hunt post(s) to {PRODUCTHUNT_REVIEWED_JSON_PATH}.")
 
     update_status()
 
