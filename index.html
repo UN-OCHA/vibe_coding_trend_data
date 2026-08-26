@@ -107,7 +107,14 @@
   <section>
     <div class="section-label">This week</div>
     <div class="section-title">Tool signals</div>
-    <div class="section-subtitle">GitHub growth, Hacker News buzz, Google Trends interest, and VS Code Marketplace installs, tracked per tool — shown side by side, not blended into one ranking. Sorted here by GitHub repo count.</div>
+    <div class="section-subtitle">GitHub growth, Hacker News buzz, Google Trends interest, and VS Code Marketplace installs, tracked per tool — shown side by side, not blended into one ranking.</div>
+
+    <div class="subsection-label">Biggest movers, by Hacker News mention growth</div>
+    <div class="leaderboard" id="movers-preview">
+      <div class="row head"><span>Tool</span><span style="text-align:right;">HN comments</span><span style="text-align:right;">7-day</span></div>
+    </div>
+
+    <div class="subsection-label">Sorted by GitHub repo count</div>
     <div class="leaderboard" id="leaderboard-preview">
       <div class="row head"><span>Tool</span><span style="text-align:right;">GitHub repos</span><span style="text-align:right;">7-day</span></div>
     </div>
@@ -325,6 +332,27 @@ async function init() {
         ${delta}
       `;
       board.appendChild(row);
+    });
+
+    // "Biggest movers" - ranked by week-over-week Hacker News mention
+    // growth, the one signal every tracked tool gets by default (see
+    // compute_signals.py's TOOLS dict) - so a tool too new for GitHub or
+    // VS Code Marketplace tracking still shows up here instead of the
+    // "sorted by GitHub repos" board above always burying it at the
+    // bottom. Raw comment counts are shown next to the percentage so a
+    // big swing off a tiny base (e.g. 1 comment -> 0) doesn't read as more
+    // dramatic than it is - the reader can judge scale for themselves.
+    const moversBoard = document.getElementById("movers-preview");
+    const byHnGrowth = [...withHnGrowth].sort((a, b) => b.hn_growth_pct - a.hn_growth_pct);
+    byHnGrowth.slice(0, 4).forEach((tool) => {
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+        <span class="name">${tool.name}</span>
+        <span class="score">${tool.hn_comments != null ? tool.hn_comments.toLocaleString() : "—"}</span>
+        <span class="delta ${tool.hn_growth_pct >= 0 ? "up" : "down"}">${tool.hn_growth_pct >= 0 ? "▲" : "▼"} ${Math.abs(tool.hn_growth_pct)}%</span>
+      `;
+      moversBoard.appendChild(row);
     });
 
     // ---- trend charts, animate in on scroll ----

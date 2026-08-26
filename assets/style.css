@@ -479,6 +479,14 @@ a:hover { text-decoration: underline; }
 
 /* -------------------- leaderboard -------------------- */
 
+.subsection-label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--paper-text-muted);
+  margin: 0 0 10px;
+}
+
 .leaderboard {
   background: var(--ink);
   border-radius: 12px;
