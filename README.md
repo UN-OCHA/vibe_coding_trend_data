@@ -116,16 +116,13 @@ docstring. The site cross-references each launch's name against
 tracked. The same script also writes `data/producthunt_top.json` and
 `data/producthunt_reviewed.json` - always-fresh (not accumulating)
 snapshots of the all-time top-voted and top-reviewed posts, for the site's
-"Top voted"/"Top reviewed" lists. These two pool from FOUR Product Hunt
-topics, not just `vibe-coding` alone (`ai-coding-agents`, `ai-code-editors`,
-and `no-code-app-builder` too) - established tools like Cursor/Lovable/
-Windsurf don't carry the `vibe-coding` tag themselves, so a single-topic
-fetch would never surface them even though they're exactly what a visitor
-comparing against Product Hunt's own site expects to see; see the module
-docstring's CORRECTION paragraph for how that was found. "New launches"
-deliberately stays scoped to `vibe-coding` alone - the other three topics
-are much higher-volume and would flood it with generic AI/coding tools.
-Both all-time files are derived from one shared, broad fetch per topic
+"Top voted"/"Top reviewed" lists. These two pool from four Product Hunt
+topics - `vibe-coding`, `ai-coding-agents`, `ai-code-editors`, and
+`no-code-app-builder` - since established tools like Cursor, Lovable, and
+Windsurf are tagged under those rather than `vibe-coding` itself. "New
+launches" deliberately stays scoped to `vibe-coding` alone, since the
+other three topics are much higher-volume and would flood it with generic
+AI/coding tools. Both all-time files are derived from one shared, broad fetch per topic
 (not two separate order-specific queries), so a post with few votes but a
 genuinely high review count still gets found, and results are deduped by
 post id since a tool can carry more than one of the four topics - see the
@@ -140,27 +137,18 @@ linking back to Product Hunt (see each page's footer disclosure).
 
 ## Signals, not a score
 
-This site used to blend GitHub growth, Hacker News growth, and Trends
-interest into a single weekly "momentum score" and rank tools by it. That's
-gone. After several rounds of patching the score's trustworthiness - an
-off-schedule workflow run distorting the growth math, a missing-Trends
-tool needing a fallback value, three tools needing their GitHub term
-skipped and the weights redistributed just to avoid lying about them - the
-conclusion was that combining three narrow, noisy proxies (GitHub
-topic-tag counts, comment volume on one forum, search interest via an
-unofficial third-party proxy with a confirmed history of silently missing
-data points) never made the result more *accurate*. It made it harder to
-*audit*: a reader couldn't tell whether a score change reflected real
-momentum or one of those known failure modes, and the weighting itself was
-never validated against anything, just picked as a starting point.
-
-`scripts/compute_signals.py` now writes each tool's four signals as
-separate fields in `data/signals.json` - honestly `null` where a signal
-genuinely isn't tracked for that tool - and does not rank tools against
-each other. `leaderboard.html` shows them as a sortable table (click a
-column to sort by it) instead of a leaderboard; `compare.html`'s radar
-chart plots the four signals as four independent axes, not blended into a
-fifth "momentum" axis.
+`scripts/compute_signals.py` writes each tool's four signals as separate
+fields in `data/signals.json` - honestly `null` where a signal genuinely
+isn't tracked for that tool - and does not rank tools against each other
+or blend them into a composite score. Combining narrow, noisy proxies
+(GitHub topic-tag counts, comment volume on one forum, search interest via
+an unofficial third-party proxy) into a single number doesn't make the
+result more *accurate*, and it makes it harder to *audit*: a reader can't
+tell whether a blended score change reflects real momentum or one of those
+proxies' known failure modes, and any weighting between them would be
+arbitrary rather than validated. `leaderboard.html` shows the four signals
+as a sortable table (click a column to sort by it); `compare.html`'s radar
+chart plots them as four independent axes.
 
 Not every tool gets all four signals. Cursor has no Trends coverage
 ("Cursor" is too generic a search term to track cleanly). Replit Agent,
@@ -173,14 +161,6 @@ Only Claude Code, Codex, and GitHub Copilot have a VS Code install count -
 Cursor and Windsurf are standalone forked editors rather than VS Code
 extensions, and Replit Agent, Devin, and Lovable are browser-only. A
 missing signal shows as a dash on the site, never a fabricated zero.
-
-A Reddit signal (post mentions - the one metric every tool without a
-GitHub/VS Code signal would have gotten a second data point from) was
-tried and removed - not a data-quality problem, but Reddit's June 2026
-"Responsible Builder Policy" gating API app creation behind pre-approval
-with no guaranteed outcome or timeline. See `scripts/fetch_trends.py`'s
-module docstring and git history around "Add Reddit mention counts" if
-that changes and it's worth revisiting.
 
 ## Adding a tool
 
@@ -208,7 +188,7 @@ GitHub plan. If deploying via GitHub Pages instead, note that private-repo
 Pages requires GitHub Team or higher; on Team+ you can keep the repo
 private while setting the *published site* to public visibility.
 
-## Known first-pass limitations
+## Known limitations
 
 - The humanitarian-relevance flag is derived per *article/video* from its
   own title (`is_humanitarian_relevant()` in `fetch_news.py` /
