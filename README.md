@@ -2,8 +2,7 @@
 
 A GitHub Pages site tracking vibe coding trends: weekly growth signals
 (GitHub, Hacker News, Google Trends, VS Code Marketplace installs) plus a
-daily feed of news and YouTube videos, sourced from a Google Sheet a
-non-technical person can edit directly. No backend — everything renders
+daily feed of news and YouTube videos, from sources configured from a simple Google Sheet that admins can edit directly, and relevant products tracked from Product Hunt. No backend — everything renders
 client-side against static CSV/JSON files committed by two scheduled
 GitHub Actions workflows.
 
@@ -42,10 +41,10 @@ GitHub Actions (daily, 05:00 UTC)              GitHub Actions (weekly, Mon 06:00
 
 ## Non-technical source management
 
-Sources, subtopics, and the humanitarian-relevance flag all live in a
+News and video sources live in a
 Google Sheet, not in code. See `docs/GOOGLE_SHEET_SCHEMA.md` for setup and
-the exact column format. Adding a source is a spreadsheet row; no code
-change, no redeploy.
+the exact column format. Adding a source is just a spreadsheet row; no code
+change or redeploy needed.
 
 ## Required secrets
 
@@ -58,7 +57,7 @@ Set these under Settings → Secrets and variables → Actions:
 | `SHEET_CSV_URL` | daily workflow | the published-CSV URL of the sources Sheet |
 | `YOUTUBE_API_KEY` | daily workflow | YouTube Data API v3 key, free tier |
 | `GEMINI_API_KEY` | daily workflow | optional. Gemini free-tier key - adds an LLM second opinion on top of the keyword-based relevance/category checks in `fetch_news.py` and `fetch_youtube.py` (both run keyword-only if unset, capped at 30 calls/run each - see `MAX_GEMINI_CALLS_PER_RUN`), and powers the auto-written digest in `generate_digest.py`. That script runs daily but self-limits to writing a new digest roughly once a week (`MIN_DAYS_BETWEEN_DIGESTS`); skipped entirely, leaving any prior digest in place, if unset |
-| `PRODUCTHUNT_API_KEY` | weekly workflow | optional. A non-expiring `developer_token` from your Product Hunt account's API dashboard (`producthunt.com/v2/oauth/applications`) - see the Product Hunt section below. Skipped (not a failure) if unset |
+| `PRODUCTHUNT_API_KEY` | weekly workflow | A non-expiring `developer_token` from your Product Hunt account's API dashboard (`producthunt.com/v2/oauth/applications`) - see the Product Hunt section below. Skipped (not a failure) if unset |
 
 The VS Code Marketplace signal (`fetch_vscode_marketplace_installs()` in
 `scripts/fetch_trends.py`) needs no secret at all - it's an unauthenticated
@@ -103,20 +102,20 @@ popular videos aren't crowded out by newer, less-watched ones before stats
 are even fetched. Shorts (<=3 minutes, YouTube's current eligibility
 threshold) are excluded - see `SHORTS_MAX_SECONDS` in `fetch_youtube.py`.
 
-**Product Hunt** — recent launches (last 90 days) from Product Hunt's own
+**Product Hunt** — recent launches from Product Hunt's own
 "vibe-coding" topic, via their v2 GraphQL API
 (`api.producthunt.com/v2/api/graphql`), authenticated with a
 `developer_token` (see `PRODUCTHUNT_API_KEY` above) - no OAuth flow needed
 for a script like this one. Unlike every other source here, this one isn't
 tied to a pre-configured list of tools at all: it's this project's answer
-to "how would we notice a brand-new tool before someone manually adds it to
+to "how would we notice new and growing tools before someone manually adds it to
 `TOOLS`/`GITHUB_TOPICS`/etc." - see `scripts/fetch_producthunt.py`'s
 docstring. The site cross-references each launch's name against
 `assets/tool-profiles.js` client-side and flags anything not already
 tracked. The same script also writes `data/producthunt_top.json` and
 `data/producthunt_reviewed.json` - always-fresh (not accumulating)
 snapshots of the all-time top-voted and top-reviewed posts within that
-same "vibe-coding" topic, for the site's "Top voted"/"Top reviewed"
+same "vibe-coding" topic, for the site's "Top voted"/"Most reviewed"
 lists. Both are derived from one shared, broad fetch (not two separate
 order-specific queries), so a post with few votes but a genuinely high
 review count still gets found - see the module docstring for why that
@@ -126,8 +125,7 @@ vote), not every post sorted with 0-review ones at the bottom.
 
 All three files are scoped to the `vibe-coding` topic alone - Product
 Hunt's own "Best vibe coding tools" page draws from a separate, editorial
-Category grouping that isn't reachable through the public API (confirmed
-via `scripts/fetch_producthunt.py`'s own docstring), so established tools
+Category grouping that isn't reachable through the public API, so established tools
 that don't carry the `vibe-coding` topic tag themselves (Cursor, Lovable,
 Windsurf, and similar) won't appear in these three lists. Two terms from
 Product Hunt's own API docs worth knowing if this data is ever used
@@ -183,18 +181,8 @@ mentions" count there.
 
 The repo can stay private. Recommended: connect Cloudflare Pages (or
 Netlify/Vercel) directly to this repo — works on the free tier without
-requiring the repo to be public, and without depending on your org's
+requiring the repo to be public, and without depending on the org's
 GitHub plan. If deploying via GitHub Pages instead, note that private-repo
 Pages requires GitHub Team or higher; on Team+ you can keep the repo
 private while setting the *published site* to public visibility.
 
-## Known limitations
-
-- The humanitarian-relevance flag is derived per *article/video* from its
-  own title (`is_humanitarian_relevant()` in `fetch_news.py` /
-  `fetch_youtube.py`), not set once per source — see
-  `docs/GOOGLE_SHEET_SCHEMA.md` for the reasoning. Tune the keyword list
-  in those scripts, not the Sheet.
-- `data/news.json` ships with a handful of placeholder rows so the site
-  isn't empty on first load — delete them once the daily workflow has run
-  for real.
