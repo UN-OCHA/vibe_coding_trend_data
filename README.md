@@ -9,17 +9,19 @@ GitHub Actions workflows.
 ## How it fits together
 
 ```
-Google Sheet (non-technical source/topic config)
+Google Sheet (non-technical source/topic config - feeds the daily
+workflow only; the weekly workflow's tool lists are hardcoded in
+scripts/fetch_trends.py, not Sheet-driven)
         |
         v
 GitHub Actions (daily, 05:00 UTC)              GitHub Actions (weekly, Mon 06:00 UTC)
   -> scripts/fetch_news.py                       -> scripts/fetch_trends.py
   -> scripts/fetch_youtube.py                     -> scripts/compute_signals.py
-  -> scripts/generate_digest.py (optional)        -> writes data/*.csv, data/signals.json,
-  -> writes data/news.json, data/youtube.json        data/status.json
-  -> writes/updates data/status.json,             -> commits + pushes
+  -> scripts/generate_digest.py (optional)        -> scripts/fetch_producthunt.py (optional)
+  -> writes data/news.json, data/youtube.json     -> writes data/*.csv, data/signals.json,
+  -> writes/updates data/status.json,                data/status.json, data/producthunt*.json
      data/digest.json (optional)
-  -> commits + pushes
+  -> commits + pushes                             -> commits + pushes
                     |                                       |
                     +-------------------+-------------------+
                                         v
@@ -35,7 +37,7 @@ GitHub Actions (daily, 05:00 UTC)              GitHub Actions (weekly, Mon 06:00
 - `index.html`, `leaderboard.html`, `compare.html` — the site
 - `assets/` — shared CSS/JS (`style.css`, `app.js`, `trend-chart.js`, `radar-chart.js`, `tool-profiles.js`)
 - `data/` — the CSVs/JSON both workflows write to, and what the site reads
-- `scripts/` — the five Python scripts (trends, news, YouTube, signals, digest)
+- `scripts/` — the six Python scripts (trends, news, YouTube, signals, digest, Product Hunt)
 - `.github/workflows/` — the two scheduled workflows
 - `docs/GOOGLE_SHEET_SCHEMA.md` — the exact columns the Sheet needs
 
