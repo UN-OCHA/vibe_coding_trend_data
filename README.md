@@ -1,4 +1,4 @@
-# Vibecode Weekly Reporting
+# Vibecode Weekly
 
 A GitHub Pages site tracking vibe coding trends: weekly growth signals
 (GitHub, Hacker News, Google Trends, VS Code Marketplace installs) plus a
