@@ -1135,6 +1135,7 @@ a:hover { text-decoration: underline; }
 .tool-card-icon {
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 14px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
