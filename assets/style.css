@@ -512,7 +512,7 @@ a:hover { text-decoration: underline; }
 }
 
 .ph-card {
-  background: rgba(23, 20, 15, 0.85);
+  background: var(--ink);
   border-radius: 4px;
   padding: 16px 18px 14px;
   border-top: 3px solid var(--tool-color, var(--amber));
