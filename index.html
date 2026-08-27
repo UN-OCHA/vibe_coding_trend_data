@@ -113,26 +113,36 @@
       <h3 class="ph-subhead">Latest launches</h3>
       <p class="ph-subhead-note">Most recent first. Unlike every other signal on this page, a tool can show up here the same week it launches — before it has enough GitHub or Hacker News activity to register anywhere else on this site.</p>
     </div>
-    <div class="ph-grid" id="ph-grid">
-      <div class="empty-state">Loading launches…</div>
+    <div class="ph-carousel">
+      <button class="ph-carousel-arrow ph-carousel-arrow-prev" aria-label="Scroll left" type="button">‹</button>
+      <div class="ph-grid ph-grid-scroll" id="ph-grid">
+        <div class="empty-state">Loading launches…</div>
+      </div>
+      <button class="ph-carousel-arrow ph-carousel-arrow-next" aria-label="Scroll right" type="button">›</button>
     </div>
 
     <div class="ph-subhead-block ph-subhead-block-spaced">
       <h3 class="ph-subhead">Top voted, all time</h3>
       <p class="ph-subhead-note">Ranked by total Product Hunt upvotes, with no recency limit - a tool that launched a year ago and has stayed popular since will show up here even though it wouldn't in "New launches" above.</p>
     </div>
-    <p class="ph-scroll-hint">Scroll to see more →</p>
-    <div class="ph-grid ph-grid-scroll" id="ph-top-grid">
-      <div class="empty-state">Loading…</div>
+    <div class="ph-carousel">
+      <button class="ph-carousel-arrow ph-carousel-arrow-prev" aria-label="Scroll left" type="button">‹</button>
+      <div class="ph-grid ph-grid-scroll" id="ph-top-grid">
+        <div class="empty-state">Loading…</div>
+      </div>
+      <button class="ph-carousel-arrow ph-carousel-arrow-next" aria-label="Scroll right" type="button">›</button>
     </div>
 
     <div class="ph-subhead-block ph-subhead-block-spaced">
       <h3 class="ph-subhead">Top reviewed, all time</h3>
       <p class="ph-subhead-note">Ranked by number of written reviews (not upvotes) across the whole category, with no recency limit. Most launches here don't have any yet - written reviews are a separate, less common action than a vote - so this list only includes posts that have at least one.</p>
     </div>
-    <p class="ph-scroll-hint">Scroll to see more →</p>
-    <div class="ph-grid ph-grid-scroll" id="ph-reviewed-grid">
-      <div class="empty-state">Loading…</div>
+    <div class="ph-carousel">
+      <button class="ph-carousel-arrow ph-carousel-arrow-prev" aria-label="Scroll left" type="button">‹</button>
+      <div class="ph-grid ph-grid-scroll" id="ph-reviewed-grid">
+        <div class="empty-state">Loading…</div>
+      </div>
+      <button class="ph-carousel-arrow ph-carousel-arrow-next" aria-label="Scroll right" type="button">›</button>
     </div>
   </section>
 
@@ -488,6 +498,7 @@ async function init() {
     console.error("Failed to load Product Hunt launches", e);
     document.getElementById("ph-grid").innerHTML = '<div class="empty-state">No launches yet. This pipeline needs a PRODUCTHUNT_API_KEY configured to start collecting - see README.</div>';
   }
+  initCarousel("ph-grid");
 
   // ---- Product Hunt top-voted, from producthunt_top.json ----
   try {
@@ -497,6 +508,7 @@ async function init() {
     console.error("Failed to load top Product Hunt posts", e);
     document.getElementById("ph-top-grid").innerHTML = '<div class="empty-state">No data yet. This pipeline needs a PRODUCTHUNT_API_KEY configured to start collecting - see README.</div>';
   }
+  initCarousel("ph-top-grid");
 
   // ---- Product Hunt top-reviewed, from producthunt_reviewed.json ----
   try {
@@ -506,6 +518,7 @@ async function init() {
     console.error("Failed to load reviewed Product Hunt posts", e);
     document.getElementById("ph-reviewed-grid").innerHTML = '<div class="empty-state">No data yet. This pipeline needs a PRODUCTHUNT_API_KEY configured to start collecting - see README.</div>';
   }
+  initCarousel("ph-reviewed-grid");
 
   // ---- weekly digest, from digest.json (optional - see generate_digest.py) ----
   // Stays hidden (its default markup state) if the file is missing or a
@@ -619,7 +632,10 @@ function renderProductHunt(launches) {
     return;
   }
 
-  grid.innerHTML = launches.slice(0, 6).map((p) => {
+  // Same 12-item cap as the other two carousels below - now that this one
+  // scrolls horizontally too, there's no vertical-clutter reason to cap
+  // it lower than them.
+  grid.innerHTML = launches.slice(0, 12).map((p) => {
     const d = new Date(p.launched);
     const dateStr = isNaN(d) ? "" : d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
     return phCard(p, dateStr);
@@ -641,9 +657,9 @@ function renderProductHuntTop(top) {
   // needed to actually hide the line instead of showing a meaningless
   // "★ 0.0 (0)" on every card. A post with a real vote count but no
   // rating data still gets shown, just without the star line.
-  // Higher cap than renderProductHunt's 6 - this list scrolls horizontally
-  // instead of wrapping, so more items are viable without cluttering the
-  // page (TOP_MAX_ITEMS_KEPT in fetch_producthunt.py keeps up to 20).
+  // This list scrolls horizontally instead of wrapping, so more items are
+  // viable without cluttering the page (TOP_MAX_ITEMS_KEPT in
+  // fetch_producthunt.py keeps up to 20).
   grid.innerHTML = top.slice(0, 12).map((p) => {
     const ratingStr = p.rating ? `★ ${p.rating.toFixed(1)} (${p.review_count})` : "";
     return phCard(p, ratingStr);
@@ -665,6 +681,45 @@ function renderProductHuntReviewed(reviewed) {
     const ratingStr = p.rating ? `★ ${p.rating.toFixed(1)} (${p.review_count})` : `${p.review_count} reviews`;
     return phCard(p, ratingStr);
   }).join("");
+}
+
+// Wires up one Product Hunt carousel's prev/next buttons and edge fades.
+// Drives grid.scrollLeft directly rather than relying on native
+// horizontal scroll alone - trackpad/touch users already have that, but
+// a plain mouse wheel doesn't scroll sideways, so without this the
+// carousel had no discoverable way to move past the first screenful for
+// a chunk of desktop visitors. Called once per grid right after its
+// cards are rendered (see init()), never at page load - an empty
+// (still-loading) grid's scrollWidth can't be told apart from "nothing
+// to scroll to" yet.
+function initCarousel(gridId) {
+  const grid = document.getElementById(gridId);
+  const wrap = grid.closest(".ph-carousel");
+  if (!wrap) return;
+  const prevBtn = wrap.querySelector(".ph-carousel-arrow-prev");
+  const nextBtn = wrap.querySelector(".ph-carousel-arrow-next");
+
+  function update() {
+    const atStart = grid.scrollLeft <= 1;
+    const atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 1;
+    wrap.classList.toggle("ph-carousel-scrollable", grid.scrollWidth > grid.clientWidth + 1);
+    wrap.classList.toggle("at-start", atStart);
+    wrap.classList.toggle("at-end", atEnd);
+    prevBtn.disabled = atStart;
+    nextBtn.disabled = atEnd;
+  }
+
+  function scrollByCards(dir) {
+    const card = grid.querySelector(".ph-card");
+    const cardWidth = card ? card.getBoundingClientRect().width : grid.clientWidth * 0.8;
+    grid.scrollBy({ left: dir * (cardWidth + 16) * 2, behavior: "smooth" }); // 16 = .ph-grid's gap
+  }
+
+  prevBtn.addEventListener("click", () => scrollByCards(-1));
+  nextBtn.addEventListener("click", () => scrollByCards(1));
+  grid.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
 }
 
 function renderStories(stories, filter) {

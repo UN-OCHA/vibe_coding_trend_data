@@ -484,15 +484,9 @@ a:hover { text-decoration: underline; }
   margin-bottom: 8px;
 }
 
-.ph-scroll-hint {
-  font-size: 11px;
-  color: var(--paper-text-muted);
-  margin: 0 0 8px;
-}
-
-/* Horizontal carousel for "Top voted, all time" - a single scrollable
-   row reads better than a wrapping grid once there are enough items to
-   need more than one row (see the higher slice cap in renderProductHuntTop). */
+/* Horizontal carousel, shared by all three Product Hunt lists - a single
+   scrollable row reads better than a wrapping grid once there are enough
+   items to need more than one row. */
 .ph-grid-scroll {
   display: flex;
   grid-template-columns: none;
@@ -509,6 +503,90 @@ a:hover { text-decoration: underline; }
 
 .ph-grid-scroll .empty-state {
   flex: 1 0 100%;
+}
+
+/* Wraps a .ph-grid-scroll with prev/next buttons and edge fades - see
+   initCarousel() in index.html. Buttons stay visible-but-dimmed (not
+   hidden) at either end via :disabled, matching how the fade on that
+   side also fades out - both read as "nothing further this way" rather
+   than disappearing, which would look like a layout glitch. */
+.ph-carousel {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.ph-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--ink-soft);
+  color: var(--dark-text);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.ph-carousel-scrollable .ph-carousel-arrow {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ph-carousel-arrow:hover:not(:disabled) {
+  background: var(--amber);
+  color: var(--ink);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.ph-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.ph-carousel-arrow-prev { left: -14px; }
+.ph-carousel-arrow-next { right: -14px; }
+
+/* Edge fades hint that a carousel continues past the visible cards -
+   fade to the page's own cream background, since that's what's actually
+   behind/around the dark cards. */
+.ph-carousel::before,
+.ph-carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 10px; /* matches .ph-grid-scroll's padding-bottom */
+  width: 40px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ph-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, var(--cream), transparent);
+}
+
+.ph-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, var(--cream), transparent);
+}
+
+.ph-carousel-scrollable:not(.at-start)::before,
+.ph-carousel-scrollable:not(.at-end)::after {
+  opacity: 1;
 }
 
 .ph-card {
