@@ -506,10 +506,11 @@ a:hover { text-decoration: underline; }
 }
 
 /* Wraps a .ph-grid-scroll with prev/next buttons and edge fades - see
-   initCarousel() in index.html. Buttons stay visible-but-dimmed (not
-   hidden) at either end via :disabled, matching how the fade on that
-   side also fades out - both read as "nothing further this way" rather
-   than disappearing, which would look like a layout glitch. */
+   initCarousel() in index.html. A button is fully hidden (opacity 0, via
+   :disabled) at whichever end there's nothing further to scroll to,
+   fading in only once scrolling away from that edge makes it usable -
+   showing a dimmed-but-inert button before any scrolling has happened
+   read as a permanently broken control, not an affordance. */
 .ph-carousel {
   position: relative;
   margin-bottom: 8px;
@@ -550,7 +551,7 @@ a:hover { text-decoration: underline; }
 }
 
 .ph-carousel-arrow:disabled {
-  opacity: 0.3;
+  opacity: 0;
   cursor: default;
   pointer-events: none;
 }
@@ -1056,6 +1057,14 @@ a:hover { text-decoration: underline; }
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 16px;
   margin: 4px 0 44px;
+}
+
+/* Smaller bottom margin than the default 44px - this one is followed by
+   another subhead-block + grid within the same section (see
+   #tool-hero-section), not the next section, so it should match the
+   tighter rhythm .ph-subhead-block-spaced already assumes elsewhere. */
+.tool-hero-grid-first {
+  margin-bottom: 8px;
 }
 
 .tool-card {

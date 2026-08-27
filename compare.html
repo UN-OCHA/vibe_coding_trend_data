@@ -22,7 +22,7 @@
     <a href="index.html" style="font-weight:600;">Vibecode Weekly</a>
     <div class="links">
       <a href="compare.html" class="active">Compare</a>
-      <a href="leaderboard.html">Signals →</a>
+      <a href="leaderboard.html">Tool Signals →</a>
     </div>
   </nav>
 
@@ -35,8 +35,22 @@
     <p class="freshness-note" id="freshness-note"></p>
   </header>
 
-  <div class="tool-hero-grid" id="tool-hero-grid">
-    <div class="empty-state">Loading…</div>
+  <div id="tool-hero-section">
+    <div class="ph-subhead-block">
+      <h3 class="ph-subhead">Tools with tracked adoption signals</h3>
+      <p class="ph-subhead-note">GitHub repo-tag counts and VS Code Marketplace installs have a real, comparable signal for these four.</p>
+    </div>
+    <div class="tool-hero-grid tool-hero-grid-first" id="tool-hero-grid-tracked">
+      <div class="empty-state">Loading…</div>
+    </div>
+
+    <div class="ph-subhead-block ph-subhead-block-spaced">
+      <h3 class="ph-subhead">Tools without a comparable signal yet</h3>
+      <p class="ph-subhead-note">Not a different type of tool - Windsurf, for instance, is architecturally the same kind of AI-native editor as Cursor above. They're just not distributed as a tagged GitHub repo or VS Code extension the same way (a browser-hosted platform, for instance), or their tracked footprint here is still too small to be meaningful. See each card's "Best for" and the comparison table below for what we do know.</p>
+    </div>
+    <div class="tool-hero-grid" id="tool-hero-grid-other">
+      <div class="empty-state">Loading…</div>
+    </div>
   </div>
 
   <section>
@@ -155,23 +169,28 @@ async function init() {
     }
   } catch (e) {
     console.error("Failed to load comparison data", e);
-    document.getElementById("tool-hero-grid").innerHTML = '<div class="empty-state">Comparison data unavailable right now.</div>';
+    document.getElementById("tool-hero-section").innerHTML = '<div class="empty-state">Comparison data unavailable right now.</div>';
   }
 }
 
-function renderToolCards(signalsByName, mentionsByTool) {
-  const grid = document.getElementById("tool-hero-grid");
-  grid.innerHTML = Object.entries(TOOL_PROFILES).map(([name, profile]) => {
-    const m = signalsByName[name] || {};
-    const mentions = mentionsByTool[name] || [];
-    const latest = mentions[0];
-    const hasGrowth = m.github_growth_pct !== undefined && m.github_growth_pct !== null;
-    return `
-      <div class="tool-card" style="--tool-color:${profile.color}">
-        <div class="tool-card-head">
-          <div class="tool-name">${name}</div>
-        </div>
-        <p class="tool-tagline">${profile.tagline}</p>
+// These four don't have a comparable GitHub-topic-tag / VS Code
+// Marketplace signal to the other four - not because they're a different
+// TYPE of tool (Windsurf is architecturally the same kind of AI-native
+// editor as Cursor, just without comparable tracked data here), but
+// because they're either not distributed as a tagged repo or VS Code
+// extension at all (Replit Agent, Devin, and Lovable are browser-hosted
+// platforms), or their tracked footprint is still too small to be
+// meaningful (Windsurf: single-digit GitHub repos, 0 HN comments some
+// weeks). A stats row of mostly "—"/near-zero numbers for these four
+// would read as broken, not informative - see renderToolCards().
+const UNTRACKED_STATS_TOOLS = new Set(["Windsurf", "Replit Agent", "Devin", "Lovable"]);
+
+function toolCardHtml(name, profile, signalsByName, mentionsByTool) {
+  const m = signalsByName[name] || {};
+  const mentions = mentionsByTool[name] || [];
+  const latest = mentions[0];
+  const hasGrowth = m.github_growth_pct !== undefined && m.github_growth_pct !== null;
+  const statsRow = UNTRACKED_STATS_TOOLS.has(name) ? "" : `
         <div class="tool-stats-row">
           <div class="tool-stat">
             <div class="tool-stat-value ${hasGrowth ? (m.github_growth_pct >= 0 ? "up" : "down") : ""}">${hasGrowth ? (m.github_growth_pct >= 0 ? "▲" : "▼") + " " + Math.abs(m.github_growth_pct) + "%" : "—"}</div>
@@ -189,12 +208,27 @@ function renderToolCards(signalsByName, mentionsByTool) {
             <div class="tool-stat-value">${m.vscode_installs != null ? formatCompact(m.vscode_installs) : "—"}</div>
             <div class="tool-stat-label">VS Code installs</div>
           </div>
+        </div>`;
+  return `
+      <div class="tool-card" style="--tool-color:${profile.color}">
+        <div class="tool-card-head">
+          <div class="tool-name">${name}</div>
         </div>
+        <p class="tool-tagline">${profile.tagline}</p>${statsRow}
         <p class="tool-best-for"><strong>Best for:</strong> ${profile.bestFor}</p>
         ${latest ? `<a class="tool-latest" href="${latest.url}" target="_blank" rel="noopener">Latest: ${latest.title}</a>` : ""}
       </div>
     `;
-  }).join("");
+}
+
+function renderToolCards(signalsByName, mentionsByTool) {
+  const entries = Object.entries(TOOL_PROFILES);
+  document.getElementById("tool-hero-grid-tracked").innerHTML = entries
+    .filter(([name]) => !UNTRACKED_STATS_TOOLS.has(name))
+    .map(([name, profile]) => toolCardHtml(name, profile, signalsByName, mentionsByTool)).join("");
+  document.getElementById("tool-hero-grid-other").innerHTML = entries
+    .filter(([name]) => UNTRACKED_STATS_TOOLS.has(name))
+    .map(([name, profile]) => toolCardHtml(name, profile, signalsByName, mentionsByTool)).join("");
 }
 
 /** Converts raw values to [0,1] by RANK among this set, not magnitude -
