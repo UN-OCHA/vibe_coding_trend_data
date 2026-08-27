@@ -623,7 +623,15 @@ a:hover { text-decoration: underline; }
   border-radius: 8px;
   flex-shrink: 0;
   overflow: hidden;
-  background: var(--tool-color, var(--amber));
+  /* Matches the card background, not the tool's accent color: many
+     Product Hunt thumbnails are themselves rounded-square icons with a
+     transparent margin outside that shape, so whatever sits behind a
+     real image shows through at its edges/corners. An accent-colored
+     background there reads as a visible mismatched ring around the
+     icon; the card's own --ink blends into it invisibly instead. The
+     colorful accent still shows up correctly via .ph-card-icon-placeholder
+     below, which only applies when there's no real image to show at all. */
+  background: var(--ink);
 }
 
 .ph-card-icon-wrap.ph-card-icon-placeholder {
