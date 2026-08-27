@@ -65,7 +65,7 @@
         <svg id="interest-trend-chart" style="width:100%; height:280px; display:block;"></svg>
       </div>
       <div class="chart-card">
-        <div class="chart-label">VS Code installs, indexed (first week = 100)</div>
+        <div class="chart-label">VS Code installs, % change per period</div>
         <svg id="vscode-trend-chart" style="width:100%; height:280px; display:block;"></svg>
       </div>
     </div>
@@ -256,6 +256,30 @@ async function init() {
       return out;
     }
 
+    // Period-over-period % change, not indexed-from-first-week: VS Code
+    // Marketplace install counts are already huge, mature totals (tens of
+    // millions), so real differences in relative growth take a long time
+    // to visibly separate when indexed against one fixed distant baseline
+    // (see leaderboard/index chats - a tool growing ~10x faster than
+    // another, relative to its own size, still reads as one flat line for
+    // months under that scheme). Comparing each snapshot only to the one
+    // right before it surfaces that difference immediately instead.
+    function growthRateSeries(metricMap, source) {
+      const out = {};
+      for (const [name, metric] of Object.entries(metricMap)) {
+        const points = source[metric];
+        if (!points || points.length < 2) continue; // need 2+ snapshots for a rate
+        const rates = [];
+        for (let i = 1; i < points.length; i++) {
+          const prev = points[i - 1].value;
+          if (!prev) continue; // can't rate a zero baseline
+          rates.push({ date: points[i].date, value: ((points[i].value - prev) / prev) * 100 });
+        }
+        if (rates.length) out[name] = rates;
+      }
+      return out;
+    }
+
     const anyRepoSeries = Object.values(TOOL_GITHUB_METRIC).map((m) => counts[m]).find((s) => s && s.length);
     const weekLabels = (anyRepoSeries || []).map((p) => {
       const d = new Date(p.date);
@@ -293,7 +317,11 @@ async function init() {
 
     const vscodeChartEl = document.getElementById("vscode-trend-chart");
     onScrollIntoView(vscodeChartEl.closest(".chart-card"), () => {
-      const lines = renderTrendChart(vscodeChartEl, indexedSeries(TOOL_VSCODE_METRIC, counts), weekLabels, { colors: TREND_COLORS, weekDates });
+      const lines = renderTrendChart(vscodeChartEl, growthRateSeries(TOOL_VSCODE_METRIC, counts), weekLabels, {
+        colors: TREND_COLORS,
+        weekDates,
+        yFormatter: (v) => `${v.toFixed(2)}%`,
+      });
       animateLinesIn(lines);
     });
   } catch (e) {
