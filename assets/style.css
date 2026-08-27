@@ -1059,14 +1059,6 @@ a:hover { text-decoration: underline; }
   margin: 4px 0 44px;
 }
 
-/* Smaller bottom margin than the default 44px - this one is followed by
-   another subhead-block + grid within the same section (see
-   #tool-hero-section), not the next section, so it should match the
-   tighter rhythm .ph-subhead-block-spaced already assumes elsewhere. */
-.tool-hero-grid-first {
-  margin-bottom: 8px;
-}
-
 .tool-card {
   background: var(--ink);
   border-radius: 4px;
@@ -1134,6 +1126,24 @@ a:hover { text-decoration: underline; }
   text-transform: uppercase;
   color: var(--dark-text-muted);
   margin-top: 2px;
+}
+
+/* Stands in for .tool-stats-row on cards with no comparable adoption
+   numbers (see compare.html's TOOL_ICONS) - same padding/border rhythm
+   as the stats row it replaces, so both card shapes still read as the
+   same family despite one having no numbers to show. */
+.tool-card-icon {
+  display: flex;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--tool-color, var(--amber));
+}
+
+.tool-card-icon svg {
+  width: 40px;
+  height: 40px;
 }
 
 .tool-best-for {

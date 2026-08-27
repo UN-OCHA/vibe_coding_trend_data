@@ -36,18 +36,10 @@
   </header>
 
   <div id="tool-hero-section">
-    <div class="ph-subhead-block">
-      <h3 class="ph-subhead">Tools with tracked adoption signals</h3>
-      <p class="ph-subhead-note">GitHub repo-tag counts and VS Code Marketplace installs have a real, comparable signal for these four.</p>
-    </div>
-    <div class="tool-hero-grid tool-hero-grid-first" id="tool-hero-grid-tracked">
+    <div class="tool-hero-grid" id="tool-hero-grid-tracked">
       <div class="empty-state">Loading…</div>
     </div>
 
-    <div class="ph-subhead-block ph-subhead-block-spaced">
-      <h3 class="ph-subhead">Tools without a comparable signal yet</h3>
-      <p class="ph-subhead-note">Not a different type of tool - Windsurf, for instance, is architecturally the same kind of AI-native editor as Cursor above. They're just not distributed as a tagged GitHub repo or VS Code extension the same way (a browser-hosted platform, for instance), or their tracked footprint here is still too small to be meaningful. See each card's "Best for" and the comparison table below for what we do know.</p>
-    </div>
     <div class="tool-hero-grid" id="tool-hero-grid-other">
       <div class="empty-state">Loading…</div>
     </div>
@@ -185,6 +177,46 @@ async function init() {
 // would read as broken, not informative - see renderToolCards().
 const UNTRACKED_STATS_TOOLS = new Set(["Windsurf", "Replit Agent", "Devin", "Lovable"]);
 
+// Small hand-drawn glyphs (not real product logos - this project avoids
+// scraped/trademarked assets, see tool-profiles.js's own docstring) for
+// the four cards above that lose their stats row - fills the vertical
+// space that leaves behind and gives each a bit of visual identity
+// beyond its accent color. Each depicts what the tool actually does
+// (not a pun/mascot): Windsurf's own editor+code lines, Replit Agent's
+// browser shipping an app, Devin's autonomous branch-to-PR flow, and
+// Lovable's generated page layout. currentColor picks up --tool-color
+// from the enclosing .tool-card.
+const TOOL_ICONS = {
+  "Windsurf": `<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="6" width="24" height="20" rx="2"/>
+    <line x1="4" y1="11" x2="28" y2="11"/>
+    <circle cx="8" cy="8.5" r="0.8" fill="currentColor" stroke="none"/>
+    <circle cx="11" cy="8.5" r="0.8" fill="currentColor" stroke="none"/>
+    <line x1="9" y1="16" x2="17" y2="16"/>
+    <line x1="9" y1="20" x2="21" y2="20"/>
+  </svg>`,
+  "Replit Agent": `<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="6" width="24" height="20" rx="2"/>
+    <line x1="4" y1="11" x2="28" y2="11"/>
+    <path d="M16 15 L16 23 M12 19 L16 15 L20 19"/>
+  </svg>`,
+  "Devin": `<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="8" r="3"/>
+    <circle cx="9" cy="24" r="3"/>
+    <circle cx="23" cy="16" r="3"/>
+    <line x1="9" y1="11" x2="9" y2="21"/>
+    <path d="M9 11 C9 16 14 16 20 16"/>
+  </svg>`,
+  "Lovable": `<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="5" width="24" height="22" rx="2"/>
+    <line x1="4" y1="11" x2="28" y2="11"/>
+    <rect x="8" y="15" width="7" height="8" rx="1"/>
+    <line x1="18" y1="16" x2="24" y2="16"/>
+    <line x1="18" y1="19" x2="24" y2="19"/>
+    <line x1="18" y1="22" x2="22" y2="22"/>
+  </svg>`,
+};
+
 function toolCardHtml(name, profile, signalsByName, mentionsByTool) {
   const m = signalsByName[name] || {};
   const mentions = mentionsByTool[name] || [];
@@ -209,12 +241,13 @@ function toolCardHtml(name, profile, signalsByName, mentionsByTool) {
             <div class="tool-stat-label">VS Code installs</div>
           </div>
         </div>`;
+  const icon = TOOL_ICONS[name] ? `<div class="tool-card-icon">${TOOL_ICONS[name]}</div>` : "";
   return `
       <div class="tool-card" style="--tool-color:${profile.color}">
         <div class="tool-card-head">
           <div class="tool-name">${name}</div>
         </div>
-        <p class="tool-tagline">${profile.tagline}</p>${statsRow}
+        <p class="tool-tagline">${profile.tagline}</p>${statsRow}${icon}
         <p class="tool-best-for"><strong>Best for:</strong> ${profile.bestFor}</p>
         ${latest ? `<a class="tool-latest" href="${latest.url}" target="_blank" rel="noopener">Latest: ${latest.title}</a>` : ""}
       </div>
