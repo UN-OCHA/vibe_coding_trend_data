@@ -115,25 +115,25 @@ docstring. The site cross-references each launch's name against
 `assets/tool-profiles.js` client-side and flags anything not already
 tracked. The same script also writes `data/producthunt_top.json` and
 `data/producthunt_reviewed.json` - always-fresh (not accumulating)
-snapshots of the all-time top-voted and top-reviewed posts, for the site's
-"Top voted"/"Top reviewed" lists. These two pool from four Product Hunt
-topics - `vibe-coding`, `ai-coding-agents`, `ai-code-editors`, and
-`no-code-app-builder` - since established tools like Cursor, Lovable, and
-Windsurf are tagged under those rather than `vibe-coding` itself. "New
-launches" deliberately stays scoped to `vibe-coding` alone, since the
-other three topics are much higher-volume and would flood it with generic
-AI/coding tools. Both all-time files are derived from one shared, broad fetch per topic
-(not two separate order-specific queries), so a post with few votes but a
-genuinely high review count still gets found, and results are deduped by
-post id since a tool can carry more than one of the four topics - see the
-module docstring for why that distinction matters. `producthunt_reviewed.json`
-only includes posts with at least
-one real written review (a separate, less common action than a vote),
-not every post sorted with 0-review ones at the bottom. Two
-terms from Product Hunt's own API docs worth knowing if this
-data is ever used beyond this proof of concept: it must not be used for
-commercial purposes without contacting them, and they ask for attribution
-linking back to Product Hunt (see each page's footer disclosure).
+snapshots of the all-time top-voted and top-reviewed posts within that
+same "vibe-coding" topic, for the site's "Top voted"/"Top reviewed"
+lists. Both are derived from one shared, broad fetch (not two separate
+order-specific queries), so a post with few votes but a genuinely high
+review count still gets found - see the module docstring for why that
+distinction matters. `producthunt_reviewed.json` only includes posts with
+at least one real written review (a separate, less common action than a
+vote), not every post sorted with 0-review ones at the bottom.
+
+All three files are scoped to the `vibe-coding` topic alone - Product
+Hunt's own "Best vibe coding tools" page draws from a separate, editorial
+Category grouping that isn't reachable through the public API (confirmed
+via `scripts/fetch_producthunt.py`'s own docstring), so established tools
+that don't carry the `vibe-coding` topic tag themselves (Cursor, Lovable,
+Windsurf, and similar) won't appear in these three lists. Two terms from
+Product Hunt's own API docs worth knowing if this data is ever used
+beyond this proof of concept: it must not be used for commercial purposes
+without contacting them, and they ask for attribution linking back to
+Product Hunt (see each page's footer disclosure).
 
 ## Signals, not a score
 

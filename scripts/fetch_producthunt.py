@@ -86,25 +86,30 @@ run - recorded here so nobody re-guesses either one:
    test it in isolation, since one bad field can take the whole query
    down, not just the field itself.
 
-CORRECTION to an earlier version of this docstring, which claimed the above
-was "settled for good": that was right about the mechanics (no `category`
-argument, `Collection` has no `posts` field, `collections` only supports a
-reverse `postId` lookup) but wrong about the practical conclusion. The
-`posts` query's full argument list really is exactly: after, before,
-featured, first, last, order, postedAfter, postedBefore, topic, twitterUrl,
-url - `topic` really is the only content-scoping filter. But Product Hunt's
-website "Categories" (producthunt.com/categories/<slug>) turn out to be its
-TOPICS under a different URL path, not a separate unreachable taxonomy -
-confirmed because producthunt.com/categories/vibe-coding uses the exact
-slug that `topic: "vibe-coding"` already fetches successfully. Cursor/
-Lovable/Windsurf/v0/bolt.new don't carry the `vibe-coding` topic tag, but
-inspecting their real category pages showed they carry OTHER topic tags
-instead - "AI Coding Agents", "AI Code Editors", "No-Code App Builder".
-FULL_TOPIC_SLUGS below queries all four of those topics (one `posts`
-request per slug, merged and deduped by id) for the votes/reviews rankings,
-which is why those rankings now see tools RECENT_QUERY's narrower single-
-topic scope still won't - "New launches" deliberately stays scoped to just
-`vibe-coding` alone (see FULL_TOPIC_SLUGS' own comment for why).
+SECOND CORRECTION - a prior version of this docstring claimed Product
+Hunt's website "Categories" (producthunt.com/categories/<slug>) are just
+its Topics under a different URL, evidenced by producthunt.com/categories/
+vibe-coding sharing its slug with the already-working `topic: "vibe-coding"`.
+That held for vibe-coding specifically, but was wrong as a general rule -
+confirmed twice over, not guessed a third time: (1) a live run querying
+`topic: "ai-coding-agents"`, `topic: "ai-code-editors"`, and
+`topic: "no-code-app-builder"` (the category slugs for where Cursor/
+Lovable/Windsurf/v0/bolt.new actually live) came back with zero posts for
+all three, no error - `topic` is a plain String filter, so an unrecognized
+value just matches nothing rather than failing loudly; (2) Product Hunt's
+own topic search (`topics(query: ...)`) confirms none of those three
+strings exist as a real topic slug at all - the real topics nearest this
+space are broad, high-volume ones like `developer-tools` (~81k posts) and
+`artificial-intelligence` (~116k posts), not a narrow "vibe coding tools"
+bucket. So those three category pages are a genuinely separate, curated
+Product Hunt taxonomy with no equivalent reachable through this API -
+FULL_TOPIC_SLUGS below is back to just `vibe-coding` alone, since the
+other three slugs were contributing nothing but three wasted requests per
+run. Reaching `developer-tools`/`artificial-intelligence` with
+`order: VOTES` instead of `NEWEST` was floated as a possible (imperfect,
+heuristic) next step - a genuinely popular tool would likely rank high by
+votes even inside an 80k-post topic - but it's unshipped, not a fix in
+place today.
 
 ANOTHER real bug, also found via the docs (not guessed): the `posts`
 query's `postedAfter` argument "Defaults to 1 month ago to improve
@@ -185,16 +190,15 @@ FULL_TOPIC_MAX_PAGES = 5   # 20 posts/page - covers up to 100 posts PER TOPIC
                             # a narrow top-N-by-one-metric slice - see
                             # module docstring for why
 
-# The votes/reviews rankings pool from all four of these topics, not just
-# TOPIC_SLUG - found by inspecting producthunt.com/categories/<slug> pages
-# for tools (Cursor, Lovable, Windsurf, v0, bolt.new) that don't carry the
-# `vibe-coding` topic tag themselves; see module docstring's CORRECTION
-# paragraph for the full story. "New launches" (RECENT_QUERY) deliberately
-# stays scoped to TOPIC_SLUG alone - AI Coding Agents/AI Code Editors are
-# much bigger, higher-volume topics, and widening "new launches" to them
-# would flood it with generic AI/coding tools that aren't specifically
-# "vibe coding" - a decision made explicitly, not an oversight.
-FULL_TOPIC_SLUGS = [TOPIC_SLUG, "ai-coding-agents", "ai-code-editors", "no-code-app-builder"]
+# Just TOPIC_SLUG for now - this was briefly ["vibe-coding",
+# "ai-coding-agents", "ai-code-editors", "no-code-app-builder"] on the
+# theory that those three extra slugs would reach tools (Cursor, Lovable,
+# Windsurf) that don't carry the `vibe-coding` tag themselves, but a live
+# run confirmed none of those three are real topic slugs at all (zero
+# posts, no error) - see module docstring's SECOND CORRECTION for the
+# full account and what was considered instead. Kept as a list (not a
+# single constant) since main() already loops over it either way.
+FULL_TOPIC_SLUGS = [TOPIC_SLUG]
 
 TOP_MAX_ITEMS_KEPT = 20
 REVIEWED_MAX_ITEMS_KEPT = 20
