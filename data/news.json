@@ -1,5 +1,31 @@
 [
   {
+    "title": "Claude, Codex, and Hermes installed unowned code inside corporate networks",
+    "url": "https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/",
+    "source": "Ars Technica AI",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/02/gatekeeping-ai-agents-500x500.jpg",
+    "excerpt": "227 install commands were found in corporate docs pointing at code nobody owns.",
+    "date": "2026-08-27",
+    "fetched_at": "2026-08-28"
+  },
+  {
+    "title": "Aider, Claude Code, and OpenClaw ran an identical model. Token use varied 70-fold.",
+    "url": "https://thenewstack.io/agent-harness-token-costs/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/08/40e08666-pablo-merchan-montes-ky6yrouqe44-unsplash-1024x712.jpg",
+    "excerpt": "When teams price an AI coding agent, they tend to scrutinize the model. But three recent benchmarking efforts suggest the The post Aider, Claude Code, and\u2026",
+    "date": "2026-08-27",
+    "fetched_at": "2026-08-28"
+  },
+  {
     "title": "Shopify\u2019s CEO threatened to ban Claude Code. Anthropic had already closed the feature request.",
     "url": "https://thenewstack.io/shopify-claude-code-agentsmd/",
     "source": "The New Stack",

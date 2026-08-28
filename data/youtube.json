@@ -1,12 +1,38 @@
 [
   {
+    "title": "DHH: Future of Programming, AI, Agentic Engineering, Vibe Coding & Linux | Lex Fridman Podcast #501",
+    "channel": "Lex Fridman",
+    "url": "https://www.youtube.com/watch?v=NYFGCESmikA",
+    "thumbnail": "https://i.ytimg.com/vi/NYFGCESmikA/mqdefault.jpg",
+    "published": "2026-08-26",
+    "views": 405497,
+    "views_per_day": 405497.0,
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false
+  },
+  {
     "title": "Therapy for the Vibe-Coded Brain",
     "channel": "JetBrains Academy",
     "url": "https://www.youtube.com/watch?v=DkhhE97Swmo",
     "thumbnail": "https://i.ytimg.com/vi/DkhhE97Swmo/mqdefault.jpg",
     "published": "2026-08-18",
-    "views": 226866,
-    "views_per_day": 28358.2,
+    "views": 244491,
+    "views_per_day": 27165.7,
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false
+  },
+  {
+    "title": "I Have Spent 1000+ Hours With Claude Code. This Is What I Learned",
+    "channel": "The Coding Sloth",
+    "url": "https://www.youtube.com/watch?v=YAsxyoTWFDA",
+    "thumbnail": "https://i.ytimg.com/vi/YAsxyoTWFDA/mqdefault.jpg",
+    "published": "2026-08-18",
+    "views": 200184,
+    "views_per_day": 20018.4,
     "categories": [
       "Uncategorized"
     ],
@@ -18,21 +44,21 @@
     "url": "https://www.youtube.com/watch?v=jresR0hZ_Hs",
     "thumbnail": "https://i.ytimg.com/vi/jresR0hZ_Hs/mqdefault.jpg",
     "published": "2026-08-20",
-    "views": 85231,
-    "views_per_day": 14205.2,
+    "views": 90684,
+    "views_per_day": 12954.9,
     "categories": [
       "Uncategorized"
     ],
     "humanitarian_relevant": false
   },
   {
-    "title": "How to Build an AI Agent with Claude Code (Claude AI Agent Tutorial)",
-    "channel": "AI Master",
-    "url": "https://www.youtube.com/watch?v=bcM9dP_uXJU",
-    "thumbnail": "https://i.ytimg.com/vi/bcM9dP_uXJU/mqdefault.jpg",
-    "published": "2026-06-30",
-    "views": 228966,
-    "views_per_day": 4016.9,
+    "title": "The AI Coding Boom Is Backfiring",
+    "channel": "Mondo Startups",
+    "url": "https://www.youtube.com/watch?v=S2TJZodK2BE",
+    "thumbnail": "https://i.ytimg.com/vi/S2TJZodK2BE/mqdefault.jpg",
+    "published": "2026-08-07",
+    "views": 167344,
+    "views_per_day": 8367.2,
     "categories": [
       "Uncategorized"
     ],
@@ -44,8 +70,8 @@
     "url": "https://www.youtube.com/watch?v=k_CRKfufBcI",
     "thumbnail": "https://i.ytimg.com/vi/k_CRKfufBcI/mqdefault.jpg",
     "published": "2026-07-26",
-    "views": 64056,
-    "views_per_day": 2066.3,
+    "views": 64169,
+    "views_per_day": 2005.3,
     "categories": [
       "Uncategorized"
     ],
@@ -57,8 +83,8 @@
     "url": "https://www.youtube.com/watch?v=FgaBdwSvOGM",
     "thumbnail": "https://i.ytimg.com/vi/FgaBdwSvOGM/mqdefault.jpg",
     "published": "2026-08-03",
-    "views": 42770,
-    "views_per_day": 1859.6,
+    "views": 43071,
+    "views_per_day": 1794.6,
     "categories": [
       "Uncategorized"
     ],
@@ -70,8 +96,8 @@
     "url": "https://www.youtube.com/watch?v=sO-ssqm9jPk",
     "thumbnail": "https://i.ytimg.com/vi/sO-ssqm9jPk/mqdefault.jpg",
     "published": "2026-07-31",
-    "views": 47509,
-    "views_per_day": 1827.3,
+    "views": 47637,
+    "views_per_day": 1764.3,
     "categories": [
       "Uncategorized"
     ],
@@ -83,8 +109,8 @@
     "url": "https://www.youtube.com/watch?v=SM17ps6-gAY",
     "thumbnail": "https://i.ytimg.com/vi/SM17ps6-gAY/mqdefault.jpg",
     "published": "2026-08-01",
-    "views": 34625,
-    "views_per_day": 1385.0,
+    "views": 35482,
+    "views_per_day": 1364.7,
     "categories": [
       "Tools"
     ],
@@ -96,8 +122,8 @@
     "url": "https://www.youtube.com/watch?v=gnfHlIoh34Q",
     "thumbnail": "https://i.ytimg.com/vi/gnfHlIoh34Q/mqdefault.jpg",
     "published": "2026-07-16",
-    "views": 25024,
-    "views_per_day": 610.3,
+    "views": 25261,
+    "views_per_day": 601.5,
     "categories": [
       "Tools"
     ],
@@ -109,8 +135,8 @@
     "url": "https://www.youtube.com/watch?v=K7Fpbd_A_2w",
     "thumbnail": "https://i.ytimg.com/vi/K7Fpbd_A_2w/mqdefault.jpg",
     "published": "2026-07-08",
-    "views": 20132,
-    "views_per_day": 410.9,
+    "views": 20190,
+    "views_per_day": 403.8,
     "categories": [
       "Uncategorized"
     ],
@@ -122,8 +148,8 @@
     "url": "https://www.youtube.com/watch?v=F54w90QVUx4",
     "thumbnail": "https://i.ytimg.com/vi/F54w90QVUx4/mqdefault.jpg",
     "published": "2026-07-08",
-    "views": 18292,
-    "views_per_day": 373.3,
+    "views": 18514,
+    "views_per_day": 370.3,
     "categories": [
       "Uncategorized"
     ],
@@ -135,8 +161,8 @@
     "url": "https://www.youtube.com/watch?v=7ZOjMnbxJYE",
     "thumbnail": "https://i.ytimg.com/vi/7ZOjMnbxJYE/mqdefault.jpg",
     "published": "2026-08-05",
-    "views": 3873,
-    "views_per_day": 184.4,
+    "views": 3889,
+    "views_per_day": 176.8,
     "categories": [
       "Uncategorized"
     ],
@@ -148,8 +174,8 @@
     "url": "https://www.youtube.com/watch?v=BHdin6bLGKQ",
     "thumbnail": "https://i.ytimg.com/vi/BHdin6bLGKQ/mqdefault.jpg",
     "published": "2026-08-05",
-    "views": 927,
-    "views_per_day": 44.1,
+    "views": 936,
+    "views_per_day": 42.5,
     "categories": [
       "Tools"
     ],
