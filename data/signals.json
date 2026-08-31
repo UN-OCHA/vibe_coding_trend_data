@@ -1,43 +1,43 @@
 [
   {
     "name": "Claude Code",
-    "github_repo_count": 64435.0,
-    "github_growth_pct": 6.4,
-    "hn_comments": 619.0,
-    "hn_growth_pct": -0.2,
+    "github_repo_count": 66065.0,
+    "github_growth_pct": 4.5,
+    "hn_comments": 403.0,
+    "hn_growth_pct": -38.2,
     "trends_interest": 32.0,
-    "vscode_installs": 24028882.0,
-    "vscode_growth_pct": 1.4
+    "vscode_installs": 24359846.0,
+    "vscode_growth_pct": 2.3
   },
   {
     "name": "Codex",
-    "github_repo_count": 26604.0,
-    "github_growth_pct": 8.9,
-    "hn_comments": 55.0,
-    "hn_growth_pct": -8.3,
+    "github_repo_count": 27607.0,
+    "github_growth_pct": 6.5,
+    "hn_comments": 34.0,
+    "hn_growth_pct": -49.3,
     "trends_interest": 41.0,
-    "vscode_installs": 13533363.0,
-    "vscode_growth_pct": 1.5
+    "vscode_installs": 13664625.0,
+    "vscode_growth_pct": 1.9
   },
   {
     "name": "Cursor",
-    "github_repo_count": 433.0,
-    "github_growth_pct": 2.4,
-    "hn_comments": 14.0,
-    "hn_growth_pct": -39.1,
+    "github_repo_count": 439.0,
+    "github_growth_pct": 1.6,
+    "hn_comments": 32.0,
+    "hn_growth_pct": 45.5,
     "trends_interest": null,
     "vscode_installs": null,
     "vscode_growth_pct": null
   },
   {
     "name": "GitHub Copilot",
-    "github_repo_count": 2881.0,
-    "github_growth_pct": 4.9,
-    "hn_comments": 29.0,
-    "hn_growth_pct": 20.8,
+    "github_repo_count": 2944.0,
+    "github_growth_pct": 3.6,
+    "hn_comments": 19.0,
+    "hn_growth_pct": -62.0,
     "trends_interest": 27.0,
-    "vscode_installs": 77832837.0,
-    "vscode_growth_pct": 0.1
+    "vscode_installs": 77916577.0,
+    "vscode_growth_pct": 0.2
   },
   {
     "name": "Windsurf",
@@ -54,7 +54,7 @@
     "github_repo_count": null,
     "github_growth_pct": null,
     "hn_comments": 0.0,
-    "hn_growth_pct": -100.0,
+    "hn_growth_pct": null,
     "trends_interest": 23.0,
     "vscode_installs": null,
     "vscode_growth_pct": null
@@ -63,8 +63,8 @@
     "name": "Devin",
     "github_repo_count": null,
     "github_growth_pct": null,
-    "hn_comments": 5.0,
-    "hn_growth_pct": 25.0,
+    "hn_comments": 1.0,
+    "hn_growth_pct": -66.7,
     "trends_interest": 3.0,
     "vscode_installs": null,
     "vscode_growth_pct": null
@@ -74,7 +74,7 @@
     "github_repo_count": null,
     "github_growth_pct": null,
     "hn_comments": 16.0,
-    "hn_growth_pct": 166.7,
+    "hn_growth_pct": 14.3,
     "trends_interest": 64.0,
     "vscode_installs": null,
     "vscode_growth_pct": null

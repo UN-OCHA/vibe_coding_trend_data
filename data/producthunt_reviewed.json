@@ -3,7 +3,7 @@
     "id": "1221775",
     "name": "Design systems for vibe coding",
     "tagline": "100+ free design systems for any AI code or design tool",
-    "producthunt_url": "https://www.producthunt.com/products/visily?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/visily/launches/design-systems-for-vibe-coding?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/T3XPKCMPEQGOAC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 9,
     "rating": 4.68,
@@ -39,7 +39,7 @@
     "id": "1223338",
     "name": "Make it RAIN",
     "tagline": "Find who may pay before you automate a guess",
-    "producthunt_url": "https://www.producthunt.com/products/make-it-rain-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/make-it-rain-3/launches/make-it-rain-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/NBTPVXUJ7GEE4O?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 13,
     "rating": 5.0,
@@ -60,27 +60,39 @@
     "launched": "2026-08-12T07:01:00Z"
   },
   {
+    "id": "1232215",
+    "name": "Play with Putty",
+    "tagline": "Simple, Collaborative Vibe Coding ",
+    "producthunt_url": "https://www.producthunt.com/products/google-labs?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/5MRPPFGW6AYSRV?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 110,
+    "rating": 5.0,
+    "review_count": 1,
+    "thumbnail": "https://ph-files.imgix.net/b31821c6-25a8-4f2e-b2dc-b787bafd1857.png?auto=format",
+    "launched": "2026-08-28T07:01:00Z"
+  },
+  {
     "id": "1227198",
     "name": "Knack MCP Server",
     "tagline": "The HIPAA-compliant backend for AI builders",
     "producthunt_url": "https://www.producthunt.com/products/knack?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/CDIFP6FEYGNTYR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 80,
+    "votes": 84,
     "rating": 5.0,
     "review_count": 1,
     "thumbnail": "https://ph-files.imgix.net/cf4557e1-ab1e-4ef8-9552-b0210a1b28fe.png?auto=format",
     "launched": "2026-08-26T07:01:00Z"
   },
   {
-    "id": "1206145",
-    "name": "NeoBuild",
-    "tagline": "From idea to a running app.",
-    "producthunt_url": "https://www.producthunt.com/products/neobuild-dev/launches/neobuild?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/63OZ2DJJCS76NO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 2,
-    "rating": 4.0,
+    "id": "1231917",
+    "name": "LoupeKit",
+    "tagline": "See what any page is built with and how much of it is AI",
+    "producthunt_url": "https://www.producthunt.com/products/loupekit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/ZBRDLU2AEVLCXD?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 102,
+    "rating": 5.0,
     "review_count": 1,
-    "thumbnail": "https://ph-files.imgix.net/66583da8-2c38-453d-99fa-b2f53340a27e.png?auto=format",
-    "launched": "2026-07-26T07:01:00Z"
+    "thumbnail": "https://ph-files.imgix.net/484e06f1-1bb3-405f-b101-10d5edb3d31a.png?auto=format",
+    "launched": "2026-08-26T07:01:00Z"
   }
 ]
