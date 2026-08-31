@@ -1,5 +1,18 @@
 [
   {
+    "title": "OpenAI leaving Cursor: \u201cDevelopers have to be prepared to adapt when it happens.\u201d",
+    "url": "https://thenewstack.io/openai-cuts-cursor-spacex/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/06/d62ce8ec-logan-voss-7melalyaj7a-unsplash-1024x576.jpg",
+    "excerpt": "OpenAI stated on Friday that it has notified SpaceX that it intends to wind down its contract providing OpenAI models The post OpenAI leaving Cursor\u2026",
+    "date": "2026-08-30",
+    "fetched_at": "2026-08-31"
+  },
+  {
     "title": "Claude, Codex, and Hermes installed unowned code inside corporate networks",
     "url": "https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/",
     "source": "Ars Technica AI",
