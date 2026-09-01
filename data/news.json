@@ -1,5 +1,70 @@
 [
   {
+    "title": "SpaceX is in an \u201cenviable position\u201d: why Anthropic is sticking with Cursor as OpenAI cuts access",
+    "url": "https://thenewstack.io/anthropic-spacex-cursor-compute-openai/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/08/13b518dc-getty-images-g1hetp1j-hw-unsplash-1024x635.jpg",
+    "excerpt": "OpenAI caused something of a stir over the weekend when it announced plans to cut Cursor\u2019s direct access to OpenAI The post SpaceX is in an \u201cenviable\u2026",
+    "date": "2026-08-31",
+    "fetched_at": "2026-09-01"
+  },
+  {
+    "title": "Cut coding agent token use with better tool output",
+    "url": "https://thenewstack.io/cut-coding-agent-tokens/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/08/f8d0733c-allison-saeng-gdchqo7x9oa-unsplash-1024x717.jpg",
+    "excerpt": "Before an AI coding agent writes a single line of code, it has already spent tokens. For example, on source The post Cut coding agent token use with better\u2026",
+    "date": "2026-08-31",
+    "fetched_at": "2026-09-01"
+  },
+  {
+    "title": "OpenAI Cursor split \ud83d\udc94, self-improving AI \ud83e\udde0, GPT-6 Astra \ud83d\ude80",
+    "url": "https://tldr.tech/ai/2026-08-31",
+    "source": "TLDR AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "",
+    "excerpt": "",
+    "date": "2026-08-31",
+    "fetched_at": "2026-09-01"
+  },
+  {
+    "title": "Aurora Ransomware Operators Use Cursor AI in Attacks Against 10 Targets",
+    "url": "https://thehackernews.com/2026/08/aurora-ransomware-operators-use-cursor.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHyB4qaQy8srcEIgc1oMi08PMKtoVFIsmW3ho_7f7rISFML8Kmz8jYzDE1FCN9Nfo4LvvgVFV_FEijgLbCrZcJ5zy7xlvAYTKuyGrcE0IU6yqEd-awlmOyRQ3FXcSeA5yM71NLDa5nxpj9taGnNiVXvCb_5tun5j3dfb6z8j7cmwQ2O0PE2V3y0oKWv6sB/s1600/cursor.jpg",
+    "excerpt": "Threat actors associated with Aurora (aka Aur0ra) ransomware have been observed using SpaceX's artificial intelligence (AI)-powered coding assistant Cursor to\u2026",
+    "date": "2026-08-31",
+    "fetched_at": "2026-09-01"
+  },
+  {
+    "title": "Securing Claude Code: The New Compliance API, Local Visibility, and Identity Governance",
+    "url": "https://thehackernews.com/2026/08/securing-claude-code-new-compliance-api.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEithkMoEFgk1IZj_h_hGp94DwzD4UyQGh2f-epiRD6fn_XcMyB44HkXe-7XaHzviE8sImzIctDBjibyY0Gdrt_OPFFeja3KnOd9KsPFP3PeTxUzlshseSyukl0-cmQWZctAeVQHTUpvW99C8FZrhCcwPDZWoYShfC9jTGqmj1Va2K-Mo2kK6GbSksGIbM4/s1600/dan.jpg",
+    "excerpt": "Claude Code reads files, runs shell commands, invokes MCP tools, and acts through the credentials available on a developer\u2019s machine. Anthropic\u2019s new\u2026",
+    "date": "2026-08-31",
+    "fetched_at": "2026-09-01"
+  },
+  {
     "title": "OpenAI leaving Cursor: \u201cDevelopers have to be prepared to adapt when it happens.\u201d",
     "url": "https://thenewstack.io/openai-cuts-cursor-spacex/",
     "source": "The New Stack",
@@ -11,6 +76,19 @@
     "excerpt": "OpenAI stated on Friday that it has notified SpaceX that it intends to wind down its contract providing OpenAI models The post OpenAI leaving Cursor\u2026",
     "date": "2026-08-30",
     "fetched_at": "2026-08-31"
+  },
+  {
+    "title": "Gemini Omni 1.1 \ud83c\udfac, Cohere Parse \ud83d\udcc4, Codex persistent mode \ud83d\udc68\u200d\ud83d\udcbb",
+    "url": "https://tldr.tech/ai/2026-08-28",
+    "source": "TLDR AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "",
+    "excerpt": "",
+    "date": "2026-08-28",
+    "fetched_at": "2026-09-01"
   },
   {
     "title": "Claude, Codex, and Hermes installed unowned code inside corporate networks",
@@ -156,6 +234,20 @@
     "fetched_at": "2026-08-19"
   },
   {
+    "title": "Cursor Origin \ud83d\udc68\u200d\ud83d\udcbb, Anthropic $65B revenue \ud83d\udcb0, deadline dividend scaling \ud83d\udcc8",
+    "url": "https://tldr.tech/ai/2026-08-18",
+    "source": "TLDR AI",
+    "categories": [
+      "Tools",
+      "Industry"
+    ],
+    "humanitarian_relevant": false,
+    "image": "",
+    "excerpt": "",
+    "date": "2026-08-18",
+    "fetched_at": "2026-09-01"
+  },
+  {
     "title": "SpaceX officially closes its Cursor acquisition",
     "url": "https://techcrunch.com/2026/08/15/spacex-officially-closes-its-cursor-acquisition/",
     "source": "TechCrunch AI",
@@ -209,6 +301,19 @@
     "excerpt": "Autonomous coding agents ignore contribution rules in open source communities, finds a new study from researchers at Peking University. That\u2019s The post Coding\u2026"
   },
   {
+    "title": "Cursor\u2019s GitHub rival \ud83d\udc68\u200d\ud83d\udcbb, OpenAI COO leaves \ud83d\udc4b, Gemini 1B milestone \ud83d\udcc8",
+    "url": "https://tldr.tech/ai/2026-08-12",
+    "source": "TLDR AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "",
+    "excerpt": "",
+    "date": "2026-08-12",
+    "fetched_at": "2026-09-01"
+  },
+  {
     "title": "OpenAI\u2019s ChatGPT/Codex desktop app is now on Linux",
     "url": "https://thenewstack.io/openais-chatgpt-desktop-linux/",
     "source": "The New Stack",
@@ -233,6 +338,19 @@
     "excerpt": "A malicious tool server connected to an AI coding assistant can quietly walk off with SSH keys, environment secrets, source code, and customer data without\u2026",
     "date": "2026-08-11",
     "fetched_at": "2026-08-14"
+  },
+  {
+    "title": "OpenAI Astra pause \ud83d\udea8, Claude Code cross-session \ud83e\udd16, how Cursor Router works \ud83d\udd00",
+    "url": "https://tldr.tech/ai/2026-08-10",
+    "source": "TLDR AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "",
+    "excerpt": "",
+    "date": "2026-08-10",
+    "fetched_at": "2026-09-01"
   },
   {
     "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
