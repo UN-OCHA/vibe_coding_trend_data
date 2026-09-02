@@ -1,5 +1,31 @@
 [
   {
+    "title": "Vibe-coded apps are the new shadow IT",
+    "url": "https://thenewstack.io/vibe-coded-shadow-it/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/4e1d0270-rick-rothenberg-ycowp1xppua-unsplash-1024x576.jpg",
+    "excerpt": "Shadow IT used to be a SaaS problem. Someone on the marketing team signed up for a tool, connected it The post Vibe-coded apps are the new shadow IT appeared\u2026",
+    "date": "2026-09-01",
+    "fetched_at": "2026-09-02"
+  },
+  {
+    "title": "Meta\u2019s Claude Code rival exits beta with three new subscription tiers \u2014 and it\u2019s pushing hard on price",
+    "url": "https://thenewstack.io/muse-code-sdk-pricing/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/93db7838-tri-wiranto-gfv_lfaayac-unsplash-1024x819.jpg",
+    "excerpt": "Meta has formally launched Muse Code out of beta, less than a month after first debuting the coding agent. Alongside The post Meta\u2019s Claude Code rival exits\u2026",
+    "date": "2026-09-01",
+    "fetched_at": "2026-09-02"
+  },
+  {
     "title": "SpaceX is in an \u201cenviable position\u201d: why Anthropic is sticking with Cursor as OpenAI cuts access",
     "url": "https://thenewstack.io/anthropic-spacex-cursor-compute-openai/",
     "source": "The New Stack",
