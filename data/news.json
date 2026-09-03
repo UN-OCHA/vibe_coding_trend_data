@@ -1,5 +1,18 @@
 [
   {
+    "title": "Malicious .git Configs Can Make Claude, Codex, Cursor, and Other AI Agents Run Attacker Code",
+    "url": "https://thehackernews.com/2026/09/malicious-git-configs-can-make-claude.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Risks"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhlrspu4otI5zjtu2q78NDrwnqfbTv4jzqXhH-txAo8pCjXDPRJjLvfWpRyHvbimqVvAOZWI0pMVmu2jWVdETbh2csa2UkMHx0M2uu9cJkB0_E4x1mjjs_1F9RYZjozZQvIYN5Xux43DX1u0jCQE_Pk19yE8BnR_RxXN-QXmP5jf74ZQgE9uQVUONJoQKQ/s1600/aix.gif",
+    "excerpt": "Manifold Security has disclosed eight security flaws across seven command-line AI coding agents in which a repository's own Git configuration names a command\u2026",
+    "date": "2026-09-02",
+    "fetched_at": "2026-09-03"
+  },
+  {
     "title": "Vibe-coded apps are the new shadow IT",
     "url": "https://thenewstack.io/vibe-coded-shadow-it/",
     "source": "The New Stack",
