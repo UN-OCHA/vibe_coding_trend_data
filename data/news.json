@@ -1,5 +1,18 @@
 [
   {
+    "title": "\u201cTwenty years of brand building simply froze in time\u201d: How coding agents select their tools of choice",
+    "url": "https://thenewstack.io/coding-agents-tool-choice/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/ac1e9f99-boliviainteligente-c2ldvfpf8n8-unsplash-1024x640.jpg",
+    "excerpt": "The impact of AI has led to a shift in interest from Search Engine Optimisation (SEO) to Answer Engine Optimisation The post \u201cTwenty years of brand building\u2026",
+    "date": "2026-09-07",
+    "fetched_at": "2026-09-08"
+  },
+  {
     "title": "Malicious .git Configs Can Make Claude, Codex, Cursor, and Other AI Agents Run Attacker Code",
     "url": "https://thehackernews.com/2026/09/malicious-git-configs-can-make-claude.html",
     "source": "The Hacker News",
