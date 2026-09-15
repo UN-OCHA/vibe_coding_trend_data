@@ -1,5 +1,44 @@
 [
   {
+    "title": "AI\u2019s best coding agent fails 60% of the time \u2014 and the data backs it up",
+    "url": "https://thenewstack.io/real-swe-coding-benchmark/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/dfa05177-steve-a-johnson-keb3ojgmkhy-unsplash-1024x576.jpg",
+    "excerpt": "Claude Fable 5.1 just won a new coding benchmark despite failing more than six out of 10 times. Its 38.8% The post AI\u2019s best coding agent fails 60% of the time\u2026",
+    "date": "2026-09-14",
+    "fetched_at": "2026-09-15"
+  },
+  {
+    "title": "Your AI coding spend bought 25% more output. Duplication rose 81%.",
+    "url": "https://thenewstack.io/ai-coding-duplication-rose/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/f6d1f3de-andania-humaira-qnobtvz6o6a-unsplash-1024x745.jpg",
+    "excerpt": "Since they arrived on the scene, a great swathe of the software industry has pinned its hopes on AI tools, The post Your AI coding spend bought 25% more\u2026",
+    "date": "2026-09-14",
+    "fetched_at": "2026-09-15"
+  },
+  {
+    "title": "Amodei slows frontier \ud83d\uded1, ARC-AGI-4 \ud83e\udde0, Cursor Projects \ud83d\udc68\u200d\ud83d\udcbb",
+    "url": "https://tldr.tech/ai/2026-09-14",
+    "source": "TLDR AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "",
+    "excerpt": "",
+    "date": "2026-09-14",
+    "fetched_at": "2026-09-15"
+  },
+  {
     "title": "\u201cSame mission, bigger stage\u201d: OpenAI hires Git AI founders to help Codex prove its ROI",
     "url": "https://thenewstack.io/openai-hires-git-ai/",
     "source": "The New Stack",
