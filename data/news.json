@@ -1,5 +1,18 @@
 [
   {
+    "title": "Anthropic\u2019s new Claude Code feature could drain your plan before lunch",
+    "url": "https://thenewstack.io/claude-code-parallel-projects/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/c8aa7919-logan-voss-_iiaxf2h1eu-unsplash-1024x576.jpg",
+    "excerpt": "Anthropic is giving Claude Code a new job: Manage other Claude Code sessions. Starting Thursday, Anthropic says select Claude Pro The post Anthropic\u2019s new\u2026",
+    "date": "2026-09-17",
+    "fetched_at": "2026-09-18"
+  },
+  {
     "title": "Attacker Hijacks AI Coding Assistant Session, Spreads Shai-Hulud Across About 100 Repositories",
     "url": "https://thehackernews.com/2026/09/attacker-hijacks-ai-coding-assistant.html",
     "source": "The Hacker News",
