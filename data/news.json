@@ -1,5 +1,18 @@
 [
   {
+    "title": "Plugin4Shell Lets Repository Owners Swap Pinned Plugin Code Across Four AI Coding Agents",
+    "url": "https://thehackernews.com/2026/09/plugin4shell-lets-repository-owners.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizNK9maRYTbrRVwr9_9b7Sm_IizPdRJh0AbH1GtKU1BNPrcxJydnUdRQxRxauE5p1ejpfk4ihANpP7HAoXbRCDD1Pu-ZZD1dnfzLFjysOSJm7gGRKYrkUjxVF-tX-0neJMQtN87iyk1DRD70hKKtFU_J6idWK4aoZr3k4DAz4q8pkjTfKTX10Vttaiwag/s1600/coding-agents.jpg",
+    "excerpt": "A flaw in four widely used AI coding agents lets someone who controls a plugin's code repository swap the plugin an agent installs for a malicious one, even\u2026",
+    "date": "2026-09-18",
+    "fetched_at": "2026-09-19"
+  },
+  {
     "title": "Anthropic\u2019s new Claude Code feature could drain your plan before lunch",
     "url": "https://thenewstack.io/claude-code-parallel-projects/",
     "source": "The New Stack",
