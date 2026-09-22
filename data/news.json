@@ -1,5 +1,31 @@
 [
   {
+    "title": "Grok Build vs. Claude Code: I tested which one has the better memory",
+    "url": "https://thenewstack.io/grok-build-vs-claude-code-memory/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/d366d70a-logan-voss-opnssaxft6y-unsplash-1024x576.jpg",
+    "excerpt": "On September 16, xAI announced memory in Grok Build, its terminal coding agent. The pitch was that Grok \u201ckeeps notes The post Grok Build vs. Claude Code: I\u2026",
+    "date": "2026-09-21",
+    "fetched_at": "2026-09-22"
+  },
+  {
+    "title": "AWS open-sources an AI agent it says is 45% cheaper than Claude Code and Codex",
+    "url": "https://thenewstack.io/aws-strands-harness-agent/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/aadba645-ubaid-e-alyafizi-hqmj4z9kizm-unsplash-1024x768.jpg",
+    "excerpt": "Amazon Web Services (AWS) is lifting the lid on a new open source, general-purpose AI agent, designed to give developers The post AWS open-sources an AI agent\u2026",
+    "date": "2026-09-21",
+    "fetched_at": "2026-09-22"
+  },
+  {
     "title": "Plugin4Shell Lets Repository Owners Swap Pinned Plugin Code Across Four AI Coding Agents",
     "url": "https://thehackernews.com/2026/09/plugin4shell-lets-repository-owners.html",
     "source": "The Hacker News",
