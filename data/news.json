@@ -1,5 +1,18 @@
 [
   {
+    "title": "AI coding agents need a secrets-safe context boundary",
+    "url": "https://thenewstack.io/ai-agent-context-boundary/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/59c46b68-spacepixel-creative-_maq2uzwyr4-unsplash-1024x576.jpg",
+    "excerpt": "AI coding agents play a major role in software development and delivery, and for good reason. They can investigate bugs, The post AI coding agents need a\u2026",
+    "date": "2026-09-22",
+    "fetched_at": "2026-09-23"
+  },
+  {
     "title": "Grok Build vs. Claude Code: I tested which one has the better memory",
     "url": "https://thenewstack.io/grok-build-vs-claude-code-memory/",
     "source": "The New Stack",
