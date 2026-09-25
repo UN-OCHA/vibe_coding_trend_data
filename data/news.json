@@ -1,5 +1,45 @@
 [
   {
+    "title": "Lovable\u2019s annualized revenue crosses $600M as vibe coding takes off",
+    "url": "https://techcrunch.com/2026/09/24/lovables-annualized-revenue-crosses-600m-as-vibe-coding-takes-off/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Industry"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2026/09/Fabin-Hedin-Lovable.jpg?resize=1200,675",
+    "excerpt": "Lovable co-founder Fabian Hedin said that apps created on the platform are getting nearly a billion monthly views each month.",
+    "date": "2026-09-24",
+    "fetched_at": "2026-09-25"
+  },
+  {
+    "title": "Cursor acquired Firetiger. A month later, it launched a bot that tracks code changes from PR to production.",
+    "url": "https://thenewstack.io/cursor-rollouts-firetiger-production/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools",
+      "Industry"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/e68a789e-public-domain-vectors-7pbb4kw8wyc-unsplash-1024x649.jpg",
+    "excerpt": "We all know that producing code is easier than ever thanks to the abundance of AI coding tools and agents. The post Cursor acquired Firetiger. A month later\u2026",
+    "date": "2026-09-24",
+    "fetched_at": "2026-09-25"
+  },
+  {
+    "title": "ThreatsDay: AI Search Poisoning, AI Coding Tool Leaking Repos, One-Click Code Execution and 13 More Stories",
+    "url": "https://thehackernews.com/2026/09/threatsday-ai-search-poisoning-ai.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQeh1uEFjgxcgPPJkrXkAnJxZRxA9_ZolFQXNONWmfMGLViusszn4KTiJ9-8_r-AV94NS5BQlZ5eOrFnTvinPXcJB_G4o_BEZdv7xXMdAqfvZPfiUzKjlE70q2V6C9ze8H58pqYh-suKm_Yu1q3LoevignMd7nfjbjV7qx_vEad6BEFKUHwV5UlTFW1-dh/s1600/threatsday-sep.jpg",
+    "excerpt": "This week, the dangerous stuff keeps arriving dressed as something boring. An update. A login box. A search answer. A coding tool. A link you have clicked a\u2026",
+    "date": "2026-09-24",
+    "fetched_at": "2026-09-25"
+  },
+  {
     "title": "AI coding agents need a secrets-safe context boundary",
     "url": "https://thenewstack.io/ai-agent-context-boundary/",
     "source": "The New Stack",
