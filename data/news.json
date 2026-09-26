@@ -1,5 +1,18 @@
 [
   {
+    "title": "OpenAI and Cursor agree on agent coordinators. They disagree on who runs them.",
+    "url": "https://thenewstack.io/openai-cursor-coordinator-agents/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/d6e7dae7-ilgmyzin-fzh0x9s28cy-unsplash-1024x640.jpg",
+    "excerpt": "OpenAI opened its Agents API in public beta this month, exposing the harness that powers Codex with managed sessions, tool The post OpenAI and Cursor agree on\u2026",
+    "date": "2026-09-25",
+    "fetched_at": "2026-09-26"
+  },
+  {
     "title": "Lovable\u2019s annualized revenue crosses $600M as vibe coding takes off",
     "url": "https://techcrunch.com/2026/09/24/lovables-annualized-revenue-crosses-600m-as-vibe-coding-takes-off/",
     "source": "TechCrunch AI",
