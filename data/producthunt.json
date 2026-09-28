@@ -1,15 +1,171 @@
 [
   {
-    "id": "1255339",
-    "name": "DevDeck",
-    "tagline": "Build, launch, and run full-stack apps with AI",
-    "producthunt_url": "https://www.producthunt.com/products/devdeck?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/ZTQ3BJ2TSC77JL?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "id": "1259351",
+    "name": "Pebrel",
+    "tagline": "The AI-native terminal that supercharges your CLI workflows.",
+    "producthunt_url": "https://www.producthunt.com/products/github-519?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/B4WBLM6JGV5OXW?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 1,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/a1e313b6-88bc-4940-96c0-292c086ef657.vnd.microsoft.icon?auto=format",
-    "launched": "2026-09-20T07:01:00Z"
+    "thumbnail": "https://ph-files.imgix.net/6325aafd-80bd-4cc4-af00-fd7c7be91be8.png?auto=format",
+    "launched": "2026-09-27T07:01:00Z"
+  },
+  {
+    "id": "1256462",
+    "name": "Shipcheck",
+    "tagline": "Pre-flight security scanner for vibe-coded apps",
+    "producthunt_url": "https://www.producthunt.com/products/shipcheck-4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/6HSTVA4KAS6N65?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/032070a6-3289-469f-9495-5a9d4831b0f7.jpeg?auto=format",
+    "launched": "2026-09-26T07:01:00Z"
+  },
+  {
+    "id": "1260534",
+    "name": "Octopus Review",
+    "tagline": "Ship code fast with no bug",
+    "producthunt_url": "https://www.producthunt.com/products/octopus-5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/JAOCSOKBW6N36K?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 4,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/b15c2365-8d05-4132-8199-477fb1e6dd14.png?auto=format",
+    "launched": "2026-09-25T07:01:00Z"
+  },
+  {
+    "id": "1257927",
+    "name": "mydevstack",
+    "tagline": "One stop shop for running your JavaScript work",
+    "producthunt_url": "https://www.producthunt.com/products/mydevstack?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/24VXTFP42VBPKK?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/ec6fd27c-e516-4b44-8ab5-126b5c0bcf4c.svg?auto=format",
+    "launched": "2026-09-24T07:01:00Z"
+  },
+  {
+    "id": "1259299",
+    "name": "Cooldown MMO",
+    "tagline": "api, actions, http",
+    "producthunt_url": "https://www.producthunt.com/products/cooldown-mmo?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/X7MFUYPNQHHHLA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/7700d7e1-49d1-461d-adf0-59eac0b99adf.png?auto=format",
+    "launched": "2026-09-24T07:01:00Z"
+  },
+  {
+    "id": "1259109",
+    "name": "Blacdisk",
+    "tagline": "Stop burning Claude Code Tokens/Usage quickly and Save Money",
+    "producthunt_url": "https://www.producthunt.com/products/blacdisk?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/DQUR3Y6MYGGQHQ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/e443730b-c490-4c12-a520-9a66cf67eaa2.png?auto=format",
+    "launched": "2026-09-24T07:01:00Z"
+  },
+  {
+    "id": "1257407",
+    "name": "Capacity Desktop",
+    "tagline": "Build real apps on your Mac with your Claude or ChatGPT plan",
+    "producthunt_url": "https://www.producthunt.com/products/capacity?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/NVVKGA2LPQBHA7?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 16,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/4a00c723-c329-4e83-9d0a-d7bfcc7649e6.png?auto=format",
+    "launched": "2026-09-23T07:01:00Z"
+  },
+  {
+    "id": "1256923",
+    "name": "Cadrant",
+    "tagline": "Build web and native mobile apps in the blink of an eye",
+    "producthunt_url": "https://www.producthunt.com/products/cadrant?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/6Q2JYSGV2VRA2F?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/bedc270e-4d21-4878-9f1a-c67773a9dfef.png?auto=format",
+    "launched": "2026-09-22T07:01:00Z"
+  },
+  {
+    "id": "1255038",
+    "name": "AppNative.io",
+    "tagline": "Turn any web app into a native iOS and Android app",
+    "producthunt_url": "https://www.producthunt.com/products/appnative-io?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/7AEF4DCRU3CIHG?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/538d5dc1-e411-4e2b-90a8-b5e2d018523e.png?auto=format",
+    "launched": "2026-09-22T07:01:00Z"
+  },
+  {
+    "id": "1257693",
+    "name": "VibeSane",
+    "tagline": "Vibecoding Fixed",
+    "producthunt_url": "https://www.producthunt.com/products/vibesane?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/NS7TRYQN7VXEDA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/9cc4b723-e186-4b87-bd0f-5e556a9746c1.png?auto=format",
+    "launched": "2026-09-22T07:01:00Z"
+  },
+  {
+    "id": "1189198",
+    "name": "WeWeb MCP",
+    "tagline": "Your AI agent builds the app. You stay in control.",
+    "producthunt_url": "https://www.producthunt.com/products/weweb-io?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/RTC37K6TSMDRZJ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 107,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/834f5660-487d-40c4-b51a-4e54ca48b892.png?auto=format",
+    "launched": "2026-09-22T07:01:00Z"
+  },
+  {
+    "id": "1257344",
+    "name": "Sitejar MCP Server",
+    "tagline": "Your AI agent scans the page it built, then fixes it",
+    "producthunt_url": "https://www.producthunt.com/products/sitejar?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/D66KBULJP3JBSG?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/3fec99ce-c03f-4bba-8ec2-6bf888e785f4.svg?auto=format",
+    "launched": "2026-09-22T07:01:00Z"
+  },
+  {
+    "id": "1257817",
+    "name": "Tim's Markdown Reader",
+    "tagline": "A free, offline Markdown viewer for Mac. Open, read, close.",
+    "producthunt_url": "https://www.producthunt.com/products/tim-s-markdown-reader?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/FTDGOAZZJBDWDO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/6b8dafbb-43cb-404d-82ef-b634abd5456d.png?auto=format",
+    "launched": "2026-09-22T07:01:00Z"
+  },
+  {
+    "id": "1255563",
+    "name": "GnamiAI",
+    "tagline": "Run AI Agents on your own files",
+    "producthunt_url": "https://www.producthunt.com/products/gnamiai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/6N5IJ3N3PJS6WF?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/a6477f49-284f-4d05-aa70-b9b322b221f5.png?auto=format",
+    "launched": "2026-09-21T07:01:00Z"
   },
   {
     "id": "1250548",
@@ -24,12 +180,60 @@
     "launched": "2026-09-20T07:01:00Z"
   },
   {
+    "id": "1255339",
+    "name": "DevDeck",
+    "tagline": "Build, launch, and run full-stack apps with AI",
+    "producthunt_url": "https://www.producthunt.com/products/devdeck?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/ZTQ3BJ2TSC77JL?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/a1e313b6-88bc-4940-96c0-292c086ef657.vnd.microsoft.icon?auto=format",
+    "launched": "2026-09-20T07:01:00Z"
+  },
+  {
+    "id": "1254658",
+    "name": "System One Models",
+    "tagline": "Independent directory for System One AI models and examples.",
+    "producthunt_url": "https://www.producthunt.com/products/system-one-models?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/MKO5NMBTBS4FXK?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/b5fa0cc7-6d5d-4f42-a72a-7b894cd35b2f.png?auto=format",
+    "launched": "2026-09-19T07:01:00Z"
+  },
+  {
+    "id": "1252832",
+    "name": "Bolt Forge",
+    "tagline": "Bolt's new agent with open-source models and 50X usage",
+    "producthunt_url": "https://www.producthunt.com/products/bolt-new?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/4A3VQBDVIUMA2D?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 248,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/140d2f3b-6da7-4454-8631-f619f00bc6d6.vnd.microsoft.icon?auto=format",
+    "launched": "2026-09-19T07:01:00Z"
+  },
+  {
+    "id": "1254858",
+    "name": "RepoHop",
+    "tagline": "Go between Grok Bot, Muse & others on the same local repo.",
+    "producthunt_url": "https://www.producthunt.com/products/repohop?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/PBQU6OZ7SVGWC2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/c29d529a-2dd1-451e-91d1-735db2214779.png?auto=format",
+    "launched": "2026-09-19T07:01:00Z"
+  },
+  {
     "id": "1253535",
     "name": "Clixad",
     "tagline": "Free AI coding agent for your terminal, no subscription",
     "producthunt_url": "https://www.producthunt.com/products/clixad?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/Y6O6YPZHJT6INB?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 4,
+    "votes": 3,
     "rating": null,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/c000a7fd-edd6-402f-9c05-06aeb02ca9ea.svg?auto=format",
@@ -48,18 +252,6 @@
     "launched": "2026-09-19T07:01:00Z"
   },
   {
-    "id": "1254658",
-    "name": "System One Models",
-    "tagline": "Independent directory for System One AI models and examples.",
-    "producthunt_url": "https://www.producthunt.com/products/system-one-models?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/MKO5NMBTBS4FXK?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 1,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/b5fa0cc7-6d5d-4f42-a72a-7b894cd35b2f.png?auto=format",
-    "launched": "2026-09-19T07:01:00Z"
-  },
-  {
     "id": "1254972",
     "name": "Marky",
     "tagline": "The Markdown-friendly clipboard for Mac",
@@ -72,16 +264,28 @@
     "launched": "2026-09-19T07:01:00Z"
   },
   {
-    "id": "1252832",
-    "name": "Bolt Forge",
-    "tagline": "Bolt's new agent with open-source models and 50X usage",
-    "producthunt_url": "https://www.producthunt.com/products/bolt-new?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/4A3VQBDVIUMA2D?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 240,
+    "id": "1251913",
+    "name": "Web Frames",
+    "tagline": "See what you designed, built, and where they drift apart",
+    "producthunt_url": "https://www.producthunt.com/products/web-frames?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/W4AMKAE4TU4QAP?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/140d2f3b-6da7-4454-8631-f619f00bc6d6.vnd.microsoft.icon?auto=format",
-    "launched": "2026-09-19T07:01:00Z"
+    "thumbnail": "https://ph-files.imgix.net/581e8bc7-01ba-48c3-b17f-afffc7e3cdc7.png?auto=format",
+    "launched": "2026-09-18T07:01:00Z"
+  },
+  {
+    "id": "1253144",
+    "name": "Ramus",
+    "tagline": "Cloud Android emulators for faster development and testing",
+    "producthunt_url": "https://www.producthunt.com/products/ramus?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/N3DMDO5YYZXDDM?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 7,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/05c83e26-5396-437d-a688-4ad1231caeb6.vnd.microsoft.icon?auto=format",
+    "launched": "2026-09-18T07:01:00Z"
   },
   {
     "id": "1248934",
@@ -93,42 +297,6 @@
     "rating": null,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/13023879-50fb-4fea-a353-1e955cf2f377.png?auto=format",
-    "launched": "2026-09-18T07:01:00Z"
-  },
-  {
-    "id": "1253144",
-    "name": "Ramus",
-    "tagline": "Cloud Android emulators for faster development and testing",
-    "producthunt_url": "https://www.producthunt.com/products/ramus?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/N3DMDO5YYZXDDM?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 8,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/05c83e26-5396-437d-a688-4ad1231caeb6.vnd.microsoft.icon?auto=format",
-    "launched": "2026-09-18T07:01:00Z"
-  },
-  {
-    "id": "1254357",
-    "name": "CleanSlop",
-    "tagline": "Ship vibe-coded apps with confidence",
-    "producthunt_url": "https://www.producthunt.com/products/cleanslop?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/36AELTZDEFNTFR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 10,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/c6c94f04-fe5b-421a-8411-673ad120675e.png?auto=format",
-    "launched": "2026-09-18T07:01:00Z"
-  },
-  {
-    "id": "1253432",
-    "name": "SMS AI",
-    "tagline": "Unified multi-pane AI workspace for code, research & docs",
-    "producthunt_url": "https://www.producthunt.com/products/sms-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/5UPKGIHPJWRNY4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 1,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/9e024752-2a04-4636-95fc-c8cf8db00723.png?auto=format",
     "launched": "2026-09-18T07:01:00Z"
   },
   {
@@ -156,15 +324,15 @@
     "launched": "2026-09-18T07:01:00Z"
   },
   {
-    "id": "1251913",
-    "name": "Web Frames",
-    "tagline": "See what you designed, built, and where they drift apart",
-    "producthunt_url": "https://www.producthunt.com/products/web-frames?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/W4AMKAE4TU4QAP?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 1,
+    "id": "1254357",
+    "name": "CleanSlop",
+    "tagline": "Ship vibe-coded apps with confidence",
+    "producthunt_url": "https://www.producthunt.com/products/cleanslop?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/36AELTZDEFNTFR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 10,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/581e8bc7-01ba-48c3-b17f-afffc7e3cdc7.png?auto=format",
+    "thumbnail": "https://ph-files.imgix.net/c6c94f04-fe5b-421a-8411-673ad120675e.png?auto=format",
     "launched": "2026-09-18T07:01:00Z"
   },
   {
@@ -180,28 +348,28 @@
     "launched": "2026-09-18T07:01:00Z"
   },
   {
+    "id": "1253432",
+    "name": "SMS AI",
+    "tagline": "Unified multi-pane AI workspace for code, research & docs",
+    "producthunt_url": "https://www.producthunt.com/products/sms-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/5UPKGIHPJWRNY4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/9e024752-2a04-4636-95fc-c8cf8db00723.png?auto=format",
+    "launched": "2026-09-18T07:01:00Z"
+  },
+  {
     "id": "1240456",
     "name": "Modaal for Android",
     "tagline": "Ship on both stores from one project using Swift + Kotlin",
     "producthunt_url": "https://www.producthunt.com/products/modaal-ai-agent-for-ios-android-native?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/G7X3BUMPYOSFCT?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 306,
+    "votes": 313,
     "rating": null,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/369c8705-67c7-49ce-bd5f-fd5e25885775.gif?auto=format",
     "launched": "2026-09-17T07:01:00Z"
-  },
-  {
-    "id": "1251370",
-    "name": "New Lotus Weather",
-    "tagline": "A major update",
-    "producthunt_url": "https://www.producthunt.com/products/lotus-weather?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/NFUOAMXIFLKU74?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 1,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/0c0d7056-fc57-4b40-8d26-045ef4701244.png?auto=format",
-    "launched": "2026-09-16T07:01:00Z"
   },
   {
     "id": "1251749",
@@ -213,6 +381,18 @@
     "rating": null,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/4b8574ea-a343-443c-a45f-de9e625ddcfd.vnd.microsoft.icon?auto=format",
+    "launched": "2026-09-16T07:01:00Z"
+  },
+  {
+    "id": "1251370",
+    "name": "New Lotus Weather",
+    "tagline": "A major update",
+    "producthunt_url": "https://www.producthunt.com/products/lotus-weather?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/NFUOAMXIFLKU74?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/0c0d7056-fc57-4b40-8d26-045ef4701244.png?auto=format",
     "launched": "2026-09-16T07:01:00Z"
   },
   {
@@ -240,15 +420,15 @@
     "launched": "2026-09-16T07:01:00Z"
   },
   {
-    "id": "1249329",
-    "name": "EmbAI",
-    "tagline": "AI-native STM32 IDE: from schematic to firmware",
-    "producthunt_url": "https://www.producthunt.com/products/embai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/RIXAVV2KAZLXDJ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "id": "1249486",
+    "name": "ProofStack",
+    "tagline": "The Vibe Coding SuperApp",
+    "producthunt_url": "https://www.producthunt.com/products/proofstack-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/TQ4LI3GUT5LAPB?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 1,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/077c609c-740b-4872-bcb6-f6c106222c72.png?auto=format",
+    "thumbnail": "https://ph-files.imgix.net/a9a0a917-e603-4752-8c87-01038d42caf4.png?auto=format",
     "launched": "2026-09-14T07:01:00Z"
   },
   {
@@ -264,18 +444,6 @@
     "launched": "2026-09-14T07:01:00Z"
   },
   {
-    "id": "1249486",
-    "name": "ProofStack",
-    "tagline": "The Vibe Coding SuperApp",
-    "producthunt_url": "https://www.producthunt.com/products/proofstack-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/TQ4LI3GUT5LAPB?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 1,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/a9a0a917-e603-4752-8c87-01038d42caf4.png?auto=format",
-    "launched": "2026-09-14T07:01:00Z"
-  },
-  {
     "id": "1249353",
     "name": "VibeTrash",
     "tagline": "Built with AI. Judged as trash. ",
@@ -288,15 +456,63 @@
     "launched": "2026-09-14T07:01:00Z"
   },
   {
+    "id": "1249329",
+    "name": "EmbAI",
+    "tagline": "AI-native STM32 IDE: from schematic to firmware",
+    "producthunt_url": "https://www.producthunt.com/products/embai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/RIXAVV2KAZLXDJ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/077c609c-740b-4872-bcb6-f6c106222c72.png?auto=format",
+    "launched": "2026-09-14T07:01:00Z"
+  },
+  {
+    "id": "1248981",
+    "name": "Lotus weather",
+    "tagline": "vibe coding",
+    "producthunt_url": "https://www.producthunt.com/products/lotus-weather/launches/lotus-weather?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/PHTBJFJPSCI7K5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/0c0d7056-fc57-4b40-8d26-045ef4701244.png?auto=format",
+    "launched": "2026-09-13T07:01:00Z"
+  },
+  {
     "id": "1248863",
     "name": "AstraCode",
     "tagline": "An AI code editor that checks its own work",
-    "producthunt_url": "https://www.producthunt.com/products/astracode?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/astracode/launches/astracode?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/HEWFXDWU53MOHA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 2,
     "rating": null,
     "review_count": 0,
     "thumbnail": "https://ph-files.imgix.net/bd17051e-305c-4b46-847b-f3167e453e7f.png?auto=format",
+    "launched": "2026-09-13T07:01:00Z"
+  },
+  {
+    "id": "1248863",
+    "name": "AstraCode",
+    "tagline": "An AI code editor that checks its own work",
+    "producthunt_url": "https://www.producthunt.com/products/astracode/launches/astracode?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/HEWFXDWU53MOHA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/bd17051e-305c-4b46-847b-f3167e453e7f.png?auto=format",
+    "launched": "2026-09-13T07:01:00Z"
+  },
+  {
+    "id": "1248981",
+    "name": "Lotus weather",
+    "tagline": "vibe coding",
+    "producthunt_url": "https://www.producthunt.com/products/lotus-weather/launches/lotus-weather?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/PHTBJFJPSCI7K5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/0c0d7056-fc57-4b40-8d26-045ef4701244.png?auto=format",
     "launched": "2026-09-13T07:01:00Z"
   },
   {
@@ -312,18 +528,6 @@
     "launched": "2026-09-13T07:01:00Z"
   },
   {
-    "id": "1248981",
-    "name": "Lotus weather",
-    "tagline": "vibe coding",
-    "producthunt_url": "https://www.producthunt.com/products/lotus-weather?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/PHTBJFJPSCI7K5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 1,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/0c0d7056-fc57-4b40-8d26-045ef4701244.png?auto=format",
-    "launched": "2026-09-13T07:01:00Z"
-  },
-  {
     "id": "1248532",
     "name": "Portable-handoff",
     "tagline": "Stop explaining your project every time you switch AI tools.",
@@ -336,22 +540,10 @@
     "launched": "2026-09-13T07:01:00Z"
   },
   {
-    "id": "1236140",
-    "name": "prodcheck",
-    "tagline": "The checklist you wish someone had given you before launch.",
-    "producthunt_url": "https://www.producthunt.com/products/prodcheck?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/QUU6GQDOC74JJ6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 2,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/be4f9ea5-08e3-4de0-b262-832cf75fb003.svg?auto=format",
-    "launched": "2026-09-12T07:01:00Z"
-  },
-  {
     "id": "1248079",
     "name": "PropelCode: Your IDE, In Your Pocket",
     "tagline": "Built by and for developers with life outside their laptop.",
-    "producthunt_url": "https://www.producthunt.com/products/propelcode-your-ide-in-your-pocket?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/propelcode-your-ide-in-your-pocket/launches/propelcode-your-ide-in-your-pocket-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/LMR5WTFLDAOH5V?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 1,
     "rating": null,
@@ -360,22 +552,10 @@
     "launched": "2026-09-12T07:01:00Z"
   },
   {
-    "id": "1247349",
-    "name": "WTMemory",
-    "tagline": "Know what's eating your Mac. Fix it.",
-    "producthunt_url": "https://www.producthunt.com/products/wtmemory?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/2N6RAZTK5OA5KA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 4,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/04f28d6c-e7e3-4088-aeae-bc001abf8b8b.png?auto=format",
-    "launched": "2026-09-12T07:01:00Z"
-  },
-  {
     "id": "1247649",
     "name": "Kodwala",
     "tagline": "Kodwala Launch!!!",
-    "producthunt_url": "https://www.producthunt.com/products/kodwala?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/kodwala/launches/kodwala?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/Y5BQQ7QNN6DUTE?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 3,
     "rating": null,
@@ -384,22 +564,34 @@
     "launched": "2026-09-12T07:01:00Z"
   },
   {
-    "id": "1246517",
-    "name": "iubenda MCP",
-    "tagline": "Website legal compliance, done in conversation",
-    "producthunt_url": "https://www.producthunt.com/products/iubenda?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/25TIGTHTD52MOI?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "id": "1247349",
+    "name": "WTMemory",
+    "tagline": "Know what's eating your Mac. Fix it.",
+    "producthunt_url": "https://www.producthunt.com/products/wtmemory/launches/wtmemory?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/2N6RAZTK5OA5KA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 4,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/8bf2d380-ec40-4127-b38b-3619a3d5b559.png?auto=format",
-    "launched": "2026-09-11T07:01:00Z"
+    "thumbnail": "https://ph-files.imgix.net/04f28d6c-e7e3-4088-aeae-bc001abf8b8b.png?auto=format",
+    "launched": "2026-09-12T07:01:00Z"
+  },
+  {
+    "id": "1236140",
+    "name": "prodcheck",
+    "tagline": "The checklist you wish someone had given you before launch.",
+    "producthunt_url": "https://www.producthunt.com/products/prodcheck/launches/prodcheck?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/QUU6GQDOC74JJ6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 2,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/be4f9ea5-08e3-4de0-b262-832cf75fb003.svg?auto=format",
+    "launched": "2026-09-12T07:01:00Z"
   },
   {
     "id": "1246344",
     "name": "Billr",
     "tagline": "Instant Invoicing. No Account. No Cloud.",
-    "producthunt_url": "https://www.producthunt.com/products/billr?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/billr/launches/billr-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/KFJCEQP37PHG77?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 1,
     "rating": null,
@@ -408,10 +600,22 @@
     "launched": "2026-09-11T07:01:00Z"
   },
   {
+    "id": "1246517",
+    "name": "iubenda MCP",
+    "tagline": "Website legal compliance, done in conversation",
+    "producthunt_url": "https://www.producthunt.com/products/iubenda/launches/iubenda-mcp?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/25TIGTHTD52MOI?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 4,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/8bf2d380-ec40-4127-b38b-3619a3d5b559.png?auto=format",
+    "launched": "2026-09-11T07:01:00Z"
+  },
+  {
     "id": "1224919",
     "name": "Viso Now",
     "tagline": "Build computer vision applications with AI",
-    "producthunt_url": "https://www.producthunt.com/products/viso-now?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/viso-now/launches/viso-now-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/3TSMZA7HJGSUDY?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 106,
     "rating": null,
@@ -420,22 +624,10 @@
     "launched": "2026-09-10T07:01:00Z"
   },
   {
-    "id": "1218681",
-    "name": "repolint",
-    "tagline": "cleaning lint, byte at a time.",
-    "producthunt_url": "https://www.producthunt.com/products/repolint?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/Y44ADSMG2HAQ2O?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 1,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/56bfcb77-996f-42ba-95de-ee134232062a.svg?auto=format",
-    "launched": "2026-09-09T07:01:00Z"
-  },
-  {
     "id": "1244472",
     "name": "Clidex",
     "tagline": "Native Claude & Codex: stable, flexible, free.",
-    "producthunt_url": "https://www.producthunt.com/products/clidex?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/clidex/launches/clidex?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/27IGLF7DIFMG3K?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 1,
     "rating": null,
@@ -444,22 +636,10 @@
     "launched": "2026-09-09T07:01:00Z"
   },
   {
-    "id": "1245146",
-    "name": "Considered Design Skill",
-    "tagline": "A design-reasoning skill for AI coding agents.",
-    "producthunt_url": "https://www.producthunt.com/products/considered-design-skill?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/2XUJP45GRGT5GF?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 3,
-    "rating": null,
-    "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/66af11d9-c36f-44f4-8ba3-c44610dc238e.svg?auto=format",
-    "launched": "2026-09-09T07:01:00Z"
-  },
-  {
     "id": "1244494",
     "name": "Rejn supreme - by localilabs",
     "tagline": "Make your own weather features with our api using ai",
-    "producthunt_url": "https://www.producthunt.com/products/rejn-2-0?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/rejn-2-0/launches/rejn-supreme-by-localilabs?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/B3K4GQNTQDKUAJ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 3,
     "rating": null,
@@ -468,34 +648,34 @@
     "launched": "2026-09-09T07:01:00Z"
   },
   {
-    "id": "1232668",
-    "name": "Leefy",
-    "tagline": "A visual AI planning tool that brings an idea to life.",
-    "producthunt_url": "https://www.producthunt.com/products/leefy-grow-the-plan-ship-the-product?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/KKZS7VSKP2M7I3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 2,
+    "id": "1245146",
+    "name": "Considered Design Skill",
+    "tagline": "A design-reasoning skill for AI coding agents.",
+    "producthunt_url": "https://www.producthunt.com/products/considered-design-skill/launches/considered-design-skill?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/2XUJP45GRGT5GF?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/e97f2209-3b02-480a-9eb4-af5ea3d9897a.png?auto=format",
-    "launched": "2026-09-08T07:01:00Z"
+    "thumbnail": "https://ph-files.imgix.net/66af11d9-c36f-44f4-8ba3-c44610dc238e.svg?auto=format",
+    "launched": "2026-09-09T07:01:00Z"
   },
   {
-    "id": "1244124",
-    "name": "Cuppd iOS app",
-    "tagline": "Delivering specialty coffee discovery to your pocket",
-    "producthunt_url": "https://www.producthunt.com/products/cuppd-specialty-coffee-discovery?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/I3A2NGCWDGO5TC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "id": "1218681",
+    "name": "repolint",
+    "tagline": "cleaning lint, byte at a time.",
+    "producthunt_url": "https://www.producthunt.com/products/repolint/launches/repolint?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/Y44ADSMG2HAQ2O?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 1,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/651db51f-1cb4-4d71-beb2-5ebc4f34d131.jpeg?auto=format",
-    "launched": "2026-09-08T07:01:00Z"
+    "thumbnail": "https://ph-files.imgix.net/56bfcb77-996f-42ba-95de-ee134232062a.svg?auto=format",
+    "launched": "2026-09-09T07:01:00Z"
   },
   {
     "id": "1244330",
     "name": "Liang",
     "tagline": "Know when your AI agent is thinking, waiting, or done.",
-    "producthunt_url": "https://www.producthunt.com/products/liang?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/liang/launches/liang?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/WVTLDSA2Y3DM2Y?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 2,
     "rating": null,
@@ -507,7 +687,7 @@
     "id": "1232668",
     "name": "Leefy",
     "tagline": "A visual AI planning tool that brings an idea to life.",
-    "producthunt_url": "https://www.producthunt.com/products/leefy-grow-the-plan-ship-the-product?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/leefy-grow-the-plan-ship-the-product/launches/leefy?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/KKZS7VSKP2M7I3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 2,
     "rating": null,
@@ -516,22 +696,34 @@
     "launched": "2026-09-08T07:01:00Z"
   },
   {
-    "id": "1243444",
-    "name": "Escape AI",
-    "tagline": "The AI coding agent that lives in your workspace",
-    "producthunt_url": "https://www.producthunt.com/products/escape-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/DCUYG56X7UCQRR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "id": "1243998",
+    "name": "AgentEdit",
+    "tagline": "Let Coding-Agents know what their code changes will break",
+    "producthunt_url": "https://www.producthunt.com/products/agentedit/launches/agentedit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/XCETHKP5HDO5AZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 2,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/5883b137-a0f3-47d0-ae9e-fad76abae935.png?auto=format",
+    "thumbnail": "https://ph-files.imgix.net/60d89768-396f-4cd3-ad2f-ad561ff20da4.svg?auto=format",
+    "launched": "2026-09-08T07:01:00Z"
+  },
+  {
+    "id": "1244124",
+    "name": "Cuppd iOS app",
+    "tagline": "Delivering specialty coffee discovery to your pocket",
+    "producthunt_url": "https://www.producthunt.com/products/cuppd-specialty-coffee-discovery/launches/cuppd-ios-app?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/I3A2NGCWDGO5TC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 1,
+    "rating": null,
+    "review_count": 0,
+    "thumbnail": "https://ph-files.imgix.net/651db51f-1cb4-4d71-beb2-5ebc4f34d131.jpeg?auto=format",
     "launched": "2026-09-08T07:01:00Z"
   },
   {
     "id": "1243644",
     "name": "Code Security",
     "tagline": "AI Powered Code Security App",
-    "producthunt_url": "https://www.producthunt.com/products/code-security?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/code-security/launches/code-security?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/3Y7H7RTSAAFS42?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 2,
     "rating": null,
@@ -540,15 +732,15 @@
     "launched": "2026-09-08T07:01:00Z"
   },
   {
-    "id": "1243998",
-    "name": "AgentEdit",
-    "tagline": "Let Coding-Agents know what their code changes will break",
-    "producthunt_url": "https://www.producthunt.com/products/agentedit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/XCETHKP5HDO5AZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "id": "1243444",
+    "name": "Escape AI",
+    "tagline": "The AI coding agent that lives in your workspace",
+    "producthunt_url": "https://www.producthunt.com/products/escape-ai/launches/escape-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/DCUYG56X7UCQRR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 2,
     "rating": null,
     "review_count": 0,
-    "thumbnail": "https://ph-files.imgix.net/60d89768-396f-4cd3-ad2f-ad561ff20da4.svg?auto=format",
+    "thumbnail": "https://ph-files.imgix.net/5883b137-a0f3-47d0-ae9e-fad76abae935.png?auto=format",
     "launched": "2026-09-08T07:01:00Z"
   },
   {
