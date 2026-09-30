@@ -1,5 +1,18 @@
 [
   {
+    "title": "OpenAI gives Codex reusable cloud environments that work across devices",
+    "url": "https://techcrunch.com/2026/09/29/openai-gives-codex-reusable-cloud-environments-that-work-across-devices/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2026/07/OpenAI-logo-green.jpg?w=1024",
+    "excerpt": "OpenAI is expanding Codex with reusable cloud development environments, a revamped CLI with voice controls, new code review tools, and a security-focused\u2026",
+    "date": "2026-09-29",
+    "fetched_at": "2026-09-30"
+  },
+  {
     "title": "OpenAI and Cursor agree on agent coordinators. They disagree on who runs them.",
     "url": "https://thenewstack.io/openai-cursor-coordinator-agents/",
     "source": "The New Stack",
