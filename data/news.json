@@ -1,5 +1,18 @@
 [
   {
+    "title": "AI Coding Agents Exposed 13,000 Internal Images, Including Billing Records, on GitHub",
+    "url": "https://thehackernews.com/2026/09/ai-coding-agents-exposed-13000-internal.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhqbuWmNSxYv66udOpYi9NRKukBSDiTroF54tDrBaVYBBTfDC7PMMr26tRoFatdmmRPsPy3MCdoUNLr8YN9mC2ni3pvDWfBNsoKz12evoNrZggcUI4izEc7-hEAr_2wFv4IInBnon19PcEPSXlJU-AMahLHFNAk_5FiVbV7EhfdiLKHcUc8Tiso63xca2c/s1600/git-images.jpg",
+    "excerpt": "AI coding agents asked to share screenshots of code changes for review have put internal company images in public GitHub repositories, security company Glow\u2026",
+    "date": "2026-09-30",
+    "fetched_at": "2026-10-01"
+  },
+  {
     "title": "OpenAI gives Codex reusable cloud environments that work across devices",
     "url": "https://techcrunch.com/2026/09/29/openai-gives-codex-reusable-cloud-environments-that-work-across-devices/",
     "source": "TechCrunch AI",
