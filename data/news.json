@@ -1,5 +1,18 @@
 [
   {
+    "title": "AI coding agents leaked 13,000 screenshots, and nobody hacked them.",
+    "url": "https://thenewstack.io/coding-agents-leaked-screenshots/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/09/669492b7-mariola-grobelska-mm0ratz7ogg-unsplash-1024x655.jpg",
+    "excerpt": "AI coding agents trying to work around a limitation in GitHub\u2019s command-line tool ended up publishing more than 13,000 internal The post AI coding agents\u2026",
+    "date": "2026-10-01",
+    "fetched_at": "2026-10-02"
+  },
+  {
     "title": "AI Coding Agents Exposed 13,000 Internal Images, Including Billing Records, on GitHub",
     "url": "https://thehackernews.com/2026/09/ai-coding-agents-exposed-13000-internal.html",
     "source": "The Hacker News",
