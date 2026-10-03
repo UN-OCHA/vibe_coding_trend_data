@@ -1,5 +1,18 @@
 [
   {
+    "title": "\u201cNo reason why everyone should have an identical Claude experience\u201d: Anthropic\u2019s mods let you change Claude Code\u2019s look and behavior",
+    "url": "https://thenewstack.io/anthropic-claude-code-mods-plugins/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/00ff0e7a-doodler-collective-spdl0i0-gw4-unsplash-1024x539.jpg",
+    "excerpt": "Developers have long been able to customize Claude Code to their preferences, via settings, persistent instructions in CLAUDE.md, hooks, and The post \u201cNo\u2026",
+    "date": "2026-10-02",
+    "fetched_at": "2026-10-03"
+  },
+  {
     "title": "AI coding agents leaked 13,000 screenshots, and nobody hacked them.",
     "url": "https://thenewstack.io/coding-agents-leaked-screenshots/",
     "source": "The New Stack",
