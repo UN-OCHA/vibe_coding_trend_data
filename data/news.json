@@ -1,5 +1,18 @@
 [
   {
+    "title": "\u26a1 Weekly Recap: NetScaler and FortiMail 0-Days, AI Coding Leaks, Spectre v2 and Ransomware Arrests",
+    "url": "https://thehackernews.com/2026/10/weekly-recap-netscaler-and-fortimail-0.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhbylNkbHSjWFkh2Ms0FmUT7jm2Qp-l5l9XwzA-O0LeP6LLE2WY9Z5yTiZ6AjikPfdOuId00XC9R_m_HYap_zbOAxUpLNKMK8UAVGiQHr-1zb_IOLyuhyMo_dhlqB5SM6p9b5qabPdThNFnyaHBznmq3H66qlbHxPAzCSuA_glVaWuKcJy51sOkoZp7BIuf/s1600/infosec-recap.jpg",
+    "excerpt": "A blank field. A public repo. One reply to an email. A box left exposed. None of this sounds dramatic, which is partly the problem. This week\u2019s threats keep\u2026",
+    "date": "2026-10-05",
+    "fetched_at": "2026-10-06"
+  },
+  {
     "title": "\u201cNo reason why everyone should have an identical Claude experience\u201d: Anthropic\u2019s mods let you change Claude Code\u2019s look and behavior",
     "url": "https://thenewstack.io/anthropic-claude-code-mods-plugins/",
     "source": "The New Stack",
