@@ -1,5 +1,31 @@
 [
   {
+    "title": "Harness bought Augment\u2019s coding agents. The best feature hasn\u2019t shipped yet.",
+    "url": "https://thenewstack.io/harness-augment-cosmos-acquisition/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/891fb9c6-resource-database-kpe8qijxbjc-unsplash-1-1024x576.jpg",
+    "excerpt": "Harness announced Thursday that it acquired Augment Code\u2019s Cosmos software factory, Auggie CLI and Code Context Engine, along with the The post Harness bought\u2026",
+    "date": "2026-10-08",
+    "fetched_at": "2026-10-09"
+  },
+  {
+    "title": "GitHub Copilot is going local \u2014 but Microsoft won\u2019t say what gets sent to the cloud",
+    "url": "https://thenewstack.io/https-thenewstack-io-copilot-local-inference-routing/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/01/25870d76-screenshot-2026-01-30-at-19.58.20-1024x515.png",
+    "excerpt": "GitHub Copilot will soon decide whether coding tasks run locally or get sent to cloud models, with automatic routing expected The post GitHub Copilot is going\u2026",
+    "date": "2026-10-08",
+    "fetched_at": "2026-10-09"
+  },
+  {
     "title": "\u26a1 Weekly Recap: NetScaler and FortiMail 0-Days, AI Coding Leaks, Spectre v2 and Ransomware Arrests",
     "url": "https://thehackernews.com/2026/10/weekly-recap-netscaler-and-fortimail-0.html",
     "source": "The Hacker News",
