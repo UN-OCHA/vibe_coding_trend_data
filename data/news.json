@@ -1,5 +1,18 @@
 [
   {
+    "title": "AI coding agents generate more code, but not more software",
+    "url": "https://arstechnica.com/ai/2026/10/ai-coding-agents-generate-more-code-but-not-more-software/",
+    "source": "Ars Technica AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/GettyImages-2264559974-500x500-1791573923.jpg",
+    "excerpt": "Study finds coding efficiency gains get \"absorbed\" by human review \"bottleneck.\"",
+    "date": "2026-10-09",
+    "fetched_at": "2026-10-10"
+  },
+  {
     "title": "Harness bought Augment\u2019s coding agents. The best feature hasn\u2019t shipped yet.",
     "url": "https://thenewstack.io/harness-augment-cosmos-acquisition/",
     "source": "The New Stack",
