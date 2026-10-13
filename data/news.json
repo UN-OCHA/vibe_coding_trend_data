@@ -1,5 +1,31 @@
 [
   {
+    "title": "Coding agents made building easy. Platform teams that build from scratch are 3.5x more likely to lack a strategy.",
+    "url": "https://thenewstack.io/coding-agents-platform-teams/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/e6bbd3b6-exec-167c6f32-2822-4484-8556-e0f1e4f10aab-1024x576.png",
+    "excerpt": "Build-or-buy is usually framed as an engineering trade-off, where developer time is weighed against integration and migration overhead, and control The post\u2026",
+    "date": "2026-10-12",
+    "fetched_at": "2026-10-13"
+  },
+  {
+    "title": "CyberXero Uses Claude Code in Campaign That Stole Over 628,000 Ukrainian Records",
+    "url": "https://thehackernews.com/2026/10/cyberxero-uses-claude-code-in-campaign.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCjQWPc2H2EsKbjYztfxdp2ffZz6TGQNJ9BuALJB44sWqXbCxEa61fu5CZ4w1rS0llVr3hQP4H_Vg5Fj87Jrs5IoUDpBmochh3rA5bMMr3V4hUT22HTPgLUeX9WhGIQuFm4zF-Kf3zIzSNsQGQlP_gkSSSV-hu5rp5CHX_1T83TOeWsYia_xbuHLlwAxDv/s1600/claude-hacker.jpg",
+    "excerpt": "Cybersecurity researchers have disclosed details of a two-pronged artificial intelligence (AI)-augmented initial access campaign targeting WordPress sites\u2026",
+    "date": "2026-10-12",
+    "fetched_at": "2026-10-13"
+  },
+  {
     "title": "Claude Code found my app\u2019s shared contract in two MCP calls. Then the records ran out.",
     "url": "https://thenewstack.io/claude-code-mcp-records/",
     "source": "The New Stack",
