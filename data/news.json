@@ -1,5 +1,57 @@
 [
   {
+    "title": "Google wants to host your personal vibe-coded apps in the Play Store",
+    "url": "https://arstechnica.com/google/2026/10/google-wants-to-host-your-personal-vibe-coded-apps-in-the-play-store/",
+    "source": "Ars Technica AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/play-store-500x500.jpg",
+    "excerpt": "Google plans to help turn those personal AI-generated apps into wide releases.",
+    "date": "2026-10-13",
+    "fetched_at": "2026-10-14"
+  },
+  {
+    "title": "Google Play now lets anyone build private, vibe-coded apps that run on Android",
+    "url": "https://techcrunch.com/2026/10/13/google-play-now-supports-private-vibe-coded-apps-built-just-for-you/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2026/10/PersonalApps_desktop_16x9_Static.png?resize=1200,675",
+    "excerpt": "Google is making it easier to build and use personal Android apps created with AI, without having to make them available to everyone on the Play Store.",
+    "date": "2026-10-13",
+    "fetched_at": "2026-10-14"
+  },
+  {
+    "title": "SpaceXSI bundles X Premium, Grok, and Cursor into one subscription",
+    "url": "https://techcrunch.com/2026/10/13/spacexsi-bundles-x-premium-grok-and-cursor-into-one-subscription/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2023/07/x-twitter.jpg?resize=1200,550",
+    "excerpt": "The new X Subscription combines X's paid features with AI tools like Grok and Cursor, offering plans ranging from $8 to $200 per month.",
+    "date": "2026-10-13",
+    "fetched_at": "2026-10-14"
+  },
+  {
+    "title": "The X Subscription bundles Cursor with Grok and X Premium. But Claude now costs extra.",
+    "url": "https://thenewstack.io/x-subscription-cursor-pricing/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/2206fae0-erone-stuff-mv7tcmc0bvm-unsplash-1024x608.jpg",
+    "excerpt": "Elon Musk\u2019s mission to unify his sprawling tech empire continues apace, with the news that X, Grok, and Cursor are The post The X Subscription bundles Cursor\u2026",
+    "date": "2026-10-13",
+    "fetched_at": "2026-10-14"
+  },
+  {
     "title": "Coding agents made building easy. Platform teams that build from scratch are 3.5x more likely to lack a strategy.",
     "url": "https://thenewstack.io/coding-agents-platform-teams/",
     "source": "The New Stack",
