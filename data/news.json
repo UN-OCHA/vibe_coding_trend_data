@@ -1,5 +1,31 @@
 [
   {
+    "title": "Epic says its new vibe-coded Epic Games Launcher is faster than Steam",
+    "url": "https://arstechnica.com/gaming/2026/10/programming-is-hard-epic-games-leans-on-vibe-coding-for-its-new-launcher-app/",
+    "source": "Ars Technica AI",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/10/egslauncher-500x500.png",
+    "excerpt": "But the new \"Preview\" app \"will have some bugs,\" Epic warns.",
+    "date": "2026-10-14",
+    "fetched_at": "2026-10-15"
+  },
+  {
+    "title": "Linus Torvalds let Claude Code fix the Linux page cache. Then reviewers found a race.",
+    "url": "https://thenewstack.io/torvalds-claude-code-kernel/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/39123855-dorothy-livelo-l1lklun853s-unsplash-1024x647.jpg",
+    "excerpt": "Linux creator and longtime lead maintainer Linus Torvalds turned to Anthropic\u2019s Claude Code to tackle a kernel performance problem that The post Linus Torvalds\u2026",
+    "date": "2026-10-14",
+    "fetched_at": "2026-10-15"
+  },
+  {
     "title": "Google wants to host your personal vibe-coded apps in the Play Store",
     "url": "https://arstechnica.com/google/2026/10/google-wants-to-host-your-personal-vibe-coded-apps-in-the-play-store/",
     "source": "Ars Technica AI",
