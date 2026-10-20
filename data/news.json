@@ -1,5 +1,31 @@
 [
   {
+    "title": "Hackers hit AI coding tool OpenCode, running up charges on users\u2019 AI accounts",
+    "url": "https://techcrunch.com/2026/10/19/hackers-hit-ai-coding-tool-opencode-running-up-charges-on-users-ai-accounts/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2026/10/cyberatttack.jpg?w=612",
+    "excerpt": "OpenCode is an open source AI coding agent that's become a popular alternative to Claude Code and Cursor. But hackers got into part of its online platform and\u2026",
+    "date": "2026-10-19",
+    "fetched_at": "2026-10-20"
+  },
+  {
+    "title": "One sentence changed Claude Code\u2019s overreach rate from 0% to 17.1%",
+    "url": "https://thenewstack.io/coding-agents-overstep-scope/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/079cce9a-getty-images-rswd0afriwu-unsplash-1024x602.jpg",
+    "excerpt": "Anthropic is reportedly developing a model that can infer what users want from incomplete instructions. According to The Information, a The post One sentence\u2026",
+    "date": "2026-10-19",
+    "fetched_at": "2026-10-20"
+  },
+  {
     "title": "Employees are vibe-coding their own apps. Cloudflare open-sources Void to give IT a handle on them",
     "url": "https://thenewstack.io/cloudflare-voidzero-void-vibe-coding/",
     "source": "The New Stack",
