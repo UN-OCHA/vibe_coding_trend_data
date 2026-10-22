@@ -989,5 +989,18 @@
       "Uncategorized"
     ],
     "excerpt": "Human-Computer Interaction and Visualization"
+  },
+  {
+    "title": "Quantifying infrastructure noise in agentic coding evals",
+    "url": "https://www.anthropic.com/research/infrastructure-noise",
+    "source": "Anthropic Research",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/fc64f7c27d0ec3d7d579fd1b0245bb6f28946d7e-1200x630.jpg",
+    "excerpt": "",
+    "date": "2026-02-05",
+    "fetched_at": "2026-10-22"
   }
 ]
