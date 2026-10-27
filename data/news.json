@@ -1,5 +1,31 @@
 [
   {
+    "title": "Claude Code\u2019s top enterprise users outspend other Claude users 20 to 1, Anthropic\u2019s IPO filing says",
+    "url": "https://thenewstack.io/claude-codes-enterprise-20-to-1/",
+    "source": "The New Stack",
+    "categories": [
+      "Industry"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/0164b075-claudcode-1024x576.png",
+    "excerpt": "Anthropic\u2019s IPO filing makes Claude Code the center of its enterprise growth story. The company on Monday filed to go The post Claude Code\u2019s top enterprise\u2026",
+    "date": "2026-10-26",
+    "fetched_at": "2026-10-27"
+  },
+  {
+    "title": "Malicious File in Downloads Folder Tries to Trick AI Coding Agent Into Installing Malware",
+    "url": "https://thehackernews.com/2026/10/malicious-file-in-downloads-folder.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Risks"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg6cUQufM8zcABLKEfGt5xpGX34mUnThXvptS6o1GfAv8Ak_FO__f-rsT0GPf1Nro1NSRQuUsEGJl1boXq5Rt-IMFOnHunESsqj4sfJ_ypu9qhRgva3V0OqPN04FAKvOw0Y0KeKUvgG_RzWvA7u6piuPvLIaTJG2mbeWRRgFJB2vziZdJbkU1dN2nfwBf8/s1600/codex.png",
+    "excerpt": "A malicious instruction file sitting in a developer's Downloads folder tried to make their AI coding agent install a known-malicious npm package, security firm\u2026",
+    "date": "2026-10-26",
+    "fetched_at": "2026-10-27"
+  },
+  {
     "title": "Hackers hit AI coding tool OpenCode, running up charges on users\u2019 AI accounts",
     "url": "https://techcrunch.com/2026/10/19/hackers-hit-ai-coding-tool-opencode-running-up-charges-on-users-ai-accounts/",
     "source": "TechCrunch AI",
