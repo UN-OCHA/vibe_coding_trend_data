@@ -1,5 +1,18 @@
 [
   {
+    "title": "GitHub debuts Copilot Fusion, a new model selection & orchestration system that beats Claude Code for half the API cost",
+    "url": "https://thenewstack.io/github-copilot-fusion/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/b78f2934-screenshot-2026-10-28-at-12.17.49.png",
+    "excerpt": "GitHub has debuted GitHub Copilot Fusion, a new system that handles model selection and orchestration for coding tasks so developers The post GitHub debuts\u2026",
+    "date": "2026-10-28",
+    "fetched_at": "2026-10-29"
+  },
+  {
     "title": "Claude Code\u2019s top enterprise users outspend other Claude users 20 to 1, Anthropic\u2019s IPO filing says",
     "url": "https://thenewstack.io/claude-codes-enterprise-20-to-1/",
     "source": "The New Stack",
