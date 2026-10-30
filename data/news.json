@@ -1,5 +1,31 @@
 [
   {
+    "title": "AWS\u2019s Hydro team wants the compiler to catch coding agents\u2019 mistakes",
+    "url": "https://thenewstack.io/ai-agents-compiler-guardrails/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/10/5253e95e-for-thumbnail-17-1024x576.png",
+    "excerpt": "Earlier this month, the team behind Hydro developed a new way to check that a distributed system still works correctly The post AWS\u2019s Hydro team wants the\u2026",
+    "date": "2026-10-29",
+    "fetched_at": "2026-10-30"
+  },
+  {
+    "title": "The \u2018Pain in the Ass\u2019 Math That Could Save Vibe Coding From Itself",
+    "url": "https://www.wired.com/story/software-verification-is-the-hot-new-answer-to-the-ai-safety-crisis/",
+    "source": "Wired",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://media.wired.com/photos/6ae2968f0262809bad6615e8/master/pass/Untitled-6.gif",
+    "excerpt": "A new startup called &Truth is joining the race to automate formal verification, a painstaking process that uses math to prove software works as intended.",
+    "date": "2026-10-29",
+    "fetched_at": "2026-10-30"
+  },
+  {
     "title": "GitHub debuts Copilot Fusion, a new model selection & orchestration system that beats Claude Code for half the API cost",
     "url": "https://thenewstack.io/github-copilot-fusion/",
     "source": "The New Stack",
@@ -1028,6 +1054,19 @@
       "Uncategorized"
     ],
     "excerpt": "Human-Computer Interaction and Visualization"
+  },
+  {
+    "title": "How we built Claude Code auto mode: a safer way to skip permissions",
+    "url": "https://www.anthropic.com/research/claude-code-auto-mode",
+    "source": "Anthropic Research",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://www-cdn.anthropic.com/images/4zrzovbb/website/761fe6cd7859d573956e58c13400e1c8ed2325b2-1200x630.jpg",
+    "excerpt": "",
+    "date": "2026-03-25",
+    "fetched_at": "2026-10-30"
   },
   {
     "title": "Quantifying infrastructure noise in agentic coding evals",
