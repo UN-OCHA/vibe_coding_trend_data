@@ -1,5 +1,33 @@
 [
   {
+    "title": "Anthropic VS code extension on Cursor backdoored for nearly 12 hours",
+    "url": "https://arstechnica.com/security/2026/10/anthropic-vs-code-extension-on-cursor-backdoored-for-nearly-12-hours/",
+    "source": "Ars Technica AI",
+    "categories": [
+      "Tools",
+      "Risks"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.arstechnica.net/wp-content/uploads/2022/05/caution-tape-500x500.jpeg",
+    "excerpt": "It's still unknown how attackers got access to Anthropic's verified Cursor account.",
+    "date": "2026-10-30",
+    "fetched_at": "2026-10-31"
+  },
+  {
+    "title": "Official Claude Code Extension on Cursor Marketplace Trojanized with Persistent SSH Backdoor",
+    "url": "https://thehackernews.com/2026/10/official-claude-code-vs-code-extension.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Tools",
+      "Risks"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMAV00lkxu7R724ItLdgrRsnEYHR_d2eUSdcen_KymGeBY1tCo8SRVz6w_XiNzzYgwpcl0Me3JCJz8DeieRM_0jb8aL4VkHAAIeXrqNf8oQkmzKahqMHOGvhkFK32HOasHZht8BwtI1NxEZ-_nIwmQY_8fxpGbbl3csC6oZKCVnIRk3iYTRhH975dyxsWS/s1600/cursor-vscode.jpg",
+    "excerpt": "Cybersecurity researchers have disclosed that a trojanized version of Anthropic's official Claude Code extension was distributed through the Cursor Marketplace\u2026",
+    "date": "2026-10-30",
+    "fetched_at": "2026-10-31"
+  },
+  {
     "title": "AWS\u2019s Hydro team wants the compiler to catch coding agents\u2019 mistakes",
     "url": "https://thenewstack.io/ai-agents-compiler-guardrails/",
     "source": "The New Stack",
