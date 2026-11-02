@@ -1,42 +1,42 @@
 [
   {
     "name": "Claude Code",
-    "github_repo_count": 101596.0,
-    "github_growth_pct": 1.5,
-    "hn_comments": 532.0,
-    "hn_growth_pct": -14.1,
-    "trends_interest": 33.0,
-    "vscode_installs": 28674475.0,
-    "vscode_growth_pct": 2.1
+    "github_repo_count": 107723.0,
+    "github_growth_pct": 6.0,
+    "hn_comments": 639.0,
+    "hn_growth_pct": 20.1,
+    "trends_interest": 34.0,
+    "vscode_installs": 29259474.0,
+    "vscode_growth_pct": 2.0
   },
   {
     "name": "Codex",
-    "github_repo_count": 44212.0,
-    "github_growth_pct": 0.6,
-    "hn_comments": 37.0,
-    "hn_growth_pct": -9.8,
+    "github_repo_count": 46743.0,
+    "github_growth_pct": 5.7,
+    "hn_comments": 44.0,
+    "hn_growth_pct": 18.9,
     "trends_interest": 31.0,
-    "vscode_installs": 15952267.0,
-    "vscode_growth_pct": 1.8
+    "vscode_installs": 16278879.0,
+    "vscode_growth_pct": 2.0
   },
   {
     "name": "Cursor",
-    "github_repo_count": 496.0,
-    "github_growth_pct": -12.1,
-    "hn_comments": 15.0,
-    "hn_growth_pct": 25.0,
+    "github_repo_count": 505.0,
+    "github_growth_pct": 1.8,
+    "hn_comments": 21.0,
+    "hn_growth_pct": 40.0,
     "trends_interest": null,
     "vscode_installs": null,
     "vscode_growth_pct": null
   },
   {
     "name": "GitHub Copilot",
-    "github_repo_count": 4092.0,
-    "github_growth_pct": -2.0,
-    "hn_comments": 18.0,
-    "hn_growth_pct": 100.0,
-    "trends_interest": 22.0,
-    "vscode_installs": 78970080.0,
+    "github_repo_count": 4270.0,
+    "github_growth_pct": 4.3,
+    "hn_comments": 16.0,
+    "hn_growth_pct": -11.1,
+    "trends_interest": 23.0,
+    "vscode_installs": 79085002.0,
     "vscode_growth_pct": 0.1
   },
   {
@@ -45,7 +45,7 @@
     "github_growth_pct": 0.0,
     "hn_comments": 0.0,
     "hn_growth_pct": null,
-    "trends_interest": 4.0,
+    "trends_interest": 5.0,
     "vscode_installs": null,
     "vscode_growth_pct": null
   },
@@ -55,7 +55,7 @@
     "github_growth_pct": null,
     "hn_comments": 0.0,
     "hn_growth_pct": null,
-    "trends_interest": 11.0,
+    "trends_interest": 10.0,
     "vscode_installs": null,
     "vscode_growth_pct": null
   },
@@ -63,8 +63,8 @@
     "name": "Devin",
     "github_repo_count": null,
     "github_growth_pct": null,
-    "hn_comments": 1.0,
-    "hn_growth_pct": -87.5,
+    "hn_comments": 17.0,
+    "hn_growth_pct": 1600.0,
     "trends_interest": 3.0,
     "vscode_installs": null,
     "vscode_growth_pct": null
@@ -73,9 +73,9 @@
     "name": "Lovable",
     "github_repo_count": null,
     "github_growth_pct": null,
-    "hn_comments": 7.0,
-    "hn_growth_pct": -50.0,
-    "trends_interest": 41.0,
+    "hn_comments": 12.0,
+    "hn_growth_pct": 71.4,
+    "trends_interest": 45.0,
     "vscode_installs": null,
     "vscode_growth_pct": null
   }

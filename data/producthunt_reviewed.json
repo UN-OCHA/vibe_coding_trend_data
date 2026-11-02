@@ -1,5 +1,29 @@
 [
   {
+    "id": "1260852",
+    "name": "Coderblock",
+    "tagline": "Build full-stack web apps with your own AI team.",
+    "producthunt_url": "https://www.producthunt.com/products/coderblock/launches/coderblock?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/FNTVVTUF5RNAIC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 20,
+    "rating": 5.0,
+    "review_count": 4,
+    "thumbnail": "https://ph-files.imgix.net/54ef074c-13d9-4706-8bc6-b5f300724eee.png?auto=format",
+    "launched": "2026-10-08T07:01:00Z"
+  },
+  {
+    "id": "1277960",
+    "name": "NoCodePro.AI",
+    "tagline": "An AI team that plans, builds and checks your app",
+    "producthunt_url": "https://www.producthunt.com/products/nocodepro-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/AGWBBLXPRVQLCH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 5,
+    "rating": 5.0,
+    "review_count": 2,
+    "thumbnail": "https://ph-files.imgix.net/525eeb3f-7ca7-4045-80a1-fd44131dc44c.gif?auto=format",
+    "launched": "2026-10-27T07:01:00Z"
+  },
+  {
     "id": "1273721",
     "name": "vibecoderjournal.com",
     "tagline": "Independent ai bechmarks",
@@ -12,27 +36,15 @@
     "launched": "2026-10-09T07:01:00Z"
   },
   {
-    "id": "1265450",
-    "name": "Buddy Drop",
-    "tagline": "Drop the files, get a live URL in seconds",
-    "producthunt_url": "https://www.producthunt.com/products/buddy/launches/buddy-drop?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/YRBSE3VIURGQHU?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 95,
+    "id": "1266852",
+    "name": "heal.dev",
+    "tagline": "Find bugs and vulnerabilities code review misses",
+    "producthunt_url": "https://www.producthunt.com/products/heal-dev?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/HQTQB26MJAPQTC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 275,
     "rating": 5.0,
     "review_count": 1,
-    "thumbnail": "https://ph-files.imgix.net/e7366b71-e666-45d3-b6ca-c2006f9e1f36.png?auto=format",
-    "launched": "2026-10-01T07:01:00Z"
-  },
-  {
-    "id": "1263493",
-    "name": "Flocker Agent Profiles",
-    "tagline": "Profile Pages for Agents: your live AI collaboration network",
-    "producthunt_url": "https://www.producthunt.com/products/flocker-agent-profiles/launches/flocker-agent-profiles?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/A7BXWGXORBALXZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 95,
-    "rating": 5.0,
-    "review_count": 1,
-    "thumbnail": "https://ph-files.imgix.net/522bedab-1426-4ecf-a86b-db68cfe3a1e3.svg?auto=format",
-    "launched": "2026-09-30T07:01:00Z"
+    "thumbnail": "https://ph-files.imgix.net/ea04a85d-a3ee-4523-80a3-b7aa2d83357c.png?auto=format",
+    "launched": "2026-10-22T07:01:00Z"
   }
 ]
