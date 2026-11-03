@@ -1,5 +1,31 @@
 [
   {
+    "title": "Your AI coding agent now runs on a budget \u2014 and it can cut you off mid-task",
+    "url": "https://thenewstack.io/22842541cognition-devin-hierarchical-budgets/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/349bc6a4-getty-images-um5wntq2sf0-unsplash-1024x675.jpg",
+    "excerpt": "The days of pointing an AI agent at a backlog and letting it burn through compute without much oversight may The post Your AI coding agent now runs on a budget\u2026",
+    "date": "2026-11-02",
+    "fetched_at": "2026-11-03"
+  },
+  {
+    "title": "OpenAI\u2019s new shared usage limit pits ChatGPT against Codex",
+    "url": "https://thenewstack.io/openai-chatgpt-codex-shared-limits/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/0293c587-codexgpt-1024x576.jpg",
+    "excerpt": "OpenAI has revealed plans to combine usage allowances across ChatGPT and Codex, as part of a broader effort to integrate The post OpenAI\u2019s new shared usage\u2026",
+    "date": "2026-11-02",
+    "fetched_at": "2026-11-03"
+  },
+  {
     "title": "Anthropic VS code extension on Cursor backdoored for nearly 12 hours",
     "url": "https://arstechnica.com/security/2026/10/anthropic-vs-code-extension-on-cursor-backdoored-for-nearly-12-hours/",
     "source": "Ars Technica AI",
