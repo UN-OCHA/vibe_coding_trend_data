@@ -1,5 +1,44 @@
 [
   {
+    "title": "A developer opened Postman. Then two AI coding agents changed without their permission.",
+    "url": "https://thenewstack.io/postman-plugin-coding-agents/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/436954c5-gustopo-gqirstz41ky-unsplash-1024x616.jpg",
+    "excerpt": "A developer says Postman\u2019s desktop app installed plugins into Claude Code and OpenAI Codex without their permission. The app also The post A developer opened\u2026",
+    "date": "2026-11-03",
+    "fetched_at": "2026-11-04"
+  },
+  {
+    "title": "Goldman Sachs restricted Claude Code for bankers \u2014 but made one surprising exception",
+    "url": "https://thenewstack.io/ai-coding-agents-security/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/17533fd2-supradoc-s5m88l_ts_0-unsplash-1024x683.jpg",
+    "excerpt": "Replit CEO Amjad Masad is warning that AI coding agents running on employee devices are becoming a security risk for The post Goldman Sachs restricted Claude\u2026",
+    "date": "2026-11-03",
+    "fetched_at": "2026-11-04"
+  },
+  {
+    "title": "Anthropic speeds up Claude Code with message threads. But your token bill stays the same.",
+    "url": "https://thenewstack.io/anthropic-claude-message-threads/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/4a4a1bb5-prakasit-khuansuwan-h_keeku145y-unsplash-1024x768.jpg",
+    "excerpt": "Anthropic has announced a new feature that aims to speed up long-running Claude Code sessions by reducing the amount of The post Anthropic speeds up Claude\u2026",
+    "date": "2026-11-03",
+    "fetched_at": "2026-11-04"
+  },
+  {
     "title": "Your AI coding agent now runs on a budget \u2014 and it can cut you off mid-task",
     "url": "https://thenewstack.io/22842541cognition-devin-hierarchical-budgets/",
     "source": "The New Stack",
