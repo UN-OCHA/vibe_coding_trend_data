@@ -1,5 +1,31 @@
 [
   {
+    "title": "Meta acquires AI coding startup Conductor",
+    "url": "https://techcrunch.com/2026/11/04/meta-acquires-ai-coding-startup-conductor/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Industry"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2026/09/mark-zuckerberg-ray-bans.png?resize=1200,653",
+    "excerpt": "The startup allows software engineers to deploy teams of agents to work on various aspects of a project simultaneously.",
+    "date": "2026-11-04",
+    "fetched_at": "2026-11-05"
+  },
+  {
+    "title": "Researchers Uncover Prompt Adware Hidden in OpenAI Codex Jailbreak Toolkit",
+    "url": "https://thehackernews.com/2026/11/researchers-uncover-prompt-adware.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Research"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiO7-xs-0dO1uqFLbfphgPbe8T7cbCLkrab6XhAjlNPVo-bLQOFw4mkcArqglQOvhuIYif4ohTAub-TNWlket6iguifshMRo3zBrYvM4G_IwFTtbh8ifIqh1Vuf8GuNmqDg_PB2Roy7yzYuTFhRrFM8wxOo8HVwfG9Y2eqJnq82LGYHnAKI5S6TuvZ_Q95A/s1600/ai-adware.jpg",
+    "excerpt": "Cybersecurity researchers have disclosed details of an OpenAI Codex jailbreak bundle that's designed to modify an artificial intelligence (AI) agent's trusted\u2026",
+    "date": "2026-11-04",
+    "fetched_at": "2026-11-05"
+  },
+  {
     "title": "A developer opened Postman. Then two AI coding agents changed without their permission.",
     "url": "https://thenewstack.io/postman-plugin-coding-agents/",
     "source": "The New Stack",
