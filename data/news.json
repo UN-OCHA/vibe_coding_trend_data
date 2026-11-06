@@ -1,5 +1,18 @@
 [
   {
+    "title": "Together AI let coding agents rewrite its GPU code. Then it kept humans on the deploy button.",
+    "url": "https://thenewstack.io/together-compiler-gpu-optimization/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/caaa144a-getty-images-ycmp1okhumk-unsplash-1024x642.jpg",
+    "excerpt": "Together AI is putting AI coding agents to work on the GPU code that runs its inference infrastructure, automating performance The post Together AI let coding\u2026",
+    "date": "2026-11-05",
+    "fetched_at": "2026-11-06"
+  },
+  {
     "title": "Meta acquires AI coding startup Conductor",
     "url": "https://techcrunch.com/2026/11/04/meta-acquires-ai-coding-startup-conductor/",
     "source": "TechCrunch AI",
