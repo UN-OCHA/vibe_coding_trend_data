@@ -1,5 +1,18 @@
 [
   {
+    "title": "\u201cMost apps never make it off localhost\u201d: Cursor takes on Lovable and Replit with fully managed app deployment",
+    "url": "https://thenewstack.io/cursor-ai-app-deployment/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/0daf82eb-philip-oroni-xv2kgdto9ii-unsplash-1024x683.jpg",
+    "excerpt": "AI coding agents have certainly made it easier to transform an idea into a working application. However, getting that application The post \u201cMost apps never\u2026",
+    "date": "2026-11-06",
+    "fetched_at": "2026-11-07"
+  },
+  {
     "title": "Together AI let coding agents rewrite its GPU code. Then it kept humans on the deploy button.",
     "url": "https://thenewstack.io/together-compiler-gpu-optimization/",
     "source": "The New Stack",
