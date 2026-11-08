@@ -1,5 +1,18 @@
 [
   {
+    "title": "Claude Code's \u201cDon't Ask Again\u201d File Exposes Passwords and Keys in 1,122 Public Copies on GitHub",
+    "url": "https://thehackernews.com/2026/11/claude-codes-dont-ask-again-file.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZH3vYLZb9lP7mDLqy2h-upzdComeWIfjDX5siFUO3FM2HlUs03OTwirA1R2uzOZq_clptIVBsoaJNXIuf8LlTbXHFvzBJLRl1l3mqGVesHjgdmD86S_c-k2JY_t56xZqI0bnN6jXRDr92KlMw6X5BHzm5hqogpWflsERi9zrsMHSS_abAcvZMcUGovd8/s1600/claude-code.jpg",
+    "excerpt": "Passwords and API keys that developers typed into commands they approved in Claude Code are sitting in public GitHub repositories, where anyone can read them\u2026",
+    "date": "2026-11-07",
+    "fetched_at": "2026-11-08"
+  },
+  {
     "title": "\u201cMost apps never make it off localhost\u201d: Cursor takes on Lovable and Replit with fully managed app deployment",
     "url": "https://thenewstack.io/cursor-ai-app-deployment/",
     "source": "The New Stack",
