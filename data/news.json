@@ -1,5 +1,44 @@
 [
   {
+    "title": "Claude Code is accidentally exposing secrets all over GitHub",
+    "url": "https://arstechnica.com/ai/2026/11/claude-code-settings-files-expose-thousands-of-secrets-on-github/",
+    "source": "Ars Technica AI",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/claude-github-leaks-500x500.jpg",
+    "excerpt": "\"Do not ask again\" prompt leads to passwords, API keys, and more being shared.",
+    "date": "2026-11-09",
+    "fetched_at": "2026-11-10"
+  },
+  {
+    "title": "Automattic debuts a platform to deploy vibe-coding apps amid a changing internet",
+    "url": "https://techcrunch.com/2026/11/09/automattic-debuts-a-platform-to-deploy-vibe-coding-apps-amid-a-changing-internet/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2026/11/Spacefast-feat.jpg?resize=1200,675",
+    "excerpt": "Automattic aims to compete with the likes of Lovable with Spacefast.",
+    "date": "2026-11-09",
+    "fetched_at": "2026-11-10"
+  },
+  {
+    "title": "Cursor and Google join OpenAI in giving coding agents a voice. Claude Code stays silent.",
+    "url": "https://thenewstack.io/cursor-antigravity-voice-agents/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/b6289d67-ruliff-andrean-d42u7dk0m9w-unsplash-1024x576.jpg",
+    "excerpt": "Two of the biggest players in the AI coding space are betting that developers want to talk to their agents The post Cursor and Google join OpenAI in giving\u2026",
+    "date": "2026-11-09",
+    "fetched_at": "2026-11-10"
+  },
+  {
     "title": "Claude Code's \u201cDon't Ask Again\u201d File Exposes Passwords and Keys in 1,122 Public Copies on GitHub",
     "url": "https://thehackernews.com/2026/11/claude-codes-dont-ask-again-file.html",
     "source": "The Hacker News",
