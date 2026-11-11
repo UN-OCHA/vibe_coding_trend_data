@@ -1,5 +1,18 @@
 [
   {
+    "title": "Grok Build coding agent leaks oodles of confidential info, some belonging to SpaceXSI",
+    "url": "https://arstechnica.com/security/2026/11/grok-build-coding-agent-leaks-oodles-of-confidential-info-some-belonging-to-spacexsi/",
+    "source": "Ars Technica AI",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.arstechnica.net/wp-content/uploads/2026/11/grok-plugin-marketplace-500x500.webp",
+    "excerpt": "Researcher finds 35,000 Grok Build apps wide open to anyone who looked for them.",
+    "date": "2026-11-10",
+    "fetched_at": "2026-11-11"
+  },
+  {
     "title": "Claude Code is accidentally exposing secrets all over GitHub",
     "url": "https://arstechnica.com/ai/2026/11/claude-code-settings-files-expose-thousands-of-secrets-on-github/",
     "source": "Ars Technica AI",
