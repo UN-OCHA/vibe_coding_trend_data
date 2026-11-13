@@ -1,5 +1,31 @@
 [
   {
+    "title": "Google\u2019s Gemini 4 coding agent now switches models mid-task \u2014 and finishes 19% faster",
+    "url": "https://thenewstack.io/gemini-4-hydrogen-orchestrator/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/ea0c233e-rizki-ardia-p-a6oda-mqu-unsplash-1024x768.jpg",
+    "excerpt": "Google launched Gemini 4 Hydrogen on Thursday alongside a new system that changes how coding agents use AI models. Rather The post Google\u2019s Gemini 4 coding\u2026",
+    "date": "2026-11-12",
+    "fetched_at": "2026-11-13"
+  },
+  {
+    "title": "Google\u2019s coding agents now /swarm for one developer. Cursor\u2019s go multiplayer so teammates\u2019 agents can talk.",
+    "url": "https://thenewstack.io/cursor-google-multiplayer-swarm/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/45becf85-mariia-berezovsky-nz3wa499hnm-unsplash-1-1024x576.jpg",
+    "excerpt": "Coding agents are pretty good at working in parallel: one writes a new API endpoint, another updates the tests, while The post Google\u2019s coding agents now\u2026",
+    "date": "2026-11-12",
+    "fetched_at": "2026-11-13"
+  },
+  {
     "title": "Grok Build coding agent leaks oodles of confidential info, some belonging to SpaceXSI",
     "url": "https://arstechnica.com/security/2026/11/grok-build-coding-agent-leaks-oodles-of-confidential-info-some-belonging-to-spacexsi/",
     "source": "Ars Technica AI",
