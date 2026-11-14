@@ -1,5 +1,31 @@
 [
   {
+    "title": "DeepSeek\u2019s coding agent is too tidy for its own good \u2014 and benchmarks are punishing it",
+    "url": "https://thenewstack.io/deepseek-harness-cleanup-benchmark/",
+    "source": "The New Stack",
+    "categories": [
+      "Research"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/ca5aed9f-handrush-supply-i8sfnhlttdo-unsplash-1024x724.jpg",
+    "excerpt": "DeepSeek\u2019s open-source coding agent is losing points on a major benchmark for a habit developers usually treat as good practice: The post DeepSeek\u2019s coding\u2026",
+    "date": "2026-11-13",
+    "fetched_at": "2026-11-14"
+  },
+  {
+    "title": "Gemini 4 Hydrogen \ud83d\ude80, self-hosted Claude agents \ud83d\udd12, Replit agent commerce \ud83d\uded2",
+    "url": "https://tldr.tech/ai/2026-11-13",
+    "source": "TLDR AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://tldr.tech/tldr-share.jpg",
+    "excerpt": "",
+    "date": "2026-11-13",
+    "fetched_at": "2026-11-14"
+  },
+  {
     "title": "Google\u2019s Gemini 4 coding agent now switches models mid-task \u2014 and finishes 19% faster",
     "url": "https://thenewstack.io/gemini-4-hydrogen-orchestrator/",
     "source": "The New Stack",
