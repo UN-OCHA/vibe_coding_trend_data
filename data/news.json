@@ -1,5 +1,18 @@
 [
   {
+    "title": "Cursor Says Stolen Fireworks AI Key Led to Trojanized Claude Code Extension Incident",
+    "url": "https://thehackernews.com/2026/11/stolen-fireworks-ai-key-led-to-cursor.html",
+    "source": "The Hacker News",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg16ACawbG7rP_kT-8Boo4xdTje3BeTWyFSnNXwHhr5cvy2-1X3Ljhrc1IuZlseWd55tN8E1yjQ9ldhTnjWTU-GJBpX_Zen36YiLQGsRSRAoteqHyxx7mn_w0QgLfMKDLItA4p_jpHajucbglLnCR_zWBY_t82YvFkLa9dQFBfjP1BrTlrNdYufsGMSZiGn/s1600/cursor.jpg",
+    "excerpt": "The compromise of Anthropic's official Claude Code extension on Cursor's extension marketplace was the result of the theft of an access key that was exposed in\u2026",
+    "date": "2026-11-15",
+    "fetched_at": "2026-11-16"
+  },
+  {
     "title": "DeepSeek\u2019s coding agent is too tidy for its own good \u2014 and benchmarks are punishing it",
     "url": "https://thenewstack.io/deepseek-harness-cleanup-benchmark/",
     "source": "The New Stack",
