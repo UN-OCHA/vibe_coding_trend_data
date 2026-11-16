@@ -17,7 +17,7 @@
     "tagline": "Take payments in apps you build in ChatGPT and Claude",
     "producthunt_url": "https://www.producthunt.com/products/floot?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/DP7N4LLA6MSIQI?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 328,
+    "votes": 331,
     "rating": 4.38,
     "review_count": 21,
     "thumbnail": "https://ph-files.imgix.net/b66f0961-7df0-4d63-82a4-b29d8084afdb.png?auto=format",
@@ -27,24 +27,12 @@
     "id": "1277960",
     "name": "NoCodePro.AI",
     "tagline": "An AI team that plans, builds and checks your app",
-    "producthunt_url": "https://www.producthunt.com/products/nocodepro-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/nocodepro-ai/launches/nocodepro-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/AGWBBLXPRVQLCH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 5,
     "rating": 5.0,
     "review_count": 2,
     "thumbnail": "https://ph-files.imgix.net/525eeb3f-7ca7-4045-80a1-fd44131dc44c.gif?auto=format",
     "launched": "2026-10-27T07:01:00Z"
-  },
-  {
-    "id": "1266852",
-    "name": "heal.dev",
-    "tagline": "Find bugs and vulnerabilities code review misses",
-    "producthunt_url": "https://www.producthunt.com/products/heal-dev/launches/heal-dev?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/HQTQB26MJAPQTC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 277,
-    "rating": 5.0,
-    "review_count": 1,
-    "thumbnail": "https://ph-files.imgix.net/ea04a85d-a3ee-4523-80a3-b7aa2d83357c.png?auto=format",
-    "launched": "2026-10-22T07:01:00Z"
   }
 ]
