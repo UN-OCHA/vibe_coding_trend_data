@@ -1355,5 +1355,18 @@
     "excerpt": "",
     "date": "2026-02-05",
     "fetched_at": "2026-10-22"
+  },
+  {
+    "title": "Beyond permission prompts: making Claude Code more secure and autonomous",
+    "url": "https://www.anthropic.com/research/claude-code-sandboxing",
+    "source": "Anthropic Research",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://assets.claude.com/debe3e53811fbce11c3af2347275f3d28e06bf51.jpg",
+    "excerpt": "",
+    "date": "2025-10-20",
+    "fetched_at": "2026-11-17"
   }
 ]
