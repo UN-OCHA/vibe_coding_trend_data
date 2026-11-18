@@ -1,5 +1,31 @@
 [
   {
+    "title": "Your AI coding agent could cost 5x more depending on the harness, benchmark finds",
+    "url": "https://thenewstack.io/coding-agent-harness-costs/",
+    "source": "The New Stack",
+    "categories": [
+      "Research"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/a00e13bc-wildan-kurniawan-kb5ndzxgzo8-unsplash-1024x712.jpg",
+    "excerpt": "The same AI model can cost up to five times more to run depending on the coding agent harness it\u2019s The post Your AI coding agent could cost 5x more depending\u2026",
+    "date": "2026-11-17",
+    "fetched_at": "2026-11-18"
+  },
+  {
+    "title": "DuckDB 2.0 goes client-server and adds an Agent Mode for coding agents",
+    "url": "https://thenewstack.io/duckdb-storage-compatibility-agents/",
+    "source": "The New Stack",
+    "categories": [
+      "Tools"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/90305fd8-thumbnail-23-1024x576.png",
+    "excerpt": "DuckDB has always been the database you don\u2019t have to set up: Import it into your code and start querying. The post DuckDB 2.0 goes client-server and adds an\u2026",
+    "date": "2026-11-16",
+    "fetched_at": "2026-11-18"
+  },
+  {
     "title": "Cursor Says Stolen Fireworks AI Key Led to Trojanized Claude Code Extension Incident",
     "url": "https://thehackernews.com/2026/11/stolen-fireworks-ai-key-led-to-cursor.html",
     "source": "The Hacker News",
