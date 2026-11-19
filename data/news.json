@@ -1,5 +1,44 @@
 [
   {
+    "title": "Snapchat now lets developers build AR Lenses with AI assistants like Claude Code and Cursor",
+    "url": "https://techcrunch.com/2026/11/18/snapchat-now-lets-developers-build-ar-lenses-with-ai-coding-assistants-like-claude-code-and-cursor/",
+    "source": "TechCrunch AI",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://techcrunch.com/wp-content/uploads/2024/06/snapchat-getty.jpg?w=1200",
+    "excerpt": "Lens creators can describe the Lens they want in plain language, and their AI assistant handles the process from start to finish, Snapchat says.",
+    "date": "2026-11-18",
+    "fetched_at": "2026-11-19"
+  },
+  {
+    "title": "Why verification, not generation, is your secret to AI coding ROI",
+    "url": "https://thenewstack.io/ai-code-verification-gap/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/972aec0e-nigel-hoare-hahmt9or6z4-unsplash-1024x576.jpg",
+    "excerpt": "For two years, the question around AI coding was whether agents could write good code. Developers have largely answered it: The post Why verification, not\u2026",
+    "date": "2026-11-18",
+    "fetched_at": "2026-11-19"
+  },
+  {
+    "title": "Lovable Wants You to Vibe Code Your Dream Job",
+    "url": "https://www.wired.com/story/lovable-wants-you-to-vibe-code-a-living/",
+    "source": "Wired",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://media.wired.com/photos/6afcd191c00d87e3fd8ba0d4/master/pass/GettyImages-2303907996.jpg",
+    "excerpt": "This Swedish startup dominated the vibe-coded app boom. Two years after launch, Lovable is shifting gears to help users run vibe-coded businesses.",
+    "date": "2026-11-18",
+    "fetched_at": "2026-11-19"
+  },
+  {
     "title": "Your AI coding agent could cost 5x more depending on the harness, benchmark finds",
     "url": "https://thenewstack.io/coding-agent-harness-costs/",
     "source": "The New Stack",
