@@ -1,5 +1,31 @@
 [
   {
+    "title": "IDrive wants to back up your coding agents, too",
+    "url": "https://thenewstack.io/idrive-ai-agents-backup/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/3adb3cf7-benjamin-lehman-gnyjcepvrs8-unsplash-1024x683.jpg",
+    "excerpt": "Coding agents need backups, too, or at least that\u2019s what IDrive is arguing. Backup and storage service IDrive on Thursday The post IDrive wants to back up your\u2026",
+    "date": "2026-11-19",
+    "fetched_at": "2026-11-20"
+  },
+  {
+    "title": "A \u201cheadless Slack\u201d: Vercel\u2019s new message board lets Claude Code and Codex agents work together",
+    "url": "https://thenewstack.io/vercel-board-agent-swarms/",
+    "source": "The New Stack",
+    "categories": [
+      "Uncategorized"
+    ],
+    "humanitarian_relevant": false,
+    "image": "https://cdn.thenewstack.io/media/2026/11/7411f0ae-feat-1024x576.jpg",
+    "excerpt": "For AI agents to work together effectively, they need a way to communicate and divvy up tasks \u2014 much as The post A \u201cheadless Slack\u201d: Vercel\u2019s new message board\u2026",
+    "date": "2026-11-19",
+    "fetched_at": "2026-11-20"
+  },
+  {
     "title": "Snapchat now lets developers build AR Lenses with AI assistants like Claude Code and Cursor",
     "url": "https://techcrunch.com/2026/11/18/snapchat-now-lets-developers-build-ar-lenses-with-ai-coding-assistants-like-claude-code-and-cursor/",
     "source": "TechCrunch AI",
