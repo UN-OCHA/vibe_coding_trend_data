@@ -1,21 +1,9 @@
 [
   {
-    "id": "1306836",
-    "name": "Google Antigravity",
-    "tagline": "Google's coding agents in your IDE, terminal and desktop",
-    "producthunt_url": "https://www.producthunt.com/products/google-antigravity?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/CL6V3GXMJC3GYV?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 1,
-    "rating": 4.69,
-    "review_count": 26,
-    "thumbnail": "https://ph-files.imgix.net/64f05fed-5478-434e-b175-80b218391f8c.png?auto=format",
-    "launched": "2026-11-07T08:01:00Z"
-  },
-  {
     "id": "1302148",
     "name": "Floot Payments ",
     "tagline": "Take payments in apps you build in ChatGPT and Claude",
-    "producthunt_url": "https://www.producthunt.com/products/floot?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "producthunt_url": "https://www.producthunt.com/products/floot/launches/floot-payments?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "website": "https://www.producthunt.com/r/DP7N4LLA6MSIQI?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
     "votes": 331,
     "rating": 4.38,
@@ -24,15 +12,39 @@
     "launched": "2026-11-04T08:01:00Z"
   },
   {
-    "id": "1277960",
-    "name": "NoCodePro.AI",
-    "tagline": "An AI team that plans, builds and checks your app",
-    "producthunt_url": "https://www.producthunt.com/products/nocodepro-ai/launches/nocodepro-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "website": "https://www.producthunt.com/r/AGWBBLXPRVQLCH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
-    "votes": 5,
+    "id": "1312849",
+    "name": "Miinify",
+    "tagline": "Ship vibe-coded apps to Google Cloud Run with zero DevOps",
+    "producthunt_url": "https://www.producthunt.com/products/miinify?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/TARAO7K4REPDVX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "rating": 4.8,
+    "review_count": 11,
+    "thumbnail": "https://ph-files.imgix.net/546027a1-60e4-42e5-8f90-f5076c2651b0.png?auto=format",
+    "launched": "2026-11-20T08:01:00Z"
+  },
+  {
+    "id": "1322382",
+    "name": "ToolJet",
+    "tagline": "Vibe-coded business apps that pass the security review",
+    "producthunt_url": "https://www.producthunt.com/products/tooljet?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/63XRNRXTZNRZ6N?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 97,
     "rating": 5.0,
-    "review_count": 2,
-    "thumbnail": "https://ph-files.imgix.net/525eeb3f-7ca7-4045-80a1-fd44131dc44c.gif?auto=format",
-    "launched": "2026-10-27T07:01:00Z"
+    "review_count": 3,
+    "thumbnail": "https://ph-files.imgix.net/bdb862d1-998a-479f-9433-5654672fe54a.jpeg?auto=format",
+    "launched": "2026-11-19T08:01:00Z"
+  },
+  {
+    "id": "1318425",
+    "name": "Lumexa AI",
+    "tagline": "Autonomous Software Development, Backed by Humans",
+    "producthunt_url": "https://www.producthunt.com/products/lumexa-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "website": "https://www.producthunt.com/r/CHGZQJGZLT2AM6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+Vibe+Coding+Dashboard+%28ID%3A+297005%29",
+    "votes": 3,
+    "rating": 5.0,
+    "review_count": 3,
+    "thumbnail": "https://ph-files.imgix.net/a8bc6142-84d3-4e02-89cb-b993d4685eff.jpeg?auto=format",
+    "launched": "2026-11-16T08:01:00Z"
   }
 ]
